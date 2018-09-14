@@ -64,6 +64,18 @@ Generator 是一款基于 **Spring, SpringMVC, Mybatis and MySql** 架构的Java
             User.java 
     mappers/XXXMapper.xml  
 
+框架为用户提供了默认的配置文件，如下：
+
+    author: unknown
+    packageName: 
+    path: 
+	    controller: controller
+	    service: service
+	    dao: dao
+	    entity: entity
+	    mapper: mappers
+
+为了保证在正确路径下生成代码，建议用户新建配置文件，覆盖框架的默认配置
 
 ## 开始生成代码 
 
