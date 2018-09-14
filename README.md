@@ -1,106 +1,120 @@
-# Welcome to the code generator
 
-Generator is a Java code generating tool based on **Spring, SpringMVC, Mybatis and MySql**.
+# 欢迎来到 Generator
 
-You may use Generator:
+Generator 是一款基于 **Spring, SpringMVC, Mybatis and MySql** 架构的Java代码生成工具.  
 
-> * Generate entity classes based on database tables.
-> * Generate Mapper files that contains the insert, delete, select and update operations.
-> * Generate Dao, Service, Controller codes.
+你可以使用Generator：
+> * 根据数据库业务表生成实体类
+> * 生成包含简单的增、删、查、改操作的Mapper文件
+> * 生成Controller、Service、Dao代码
 
-# Getting Start
+  
+# Getting Start  
 
-## Configure the framework
+## 添加依赖
 
-### Define template files
+    <dependency>
+	    <groupId>com.greedystar</groupId>
+	    <artifactId>generator</artifactId>
+	    <version>1.0.0</version>
+	</dependency>
 
-The template files are the basis for code generation and need to be placed in the resources/ftls/ directory. 
+  
+## 配置框架
+  
+### 定义模板文件
+  
+模板文件是代码生成的基础，框架提供了默认的模板文件，位于 src/main/resources/ftls/ 目录下。用户可根据项目的具体架构自定义模板文件，具体请请参考默认的 ftl 文件。
 
-The template files can be customized according to the specific schema of the project. For the custom template files, please refer to xxx.ftl files that under the resources/ftls directory.
+####  注意：若需要自定义模板，则需在项目目录的 resources/ftls/ 目录下放置框架所需的所有模板文件，且保证模板文件名与默认一致。其中，Mapper.ftl 用于单表关系和一对多关系，Mapper_M2M.ftl为多对多关系。
+#### 示例如下 ：
+> resources  
+>> ftls  
+>>> Controller.ftl<br>  
+>>> Service.ftl<br>  
+>>> Dao.ftl<br>  
+>>> Entity.ftl<br>  
+>>> Mapper.ftl<br>  
+>>> Mapper_M2M.ftl<br>  
+  
+  
+### 配置公共参数
 
-#### Note : 
-Mapper.ftl is used for the single-table relationship and one-to-many relationship, and Mapper_M2M.ftl is used for the many-to-many relationship.
+用户可在 resources 目录下创建 generator.yaml 文件，配置代码生成器的公共参数 ，示例如下：
 
-If you need to customize the template files, you need to place all the template files required by the framework in the resources/ftls/ directory, and make sure that the template files' name is consistent with the default.
+    author: GreedyStar // 代码作者
+    packageName: com.greedystar.test // 基础包名
+    path: // 各模块包名（路径）
+	    controller: controller
+	    service: service
+	    dao: dao
+	    entity: entity
+	    mapper: mappers
 
-#### The example is as follows:
-> resources
->> ftls
->>> Controller.ftl<br>
->>> Service.ftl<br>
->>> Dao.ftl<br>
->>> Entity.ftl<br>
->>> Mapper.ftl<br>
->>> Mapper_M2M.ftl<br>
+上述配置将会生成如下路径的代码：
+
+    com.greedystar.test
+        controller
+            UserController.java 
+        service
+            UserService.java 
+        dao
+            UserDao.java 
+        entity
+            User.java 
+    mappers/XXXMapper.xml  
 
 
-### Configure global parameters
-You can create the generator.yaml file under the resources directory to configure global parameters, otherwise the framework will use the default configuration, example as follows:
+## 开始生成代码 
 
-    author: Tom
-    packageName: com.tom
-    path:
-        controller: controller
-        service: service
-        dao: dao
-        entity: entity
-        mapper: mappers
-    
+示例使用的数据库业务表如下所示：
 
-The above configuration generates the code for the following package path:
-
-    com.tom.controller.XXXController.java
-    ...
-    mappers/XXXMapper.xml
-
-## Start generating code
-The database tables used in the example are as follows:
-![image](https://github.com/GreedyStar/generator/raw/master/screenshots/tables.png)
-
-### single-table relationship
-```
-Invoker invoker = new SingleInvoker.Builder()
-        .setDatabase("generator-demo")
-        .setUsername("root")
-        .setPassword(null) // Nullable
-        .setTableName("user")
-        .setClassName("User") // Nullable. If it is empty, it is automatically generated based on the table name,for example: user->User，sys_role->SysRole
-        .build();
-invoker.execute();
-```
-### one-to-many relationship
-```
-Invoker invoker = new One2ManyInvoker.Builder()
-        .setDatabase("generator-demo")
-        .setUsername("root")
-        .setPassword(null) // Nullable
-        .setTableName("user")
-        .setClassName("User") // Nullable
-        .setParentTableName("office")
-        .setParentClassName("Office") // Nullable
-        .setForeignKey("officeId")
-        .build();
-invoker.execute();
-```
-### many-to-many relationship
-```
-Invoker invoker = new Many2ManyInvoker.Builder()
-        .setDatabase("generator-demo")
-        .setUsername("root")
-        .setPassword(null) // Nullable
-        .setTableName("user")
-        .setClassName("User") // Nullable
-        .setParentTableName("role")
-        .setParentClassName("Role") // Nullable
-        .setRelationTableName("user_role")
-        .setForeignKey("userId")
-        .setParentForeignKey("roleId")
-        .build();
-invoker.execute();
-```
-# Parameters to describe
-
-## Invoker Parameters
-![image](https://github.com/GreedyStar/generator/raw/master/screenshots/invoker_parameters.jpg)
-## Template file parameters
-![image](https://github.com/GreedyStar/generator/raw/master/screenshots/template_parameters.png)
+![image](https://github.com/GreedyStar/generator/raw/master/screenshots/tables.png)  
+  
+### 单表关系
+```  
+Invoker invoker = new SingleInvoker.Builder()  
+	.setDatabase("generator-demo")
+	.setUsername("root")
+	.setPassword(null) // 可空
+	.setTableName("user")
+	.setClassName("User") // 可空. 若空则自动根据表明生成类名，如: user->User，sys_role->SysRole  
+	.build();
+invoker.execute();  
+```  
+### 一对多关系
+```  
+Invoker invoker = new One2ManyInvoker.Builder()  
+	.setDatabase("generator-demo")
+	.setUsername("root")
+	.setPassword(null) // 可空
+	.setTableName("user")
+	.setClassName("User") // 可空
+	.setParentTableName("office")
+	.setParentClassName("Office") // 可空
+	.setForeignKey("officeId")
+	.build();
+invoker.execute();  
+```  
+### 多对多关系 
+```  
+Invoker invoker = new Many2ManyInvoker.Builder()  
+	.setDatabase("generator-demo") 
+	.setUsername("root") 
+	.setPassword(null) // 可空 
+	.setTableName("user") 
+	.setClassName("User") // 可空 
+	.setParentTableName("role") 
+	.setParentClassName("Role") // 可空
+	.setRelationTableName("user_role") 
+	.setForeignKey("userId") 
+	.setParentForeignKey("roleId") 
+	.build();
+invoker.execute();  
+```  
+# 参数描述
+  
+## Invoker 参数
+![image](https://github.com/GreedyStar/generator/raw/master/screenshots/invoker_parameters.jpg)  
+## 模板文件参数
+![image](https://github.com/GreedyStar/generator/raw/master/screenshots/template_parameters.jpg)
