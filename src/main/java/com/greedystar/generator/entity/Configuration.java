@@ -35,7 +35,7 @@ public class Configuration implements Serializable {
     }
 
     public String getPackageName() {
-        return packageName;
+        return packageName == null ? "" : packageName + ".";
     }
 
     public void setPackageName(String packageName) {

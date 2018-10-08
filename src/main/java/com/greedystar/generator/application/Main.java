@@ -12,7 +12,7 @@ import com.greedystar.generator.invoker.base.Invoker;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-
+        many2many();
     }
 
     public static void many2many() throws Exception {
@@ -49,8 +49,8 @@ public class Main {
                 .setDatabase("generator-demo")
                 .setUsername("root")
                 .setPassword(null)
-                .setTableName("user")
-                .setClassName("User")
+                .setTableName("role")
+                .setClassName("Role")
                 .build();
         invoker.execute();
     }

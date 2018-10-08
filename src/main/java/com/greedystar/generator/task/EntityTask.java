@@ -45,7 +45,8 @@ public class EntityTask extends BaseTask {
         // 生成Entity填充数据
         System.out.println("Generating " + className + ".java");
         Map<String, String> entityData = new HashMap<>();
-        entityData.put("PackageName", ConfigUtil.getConfiguration().getPackageName() + "." + ConfigUtil.getConfiguration().getPath().getEntity());
+        entityData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
+        entityData.put("ModulePackageName", ConfigUtil.getConfiguration().getPath().getEntity());
         entityData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         entityData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         entityData.put("ClassName", className);

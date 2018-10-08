@@ -45,8 +45,8 @@ public class MapperTask extends BaseTask {
         Map<String, String> mapperData = new HashMap<>();
         mapperData.put("PackageName", ConfigUtil.getConfiguration().getPackageName() + "." + ConfigUtil.getConfiguration().getPath().getDao());
         mapperData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
-        mapperData.put("ModulePackageName", ConfigUtil.getConfiguration().getPath().getDao());
-        mapperData.put("EntityPackageName", ConfigUtil.getConfiguration().getPackageName() + "." + ConfigUtil.getConfiguration().getPath().getEntity());
+        mapperData.put("DaoPackageName", ConfigUtil.getConfiguration().getPath().getDao());
+        mapperData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
         mapperData.put("ClassName", className);
         mapperData.put("EntityName", className.toLowerCase());
         mapperData.put("TableName", tableName);
@@ -58,7 +58,6 @@ public class MapperTask extends BaseTask {
             mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, parentTableName, tableInfos, parentTableInfos, parentClassName.toLowerCase()));
             mapperData.put("InsertValues", GeneratorUtil.generateMapperInsertValues(tableInfos, parentClassName.toLowerCase(), foreignKey));
             mapperData.put("UpdateProperties", GeneratorUtil.generateMapperUpdateProperties(tableInfos, parentClassName.toLowerCase(), foreignKey));
-            mapperData.put("Tables", GeneratorUtil.generateMapperTables(parentTableName, relationalTableName));
             mapperData.put("Joins", GeneratorUtil.generateMapperJoins(tableName, parentTableName, relationalTableName, foreignKey, parentForeignKey));
             mapperData.put("ParentEntityName", parentClassName.toLowerCase());
             mapperData.put("ParentClassName", parentClassName);
@@ -66,13 +65,11 @@ public class MapperTask extends BaseTask {
             mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, parentTableName, tableInfos, parentTableInfos, parentClassName.toLowerCase(), foreignKey));
             mapperData.put("InsertValues", GeneratorUtil.generateMapperInsertValues(tableInfos, parentClassName.toLowerCase(), foreignKey));
             mapperData.put("UpdateProperties", GeneratorUtil.generateMapperUpdateProperties(tableInfos, parentClassName.toLowerCase(), foreignKey));
-            mapperData.put("Tables", GeneratorUtil.generateMapperTables(parentTableName));
             mapperData.put("Joins", GeneratorUtil.generateMapperJoins(tableName, parentTableName, foreignKey));
         } else { // 单表
             mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, tableInfos));
             mapperData.put("InsertValues", GeneratorUtil.generateMapperInsertValues(tableInfos));
             mapperData.put("UpdateProperties", GeneratorUtil.generateMapperUpdateProperties(tableInfos));
-            mapperData.put("Tables", "");
             mapperData.put("Joins", "");
         }
         String filePath = FileUtil.getResourcePath() + ConfigUtil.getConfiguration().getPath().getMapper() + File.separator;

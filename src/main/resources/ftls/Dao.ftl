@@ -1,6 +1,6 @@
-package ${BasePackageName}.${ModulePackageName};
+package ${BasePackageName}${ModulePackageName};
 
-import ${BasePackageName}.entity.${ClassName};
+import ${BasePackageName}entity.${ClassName};
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

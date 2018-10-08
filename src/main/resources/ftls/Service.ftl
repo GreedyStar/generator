@@ -1,7 +1,7 @@
-package ${BasePackageName}.${ModulePackageName};
+package ${BasePackageName}${ModulePackageName};
 
-import ${BasePackageName}.dao.${ClassName}Dao;
-import ${BasePackageName}.entity.${ClassName};
+import ${BasePackageName}dao.${ClassName}Dao;
+import ${BasePackageName}entity.${ClassName};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -22,7 +22,7 @@ public class GeneratorUtil {
     public static String generateEntityProperties(List<ColumnInfo> infos) {
         StringBuilder sb = new StringBuilder();
         for (ColumnInfo info : infos) {
-            sb.append("private " + TypeUtil.parseTypeFormSqlType(info.getType()) + " " + info.getName() + "; \n");
+            sb.append("private ").append(TypeUtil.parseTypeFormSqlType(info.getType())).append(" ").append(info.getName()).append(";\n");
         }
         return sb.toString();
     }
@@ -36,11 +36,8 @@ public class GeneratorUtil {
      * @return
      */
     public static String generateEntityProperties(String parentClassName, List<ColumnInfo> infos) {
-        StringBuilder sb = new StringBuilder();
-        for (ColumnInfo info : infos) {
-            sb.append("private " + TypeUtil.parseTypeFormSqlType(info.getType()) + " " + info.getName() + "; \n");
-        }
-        sb.append("private List<" + parentClassName + "> " + parentClassName.toLowerCase() + "s; \n");
+        StringBuilder sb = new StringBuilder(generateEntityProperties(infos));
+        sb.append("private List<").append(parentClassName).append(">").append(" ").append(parentClassName.toLowerCase()).append("s; \n");
         return sb.toString();
     }
 
@@ -56,11 +53,11 @@ public class GeneratorUtil {
         StringBuilder sb = new StringBuilder();
         for (ColumnInfo info : infos) {
             if (!info.getName().equals(foreignKey)) {
-                sb.append("private " + TypeUtil.parseTypeFormSqlType(info.getType()) + " " + info.getName() + "; \n");
+                sb.append("private ").append(TypeUtil.parseTypeFormSqlType(info.getType())).append(" ").append(info.getName()).append("; \n");
             }
         }
         // 外键为父表实体引用
-        sb.append("private " + parentClassName + " " + parentClassName.toLowerCase() + "; \n");
+        sb.append("private ").append(parentClassName).append(" ").append(parentClassName.toLowerCase()).append("; \n");
         return sb.toString();
     }
 
@@ -74,11 +71,11 @@ public class GeneratorUtil {
     public static String generateEntityMethods(List<ColumnInfo> infos) {
         StringBuilder sb = new StringBuilder();
         for (ColumnInfo info : infos) {
-            sb.append("public void set" + StringUtil.firstToUpperCase(info.getName()) + " (" + TypeUtil.parseTypeFormSqlType(info.getType()) + " " + info.getName() + ") {this." + info.getName() + " = " + info.getName() + ";} \n");
+            sb.append("public void set").append(StringUtil.firstToUpperCase(info.getName())).append(" (").append(TypeUtil.parseTypeFormSqlType(info.getType())).append(" ").append(info.getName()).append(") {this.").append(info.getName()).append(" = ").append(info.getName()).append(";} \n");
             if (info.getType() == Types.BIT || info.getType() == Types.TINYINT) {
-                sb.append("public " + TypeUtil.parseTypeFormSqlType(info.getType()) + " is" + StringUtil.firstToUpperCase(info.getName()) + "(){ return " + info.getName() + ";} \n");
+                sb.append("public ").append(TypeUtil.parseTypeFormSqlType(info.getType())).append(" is").append(StringUtil.firstToUpperCase(info.getName())).append("(){ return ").append(info.getName()).append(";} \n");
             } else {
-                sb.append("public " + TypeUtil.parseTypeFormSqlType(info.getType()) + " get" + StringUtil.firstToUpperCase(info.getName()) + "(){ return " + info.getName() + ";} \n");
+                sb.append("public ").append(TypeUtil.parseTypeFormSqlType(info.getType())).append(" get").append(StringUtil.firstToUpperCase(info.getName())).append("(){ return ").append(info.getName()).append(";} \n");
             }
         }
         return sb.toString();
@@ -92,15 +89,7 @@ public class GeneratorUtil {
      * @return
      */
     public static String generateEntityMethods(String parentClassName, List<ColumnInfo> infos) {
-        StringBuilder sb = new StringBuilder();
-        for (ColumnInfo info : infos) {
-            sb.append("public void set" + StringUtil.firstToUpperCase(info.getName()) + " (" + TypeUtil.parseTypeFormSqlType(info.getType()) + " " + info.getName() + ") {this." + info.getName() + " = " + info.getName() + ";} \n");
-            if (info.getType() == Types.BIT || info.getType() == Types.TINYINT) {
-                sb.append("public " + TypeUtil.parseTypeFormSqlType(info.getType()) + " is" + StringUtil.firstToUpperCase(info.getName()) + "(){ return " + info.getName() + ";} \n");
-            } else {
-                sb.append("public " + TypeUtil.parseTypeFormSqlType(info.getType()) + " get" + StringUtil.firstToUpperCase(info.getName()) + "(){ return " + info.getName() + ";} \n");
-            }
-        }
+        StringBuilder sb = new StringBuilder(generateEntityMethods(infos));
         sb.append("public void set" + parentClassName + "s (List<" + parentClassName + "> " + parentClassName.toLowerCase() + "s) { \n this." + parentClassName.toLowerCase() + "s = " + parentClassName.toLowerCase() + "s;\n} \n");
         sb.append("public List<" + parentClassName + "> get" + parentClassName + "s(){ return this." + parentClassName.toLowerCase() + "s;} \n");
         return sb.toString();
@@ -118,17 +107,17 @@ public class GeneratorUtil {
         StringBuilder sb = new StringBuilder();
         for (ColumnInfo info : infos) {
             if (!info.getName().equals(foreignKey)) {
-                sb.append("public void set" + StringUtil.firstToUpperCase(info.getName()) + " (" + TypeUtil.parseTypeFormSqlType(info.getType()) + " " + info.getName() + ") {this." + info.getName() + " = " + info.getName() + ";} \n");
+                sb.append("public void set").append(StringUtil.firstToUpperCase(info.getName())).append(" (").append(TypeUtil.parseTypeFormSqlType(info.getType())).append(" ").append(info.getName()).append(") {this.").append(info.getName()).append(" = ").append(info.getName()).append(";} \n");
                 if (info.getType() == Types.BIT || info.getType() == Types.TINYINT) {
-                    sb.append("public " + TypeUtil.parseTypeFormSqlType(info.getType()) + " is" + StringUtil.firstToUpperCase(info.getName()) + "(){ return " + info.getName() + ";} \n");
+                    sb.append("public ").append(TypeUtil.parseTypeFormSqlType(info.getType())).append(" is").append(StringUtil.firstToUpperCase(info.getName())).append("(){ return ").append(info.getName()).append(";} \n");
                 } else {
-                    sb.append("public " + TypeUtil.parseTypeFormSqlType(info.getType()) + " get" + StringUtil.firstToUpperCase(info.getName()) + "(){ return " + info.getName() + ";} \n");
+                    sb.append("public ").append(TypeUtil.parseTypeFormSqlType(info.getType())).append(" get").append(StringUtil.firstToUpperCase(info.getName())).append("(){ return ").append(info.getName()).append(";} \n");
                 }
             }
         }
         // 外键为存取父表实体引用
-        sb.append("public void set" + parentClassName + " (" + parentClassName + " " + parentClassName.toLowerCase() + ") {this." + parentClassName.toLowerCase() + " = " + parentClassName.toLowerCase() + ";} \n");
-        sb.append("public " + parentClassName + " get" + parentClassName + "(){ return this." + parentClassName.toLowerCase() + ";} \n");
+        sb.append("public void set").append(parentClassName).append(" (").append(parentClassName).append(" ").append(parentClassName.toLowerCase()).append(") {this.").append(parentClassName.toLowerCase()).append(" = ").append(parentClassName.toLowerCase()).append(";} \n");
+        sb.append("public ").append(parentClassName).append(" get").append(parentClassName).append("(){ return this.").append(parentClassName.toLowerCase()).append(";} \n");
         return sb.toString();
     }
 
@@ -138,7 +127,7 @@ public class GeneratorUtil {
     public static String generateMapperColumnMap(String tableName, List<ColumnInfo> infos) {
         StringBuilder sb = new StringBuilder();
         for (ColumnInfo info : infos) {
-            sb.append(tableName + "." + info.getName() + " AS " + "\"" + info.getName() + "\",");
+            sb.append(tableName).append(".").append(info.getName()).append(" AS ").append("\"").append(info.getName()).append("\",");
         }
         return sb.toString().substring(0, sb.toString().length() - 1);
     }
@@ -150,25 +139,25 @@ public class GeneratorUtil {
         StringBuilder sb = new StringBuilder();
         for (ColumnInfo info : infos) {
             if (!info.getName().equals(foreignKey)) {
-                sb.append(tableName + "." + info.getName() + " AS " + "\"" + info.getName() + "\",");
+                sb.append(tableName).append(".").append(info.getName()).append(" AS ").append("\"").append(info.getName()).append("\",");
             }
         }
         for (ColumnInfo info : parentInfos) {
-            sb.append(parentTableName + "." + info.getName() + " AS " + "\"" + parentEntityName + "." + info.getName() + "\",");
+            sb.append(parentTableName).append(".").append(info.getName()).append(" AS ").append("\"").append(parentEntityName).append(".").append(info.getName()).append("\",");
         }
         return sb.toString().substring(0, sb.toString().length() - 1);
     }
 
     /**
-     * 生成Mapper ColumnMap字段，单表
+     * 生成Mapper ColumnMap字段，多对多
      */
     public static String generateMapperColumnMap(String tableName, String parentTableName, List<ColumnInfo> infos, List<ColumnInfo> parentInfos, String parentEntityName) {
         StringBuilder sb = new StringBuilder();
         for (ColumnInfo info : infos) {
-            sb.append(tableName + "." + info.getName() + " AS " + "\"" + info.getName() + "\",");
+            sb.append(tableName).append(".").append(info.getName()).append(" AS ").append("\"").append(info.getName()).append("\",");
         }
         for (ColumnInfo info : parentInfos) {
-            sb.append(parentTableName + "." + info.getName() + " AS " + "\"" + parentEntityName + "s." + info.getName() + "\",");
+            sb.append(parentTableName).append(".").append(info.getName()).append(" AS ").append("\"").append(parentEntityName).append("s.").append(info.getName()).append("\",");
         }
         return sb.toString().substring(0, sb.toString().length() - 1);
     }
@@ -179,7 +168,7 @@ public class GeneratorUtil {
             if (info.getName().equals("id")) {
                 sb.append("<id column=\"id\" property=\"id\"/> \n");
             } else {
-                sb.append("<result column=\"" + info.getName() + "\" property=\"" + info.getName() + "\"/> \n");
+                sb.append("<result column=\"").append(info.getName()).append("\" property=\"").append(info.getName()).append("\"/> \n");
             }
         }
         return sb.toString();
@@ -189,30 +178,11 @@ public class GeneratorUtil {
         StringBuilder sb = new StringBuilder();
         for (ColumnInfo info : infos) {
             if (info.getName().equals("id")) {
-                sb.append("<id property=\"id\" column=\"" + parentClassName.toLowerCase() + "s.id\"/> \n");
+                sb.append("<id property=\"id\" column=\"").append(parentClassName.toLowerCase()).append("s.id\"/> \n");
             } else {
-                sb.append("<result property=\"" + info.getName() + "\" column=\"" + parentClassName.toLowerCase() + "s." + info.getName() + "\"/> \n");
+                sb.append("<result property=\"").append(info.getName()).append("\" column=\"").append(parentClassName.toLowerCase()).append("s.").append(info.getName()).append("\"/> \n");
             }
         }
-        return sb.toString();
-    }
-
-    /**
-     * 生成Mapper Tables字段（一对多关系）
-     */
-    public static String generateMapperTables(String parentTableName) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(", " + parentTableName);
-        return sb.toString();
-    }
-
-    /**
-     * 生成Mapper Tables字段（多对多关系）
-     */
-    public static String generateMapperTables(String parentTableName, String relationTableName) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(", " + parentTableName);
-        sb.append(", " + relationTableName);
         return sb.toString();
     }
 
@@ -221,7 +191,7 @@ public class GeneratorUtil {
      */
     public static String generateMapperJoins(String tableName, String parentTableName, String foreignKey) {
         StringBuilder sb = new StringBuilder();
-        sb.append(tableName + "." + foreignKey + " = " + parentTableName + ".id");
+        sb.append("LEFT JOIN ").append(parentTableName).append(" on ").append(parentTableName).append(".id").append(" = ").append(tableName).append(".").append(foreignKey);
         return sb.toString();
     }
 
@@ -230,9 +200,8 @@ public class GeneratorUtil {
      */
     public static String generateMapperJoins(String tableName, String parentTableName, String relationTableName, String foreignKey, String parentForeignKey) {
         StringBuilder sb = new StringBuilder();
-        sb.append(relationTableName + "." + foreignKey + " = " + tableName + ".id");
-        sb.append(" AND ");
-        sb.append(relationTableName + "." + parentForeignKey + " = " + parentTableName + ".id");
+        sb.append("LEFT JOIN ").append(relationTableName).append(" on ").append(relationTableName).append(".").append(foreignKey).append(" = ").append(tableName).append(".id ")
+                .append("LEFT JOIN ").append(parentTableName).append(" on ").append(parentTableName).append(".id").append(" = ").append(relationTableName).append(".").append(parentForeignKey);
         return sb.toString();
     }
 
@@ -253,7 +222,7 @@ public class GeneratorUtil {
     public static String generateMapperInsertValues(List<ColumnInfo> infos) {
         StringBuilder sb = new StringBuilder();
         for (ColumnInfo info : infos) {
-            sb.append("#{" + info.getName() + "},");
+            sb.append("#{").append(info.getName()).append("},");
         }
         return sb.toString().substring(0, sb.toString().length() - 1);
     }
@@ -265,9 +234,9 @@ public class GeneratorUtil {
         StringBuilder sb = new StringBuilder();
         for (ColumnInfo info : infos) {
             if (info.getName().equals(foreignKey)) {
-                sb.append("#{" + parentEntityName + ".id},");
+                sb.append("#{").append(parentEntityName).append(".id},");
             } else {
-                sb.append("#{" + info.getName() + "},");
+                sb.append("#{").append(info.getName()).append("},");
             }
         }
         return sb.toString().substring(0, sb.toString().length() - 1);
@@ -279,7 +248,7 @@ public class GeneratorUtil {
     public static String generateMapperUpdateProperties(List<ColumnInfo> infos) {
         StringBuilder sb = new StringBuilder();
         for (ColumnInfo info : infos) {
-            sb.append(info.getName() + " = #{" + info.getName() + "},");
+            sb.append(info.getName()).append(" = #{").append(info.getName()).append("},");
         }
         return sb.toString().substring(0, sb.toString().length() - 1);
     }
@@ -291,9 +260,9 @@ public class GeneratorUtil {
         StringBuilder sb = new StringBuilder();
         for (ColumnInfo info : infos) {
             if (info.getName().equals(foreignKey)) {
-                sb.append(info.getName() + " = #{" + parentEntityName + ".id},");
+                sb.append(info.getName()).append(" = #{").append(parentEntityName).append(".id},");
             } else {
-                sb.append(info.getName() + " = #{" + info.getName() + "},");
+                sb.append(info.getName()).append(" = #{").append(info.getName()).append("},");
             }
         }
         return sb.toString().substring(0, sb.toString().length() - 1);
