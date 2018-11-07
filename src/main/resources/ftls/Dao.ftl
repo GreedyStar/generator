@@ -1,6 +1,6 @@
-package ${BasePackageName}${ModulePackageName};
+package ${BasePackageName}${DaoPackageName};
 
-import ${BasePackageName}entity.${ClassName};
+import ${BasePackageName}${EntityPackageName}.${ClassName};
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

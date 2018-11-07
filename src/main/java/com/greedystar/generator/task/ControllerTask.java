@@ -29,7 +29,9 @@ public class ControllerTask extends BaseTask {
         System.out.println("Generating " + className + "Controller.java");
         Map<String, String> controllerData = new HashMap<>();
         controllerData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
-        controllerData.put("ModulePackageName", ConfigUtil.getConfiguration().getPath().getController());
+        controllerData.put("ControllerPackageName", ConfigUtil.getConfiguration().getPath().getController());
+        controllerData.put("ServicePackageName", ConfigUtil.getConfiguration().getPath().getService());
+        controllerData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
         controllerData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         controllerData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         controllerData.put("ClassName", className);

@@ -12,14 +12,11 @@ import com.greedystar.generator.invoker.base.Invoker;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        many2many();
+        single();
     }
 
     public static void many2many() throws Exception {
         Invoker invoker = new Many2ManyInvoker.Builder()
-                .setDatabase("generator-demo")
-                .setUsername("root")
-                .setPassword(null)
                 .setTableName("user")
                 .setClassName("User")
                 .setParentTableName("role")
@@ -33,8 +30,6 @@ public class Main {
 
     public static void one2many() throws Exception {
         Invoker invoker = new One2ManyInvoker.Builder()
-                .setDatabase("generator-demo")
-                .setUsername("root")
                 .setTableName("user")
                 .setClassName("User")
                 .setParentTableName("office")
@@ -46,11 +41,8 @@ public class Main {
 
     public static void single() throws Exception {
         Invoker invoker = new SingleInvoker.Builder()
-                .setDatabase("generator-demo")
-                .setUsername("root")
-                .setPassword(null)
-                .setTableName("role")
-                .setClassName("Role")
+                .setTableName("user")
+                .setClassName("User")
                 .build();
         invoker.execute();
     }

@@ -1,4 +1,4 @@
-package ${BasePackageName}${ModulePackageName};
+package ${BasePackageName}${EntityPackageName};
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,3 +1,16 @@
+db:
+# mysql
+  url: jdbc:mysql://localhost:3306/generator-demo
+  username: root
+  password:
+# oracle
+#  url: jdbc:oracle:thin:@localhost:1521:orcl
+#  username: system
+#  password: BENdan521
+# sqlserver
+#  url: jdbc:sqlserver://localhost:1433;databaseName=generator_demo
+#  username: sa
+#  password: BENdan521
 author: unknown
 packageName:
 path:
