@@ -20,9 +20,6 @@ public class ConnectionUtil {
     /**
      * 初始化数据库连接
      *
-     * @param database 数据库名
-     * @param username 用户名
-     * @param password 密码
      * @return
      */
     public boolean initConnection() {
