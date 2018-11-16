@@ -17,6 +17,9 @@ public class Main {
 
     public static void many2many() throws Exception {
         Invoker invoker = new Many2ManyInvoker.Builder()
+                .setDatabase("generator-demo")
+                .setUsername("root")
+                .setPassword(null)
                 .setTableName("user")
                 .setClassName("User")
                 .setParentTableName("role")
@@ -30,6 +33,8 @@ public class Main {
 
     public static void one2many() throws Exception {
         Invoker invoker = new One2ManyInvoker.Builder()
+                .setDatabase("generator-demo")
+                .setUsername("root")
                 .setTableName("user")
                 .setClassName("User")
                 .setParentTableName("office")
@@ -41,8 +46,11 @@ public class Main {
 
     public static void single() throws Exception {
         Invoker invoker = new SingleInvoker.Builder()
-                .setTableName("user")
-                .setClassName("User")
+                .setDatabase("generator-demo")
+                .setUsername("root")
+                .setPassword(null)
+                .setTableName("role")
+                .setClassName("Role")
                 .build();
         invoker.execute();
     }

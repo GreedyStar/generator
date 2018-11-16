@@ -6,8 +6,6 @@ import com.greedystar.generator.task.*;
 import com.greedystar.generator.utils.GeneratorUtil;
 import com.greedystar.generator.utils.StringUtil;
 
-import java.sql.SQLException;
-
 /**
  * Author GreedyStar
  * Date   2018/9/5
@@ -15,7 +13,7 @@ import java.sql.SQLException;
 public class Many2ManyInvoker extends BaseInvoker {
 
     @Override
-    protected void getTableInfos() throws SQLException {
+    protected void getTableInfos() {
         tableInfos = connectionUtil.getMetaData(tableName);
         parentTableInfos = connectionUtil.getMetaData(parentTableName);
     }
@@ -32,6 +30,21 @@ public class Many2ManyInvoker extends BaseInvoker {
 
     public static class Builder extends BaseBuilder {
         private Many2ManyInvoker invoker = new Many2ManyInvoker();
+
+        public Builder setDatabase(String database) {
+            invoker.setDatabase(database);
+            return this;
+        }
+
+        public Builder setUsername(String username) {
+            invoker.setUsername(username);
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            invoker.setPassword(password);
+            return this;
+        }
 
         public Builder setTableName(String tableName) {
             invoker.setTableName(tableName);
@@ -70,7 +83,7 @@ public class Many2ManyInvoker extends BaseInvoker {
 
         @Override
         public BaseInvoker build() throws Exception {
-            if (!isParamtersValid()) {
+            if (!isParamtersValid(invoker)) {
                 return null;
             }
             return invoker;

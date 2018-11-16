@@ -20,7 +20,7 @@ public class ConfigUtil {
             configuration = initWithDefaultParams();
         } else {
             Yaml yaml = new Yaml();
-            configuration = yaml.loadAs(inputStream, Configuration.class);
+            configuration = yaml.loadAs(inputStream,Configuration.class);
         }
     }
 
@@ -29,7 +29,6 @@ public class ConfigUtil {
         configuration.setAuthor("unknown");
         configuration.setPackageName("");
         configuration.setPath(new Configuration.Path("controller", "service", "dao", "entity", "mappers"));
-        configuration.setDb(new Configuration.Db("", "", ""));
         return configuration;
     }
 

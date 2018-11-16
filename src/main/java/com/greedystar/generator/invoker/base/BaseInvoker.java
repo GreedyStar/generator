@@ -2,10 +2,8 @@ package com.greedystar.generator.invoker.base;
 
 import com.greedystar.generator.entity.ColumnInfo;
 import com.greedystar.generator.task.base.BaseTask;
-import com.greedystar.generator.utils.ConfigUtil;
-import com.greedystar.generator.db.ConnectionUtil;
+import com.greedystar.generator.utils.ConnectionUtil;
 
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -14,7 +12,10 @@ import java.util.Queue;
  * Author GreedyStar
  * Date   2018/9/5
  */
-public abstract class BaseInvoker implements Invoker {
+public abstract class BaseInvoker implements Invoker{
+    protected String database;
+    protected String username;
+    protected String password;
     protected String tableName;
     protected String className;
     protected String parentTableName;
@@ -28,28 +29,35 @@ public abstract class BaseInvoker implements Invoker {
     protected Queue<BaseTask> taskQueue = new LinkedList<>();
 
     private void initDataSource() throws Exception {
-        if (!this.connectionUtil.initConnection()) {
-            throw new Exception("Failed to connect to database at url:" + ConfigUtil.getConfiguration().getDb().getUrl());
+        if (!this.connectionUtil.initConnection(this.database, this.username, this.password)) {
+            throw new Exception("Failed to connect to database:" + this.database);
         }
         getTableInfos();
-        connectionUtil.close();
     }
 
-    protected abstract void getTableInfos() throws SQLException;
+    protected abstract void getTableInfos();
 
     protected abstract void initTasks();
 
     @Override
-    public void execute() {
-        try {
-            initDataSource();
-            initTasks();
-            while (!taskQueue.isEmpty()) {
-                taskQueue.poll().run();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void execute() throws Exception {
+        initDataSource();
+        initTasks();
+        while (!taskQueue.isEmpty()) {
+            taskQueue.poll().run();
         }
+    }
+
+    public void setDatabase(String database) {
+        this.database = database;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setTableName(String tableName) {
@@ -78,6 +86,18 @@ public abstract class BaseInvoker implements Invoker {
 
     public void setParentForeignKey(String parentForeignKey) {
         this.parentForeignKey = parentForeignKey;
+    }
+
+    public String getDatabase() {
+        return database;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getTableName() {
