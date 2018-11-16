@@ -6,8 +6,6 @@ import com.greedystar.generator.task.*;
 import com.greedystar.generator.utils.GeneratorUtil;
 import com.greedystar.generator.utils.StringUtil;
 
-import java.sql.SQLException;
-
 /**
  * Author GreedyStar
  * Date   2018/9/5
@@ -15,7 +13,7 @@ import java.sql.SQLException;
 public class SingleInvoker extends BaseInvoker {
 
     @Override
-    protected void getTableInfos() throws SQLException {
+    protected void getTableInfos() {
         tableInfos = connectionUtil.getMetaData(tableName);
     }
 
@@ -31,6 +29,21 @@ public class SingleInvoker extends BaseInvoker {
     public static class Builder extends BaseBuilder {
         private SingleInvoker invoker = new SingleInvoker();
 
+        public Builder setDatabase(String database) {
+            invoker.setDatabase(database);
+            return this;
+        }
+
+        public Builder setUsername(String username) {
+            invoker.setUsername(username);
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            invoker.setPassword(password);
+            return this;
+        }
+
         public Builder setTableName(String tableName) {
             invoker.setTableName(tableName);
             return this;
@@ -43,7 +56,7 @@ public class SingleInvoker extends BaseInvoker {
 
         @Override
         public BaseInvoker build() throws Exception {
-            if (!isParamtersValid()) {
+            if (!isParamtersValid(invoker)) {
                 return null;
             }
             return invoker;

@@ -1,7 +1,7 @@
-package ${BasePackageName}${ControllerPackageName};
+package ${BasePackageName}${ModulePackageName};
 
-import ${BasePackageName}${EntityPackageName}.${ClassName};
-import ${BasePackageName}${ServicePackageName}.${ClassName}Service;
+import ${BasePackageName}entity.${ClassName};
+import ${BasePackageName}service.${ClassName}Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

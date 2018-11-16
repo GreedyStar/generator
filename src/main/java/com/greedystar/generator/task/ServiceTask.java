@@ -29,9 +29,7 @@ public class ServiceTask extends BaseTask {
         System.out.println("Generating " + className + "Service.java");
         Map<String, String> serviceData = new HashMap<>();
         serviceData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
-        serviceData.put("ServicePackageName", ConfigUtil.getConfiguration().getPath().getService());
-        serviceData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
-        serviceData.put("DaoPackageName", ConfigUtil.getConfiguration().getPath().getDao());
+        serviceData.put("ModulePackageName", ConfigUtil.getConfiguration().getPath().getService());
         serviceData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         serviceData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         serviceData.put("ClassName", className);

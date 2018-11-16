@@ -29,8 +29,7 @@ public class DaoTask extends BaseTask {
         System.out.println("Generating " + className + "Dao.java");
         Map<String, String> daoData = new HashMap<>();
         daoData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
-        daoData.put("DaoPackageName", ConfigUtil.getConfiguration().getPath().getDao());
-        daoData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
+        daoData.put("ModulePackageName", ConfigUtil.getConfiguration().getPath().getDao());
         daoData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         daoData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         daoData.put("ClassName", className);
