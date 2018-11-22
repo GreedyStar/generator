@@ -12,5 +12,6 @@ Generator 是一款基于数据库表生成相应Java代码的工具，代码模
 * v1.0.0 框架基本功能，支持连接本地MySql数据库
 * v1.0.1 修复默认模板文件中存在的错误
 * v1.1.0 支持连接远程MySql、Oracle、SqlServer数据库(可配置)
+* v1.1.1 
 
 ### 具体请参考使用手册 : [Wiki-Generator](https://github.com/GreedyStar/generator/wiki)
