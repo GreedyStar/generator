@@ -1,5 +1,7 @@
 package com.greedystar.generator.entity;
 
+import com.greedystar.generator.utils.StringUtil;
+
 import java.io.Serializable;
 
 /**
@@ -7,24 +9,26 @@ import java.io.Serializable;
  * Date   2018/4/19
  */
 public class ColumnInfo implements Serializable {
-    private String name; // 列名
+    private String columnName; // 列名
     private int type; // 类型代码
+    private String propertyName; // 属性名
 
     public ColumnInfo() {
 
     }
 
-    public ColumnInfo(String name, int type) {
-        this.name = name;
+    public ColumnInfo(String columnName, int type) {
+        this.columnName = columnName;
         this.type = type;
+        this.propertyName = StringUtil.columnName2PropertyName(columnName);
     }
 
-    public String getName() {
-        return name;
+    public String getColumnName() {
+        return columnName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
     }
 
     public int getType() {
@@ -33,5 +37,13 @@ public class ColumnInfo implements Serializable {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName;
     }
 }
