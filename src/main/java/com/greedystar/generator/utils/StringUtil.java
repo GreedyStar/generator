@@ -23,4 +23,46 @@ public class StringUtil {
         return sb.toString();
     }
 
+    /**
+     * 数据库列名转换为实体的属性名
+     * 如：userName -> userName, CREATETIME -> createtime, CREATE_TIME -> createTime, create_time -> createTime
+     *
+     * @param columnName 列名
+     * @return 转换后的实体属性名
+     */
+    public static String columnName2PropertyName(String columnName) {
+        if (isBlank(columnName)) {
+            return "";
+        }
+        if (!columnName.contains("_")) { // 列名中不包含 “_”
+            if (isAllUpperCase(columnName)) {
+                return columnName.toLowerCase();
+            }
+            return columnName;
+        }
+        StringBuilder sb = new StringBuilder();
+        String[] str = columnName.toLowerCase().split("_");
+        sb.append(str[0]);
+        for (int i = 1; i < str.length; i++) {
+            sb.append(firstToUpperCase(str[i]));
+        }
+        return sb.toString();
+    }
+
+
+    /**
+     * 给定字符串除特定符号外的字符是否全部大写
+     *
+     * @param string
+     * @return
+     */
+    public static boolean isAllUpperCase(String string) {
+        for (Character c : string.replace("_", "").toCharArray()) {
+            if (!Character.isUpperCase(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
