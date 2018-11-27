@@ -4,6 +4,7 @@ import com.greedystar.generator.task.base.BaseTask;
 import com.greedystar.generator.utils.ConfigUtil;
 import com.greedystar.generator.utils.FileUtil;
 import com.greedystar.generator.utils.FreemarketConfigUtils;
+import com.greedystar.generator.utils.StringUtil;
 import freemarker.template.TemplateException;
 
 import java.io.File;
@@ -36,9 +37,8 @@ public class ControllerTask extends BaseTask {
         controllerData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         controllerData.put("ClassName", className);
         controllerData.put("EntityName", className.toLowerCase());
-        String filePath = FileUtil.getSourcePath() + ConfigUtil.getConfiguration().getPackagePath() + ConfigUtil.getConfiguration().getPath().getController() + File.separator;
+        String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getController());
         String fileName = className + "Controller.java";
-        createFilePathIfNotExists(filePath);
         // 生成Controller文件
         FileUtil.generateToJava(FreemarketConfigUtils.TYPE_CONTROLLER, controllerData, filePath + fileName);
     }

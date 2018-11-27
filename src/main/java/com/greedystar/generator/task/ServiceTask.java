@@ -4,9 +4,9 @@ import com.greedystar.generator.task.base.BaseTask;
 import com.greedystar.generator.utils.ConfigUtil;
 import com.greedystar.generator.utils.FileUtil;
 import com.greedystar.generator.utils.FreemarketConfigUtils;
+import com.greedystar.generator.utils.StringUtil;
 import freemarker.template.TemplateException;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,9 +36,8 @@ public class ServiceTask extends BaseTask {
         serviceData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         serviceData.put("ClassName", className);
         serviceData.put("EntityName", className.toLowerCase());
-        String filePath = FileUtil.getSourcePath() + ConfigUtil.getConfiguration().getPackagePath() + ConfigUtil.getConfiguration().getPath().getService() + File.separator;
+        String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getService());
         String fileName = className + "Service.java";
-        createFilePathIfNotExists(filePath);
         // 生成Service文件
         FileUtil.generateToJava(FreemarketConfigUtils.TYPE_SERVICE, serviceData, filePath + fileName);
     }

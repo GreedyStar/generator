@@ -4,11 +4,18 @@ import com.greedystar.generator.entity.ColumnInfo;
 import com.greedystar.generator.task.base.BaseTask;
 import com.greedystar.generator.utils.ConfigUtil;
 import com.greedystar.generator.db.ConnectionUtil;
+import com.greedystar.generator.utils.TaskQueue;
+import freemarker.template.TemplateException;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Author GreedyStar
@@ -25,7 +32,8 @@ public abstract class BaseInvoker implements Invoker {
     protected List<ColumnInfo> tableInfos;
     protected List<ColumnInfo> parentTableInfos;
     protected ConnectionUtil connectionUtil = new ConnectionUtil();
-    protected Queue<BaseTask> taskQueue = new LinkedList<>();
+    protected TaskQueue<BaseTask> taskQueue = new TaskQueue();
+    private ExecutorService executorPool = Executors.newFixedThreadPool(6);
 
     private void initDataSource() throws Exception {
         if (!this.connectionUtil.initConnection()) {
@@ -45,7 +53,15 @@ public abstract class BaseInvoker implements Invoker {
             initDataSource();
             initTasks();
             while (!taskQueue.isEmpty()) {
-                taskQueue.poll().run();
+                executorPool.execute(() -> {
+                    try {
+                        taskQueue.poll().run();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (TemplateException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
         } catch (Exception e) {
             e.printStackTrace();

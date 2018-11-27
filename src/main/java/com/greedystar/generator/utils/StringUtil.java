@@ -1,5 +1,7 @@
 package com.greedystar.generator.utils;
 
+import java.io.File;
+
 /**
  * Author GreedyStar
  * Date   2018-09-10
@@ -63,6 +65,18 @@ public class StringUtil {
             }
         }
         return true;
+    }
+
+    public static String package2Path(String packageName) {
+        if (StringUtil.isBlank(packageName)) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        String[] packages = packageName.split("\\.");
+        for (String str : packages) {
+            sb.append(str).append(File.separator);
+        }
+        return sb.toString();
     }
 
 }

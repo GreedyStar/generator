@@ -60,9 +60,8 @@ public class EntityTask extends BaseTask {
             entityData.put("Properties", GeneratorUtil.generateEntityProperties(tableInfos));
             entityData.put("Methods", GeneratorUtil.generateEntityMethods(tableInfos));
         }
-        String filePath = FileUtil.getSourcePath() + ConfigUtil.getConfiguration().getPackagePath() + ConfigUtil.getConfiguration().getPath().getEntity() + File.separator;
+        String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getEntity());
         String fileName = className + ".java";
-        createFilePathIfNotExists(filePath);
         // 生成Entity文件
         FileUtil.generateToJava(FreemarketConfigUtils.TYPE_ENTITY, entityData, filePath + fileName);
     }

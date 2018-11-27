@@ -23,18 +23,6 @@ public class Configuration implements Serializable {
         this.author = author;
     }
 
-    public String getPackagePath() {
-        if (StringUtil.isBlank(packageName)) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        String[] packages = packageName.split("\\.");
-        for (String str : packages) {
-            sb.append(str).append(File.separator);
-        }
-        return sb.toString();
-    }
-
     public String getPackageName() {
         return packageName == null ? "" : packageName + ".";
     }

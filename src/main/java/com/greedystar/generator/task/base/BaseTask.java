@@ -77,6 +77,7 @@ public abstract class BaseTask implements Serializable {
 
     public abstract void run() throws IOException, TemplateException;
 
+    @Deprecated
     protected void createFilePathIfNotExists(String filePath) {
         if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPackageName())) { // 用户配置了包名，不进行检测
             return;

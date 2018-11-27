@@ -72,9 +72,8 @@ public class MapperTask extends BaseTask {
             mapperData.put("UpdateProperties", GeneratorUtil.generateMapperUpdateProperties(tableInfos));
             mapperData.put("Joins", "");
         }
-        String filePath = FileUtil.getResourcePath() + ConfigUtil.getConfiguration().getPath().getMapper() + File.separator;
+        String filePath = FileUtil.getResourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getMapper());
         String fileName = className + "Mapper.xml";
-        createFilePathIfNotExists(filePath);
         // 生成Mapper文件
         if (!StringUtil.isBlank(parentForeignKey)) {
             FileUtil.generateToJava(FreemarketConfigUtils.TYPE_MAPPER_M2M, mapperData, filePath + fileName);
