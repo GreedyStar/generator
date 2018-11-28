@@ -8,11 +8,11 @@ import java.util.List;
 * Date  ${Date}
 */
 public class ${ClassName} implements Serializable {
-private static final long serialVersionUID = 1L;
-${Properties}
+    private static final long serialVersionUID = 1L;
+    ${Properties}
 
-public ${ClassName}(){
-}
+    public ${ClassName}(){
+    }
 
-${Methods}
+    ${Methods}
 }

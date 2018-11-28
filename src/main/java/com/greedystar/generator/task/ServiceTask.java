@@ -35,7 +35,7 @@ public class ServiceTask extends BaseTask {
         serviceData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         serviceData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         serviceData.put("ClassName", className);
-        serviceData.put("EntityName", className.toLowerCase());
+        serviceData.put("EntityName", StringUtil.firstToLowerCase(className));
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getService());
         String fileName = className + "Service.java";
         // 生成Service文件

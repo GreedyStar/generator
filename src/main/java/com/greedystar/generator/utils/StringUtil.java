@@ -26,6 +26,15 @@ public class StringUtil {
     }
 
     /**
+     * 首字母小写
+     */
+    public static String firstToLowerCase(String string) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(string.substring(0, 1).toLowerCase()).append(string.substring(1));
+        return sb.toString();
+    }
+
+    /**
      * 数据库列名转换为实体的属性名
      * 如：userName -> userName, CREATETIME -> createtime, CREATE_TIME -> createTime, create_time -> createTime
      *

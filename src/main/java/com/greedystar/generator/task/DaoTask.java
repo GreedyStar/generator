@@ -35,7 +35,7 @@ public class DaoTask extends BaseTask {
         daoData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         daoData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         daoData.put("ClassName", className);
-        daoData.put("EntityName", className.toLowerCase());
+        daoData.put("EntityName", StringUtil.firstToLowerCase(className));
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getDao());
         String fileName = className + "Dao.java";
         // 生成dao文件

@@ -10,11 +10,11 @@
     </resultMap>
 
     <sql id="${EntityName}Columns">
-    ${ColumnMap}
+        ${ColumnMap}
     </sql>
 
     <sql id="${EntityName}Joins">
-    ${Joins}
+        ${Joins}
     </sql>
 
     <select id="findList" resultMap="${EntityName}ResultMap">
@@ -37,14 +37,16 @@
 
     <insert id="insert">
         INSERT INTO ${TableName}(
-            ${InsertProperties})
+            ${InsertProperties}
+        )
         VALUES (
-            ${InsertValues})
+            ${InsertValues}
+        )
     </insert>
 
     <update id="update">
         UPDATE ${TableName} SET
-            ${UpdateProperties}
+        ${UpdateProperties}
         WHERE id = ${WhereId}
     </update>
 

@@ -29,9 +29,11 @@
 
     <insert id="insert">
         INSERT INTO ${TableName}(
-            ${InsertProperties})
+            ${InsertProperties}
+        )
         VALUES (
-            ${InsertValues})
+            ${InsertValues}
+        )
     </insert>
 
     <update id="update">

@@ -1,21 +1,18 @@
 package com.greedystar.generator.invoker.base;
 
+import com.greedystar.generator.db.ConnectionUtil;
 import com.greedystar.generator.entity.ColumnInfo;
 import com.greedystar.generator.task.base.BaseTask;
 import com.greedystar.generator.utils.ConfigUtil;
-import com.greedystar.generator.db.ConnectionUtil;
 import com.greedystar.generator.utils.TaskQueue;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Author GreedyStar
@@ -53,9 +50,10 @@ public abstract class BaseInvoker implements Invoker {
             initDataSource();
             initTasks();
             while (!taskQueue.isEmpty()) {
+                BaseTask task = taskQueue.poll();
                 executorPool.execute(() -> {
                     try {
-                        taskQueue.poll().run();
+                        task.run();
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (TemplateException e) {

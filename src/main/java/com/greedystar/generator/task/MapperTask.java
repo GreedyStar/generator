@@ -48,23 +48,23 @@ public class MapperTask extends BaseTask {
         mapperData.put("DaoPackageName", ConfigUtil.getConfiguration().getPath().getDao());
         mapperData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
         mapperData.put("ClassName", className);
-        mapperData.put("EntityName", className.toLowerCase());
+        mapperData.put("EntityName", StringUtil.firstToLowerCase(className));
         mapperData.put("TableName", tableName);
         mapperData.put("InsertProperties", GeneratorUtil.generateMapperInsertProperties(tableInfos));
         mapperData.put("WhereId", "#{id}");
         if (!StringUtil.isBlank(parentForeignKey)) { // 多表
             mapperData.put("ResultMap", GeneratorUtil.generateMapperResultMap(tableInfos));
             mapperData.put("ParentResultMap", GeneratorUtil.generateMapperParentResultMap(parentClassName, parentTableInfos));
-            mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, parentTableName, tableInfos, parentTableInfos, parentClassName.toLowerCase()));
-            mapperData.put("InsertValues", GeneratorUtil.generateMapperInsertValues(tableInfos, parentClassName.toLowerCase(), foreignKey));
-            mapperData.put("UpdateProperties", GeneratorUtil.generateMapperUpdateProperties(tableInfos, parentClassName.toLowerCase(), foreignKey));
+            mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, parentTableName, tableInfos, parentTableInfos, StringUtil.firstToLowerCase(parentClassName)));
+            mapperData.put("InsertValues", GeneratorUtil.generateMapperInsertValues(tableInfos, StringUtil.firstToLowerCase(parentClassName), foreignKey));
+            mapperData.put("UpdateProperties", GeneratorUtil.generateMapperUpdateProperties(tableInfos, StringUtil.firstToLowerCase(parentClassName), foreignKey));
             mapperData.put("Joins", GeneratorUtil.generateMapperJoins(tableName, parentTableName, relationalTableName, foreignKey, parentForeignKey));
-            mapperData.put("ParentEntityName", parentClassName.toLowerCase());
+            mapperData.put("ParentEntityName", StringUtil.firstToLowerCase(parentClassName));
             mapperData.put("ParentClassName", parentClassName);
         } else if (!StringUtil.isBlank(foreignKey)) {
-            mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, parentTableName, tableInfos, parentTableInfos, parentClassName.toLowerCase(), foreignKey));
-            mapperData.put("InsertValues", GeneratorUtil.generateMapperInsertValues(tableInfos, parentClassName.toLowerCase(), foreignKey));
-            mapperData.put("UpdateProperties", GeneratorUtil.generateMapperUpdateProperties(tableInfos, parentClassName.toLowerCase(), foreignKey));
+            mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, parentTableName, tableInfos, parentTableInfos, StringUtil.firstToLowerCase(parentClassName), foreignKey));
+            mapperData.put("InsertValues", GeneratorUtil.generateMapperInsertValues(tableInfos, StringUtil.firstToLowerCase(parentClassName), foreignKey));
+            mapperData.put("UpdateProperties", GeneratorUtil.generateMapperUpdateProperties(tableInfos, StringUtil.firstToLowerCase(parentClassName), foreignKey));
             mapperData.put("Joins", GeneratorUtil.generateMapperJoins(tableName, parentTableName, foreignKey));
         } else { // 单表
             mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, tableInfos));
