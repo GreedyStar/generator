@@ -1,8 +1,5 @@
 package com.greedystar.generator.entity;
 
-import com.greedystar.generator.utils.StringUtil;
-
-import java.io.File;
 import java.io.Serializable;
 
 /**
@@ -105,7 +102,7 @@ public class Configuration implements Serializable {
         }
 
         public String getController() {
-            return controller;
+            return controller == null ? "" : controller;
         }
 
         public void setController(String controller) {
@@ -113,7 +110,7 @@ public class Configuration implements Serializable {
         }
 
         public String getService() {
-            return service;
+            return service == null ? "" : service;
         }
 
         public void setService(String service) {
@@ -121,7 +118,7 @@ public class Configuration implements Serializable {
         }
 
         public String getDao() {
-            return dao;
+            return dao == null ? "" : dao;
         }
 
         public void setDao(String dao) {
@@ -129,7 +126,7 @@ public class Configuration implements Serializable {
         }
 
         public String getEntity() {
-            return entity;
+            return entity == null ? "" : entity;
         }
 
         public void setEntity(String entity) {
@@ -137,7 +134,7 @@ public class Configuration implements Serializable {
         }
 
         public String getMapper() {
-            return mapper;
+            return mapper == null ? "" : mapper;
         }
 
         public void setMapper(String mapper) {

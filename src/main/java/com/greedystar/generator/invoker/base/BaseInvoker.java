@@ -51,15 +51,16 @@ public abstract class BaseInvoker implements Invoker {
             initTasks();
             while (!taskQueue.isEmpty()) {
                 BaseTask task = taskQueue.poll();
-                executorPool.execute(() -> {
-                    try {
-                        task.run();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (TemplateException e) {
-                        e.printStackTrace();
-                    }
-                });
+                task.run();
+//                executorPool.execute(() -> {
+//                    try {
+//                        task.run();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    } catch (TemplateException e) {
+//                        e.printStackTrace();
+//                    }
+//                });
             }
         } catch (Exception e) {
             e.printStackTrace();
