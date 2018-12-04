@@ -52,16 +52,16 @@ public class MapperTask extends BaseTask {
         mapperData.put("TableName", tableName);
         mapperData.put("InsertProperties", GeneratorUtil.generateMapperInsertProperties(tableInfos));
         mapperData.put("WhereId", "#{id}");
-        if (!StringUtil.isBlank(parentForeignKey)) { // 多表
+        if (!StringUtil.isBlank(parentForeignKey)) { // 多对多
             mapperData.put("ResultMap", GeneratorUtil.generateMapperResultMap(tableInfos));
             mapperData.put("ParentResultMap", GeneratorUtil.generateMapperParentResultMap(parentClassName, parentTableInfos));
             mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, parentTableName, tableInfos, parentTableInfos, StringUtil.firstToLowerCase(parentClassName)));
-            mapperData.put("InsertValues", GeneratorUtil.generateMapperInsertValues(tableInfos, StringUtil.firstToLowerCase(parentClassName), foreignKey));
-            mapperData.put("UpdateProperties", GeneratorUtil.generateMapperUpdateProperties(tableInfos, StringUtil.firstToLowerCase(parentClassName), foreignKey));
+            mapperData.put("InsertValues", GeneratorUtil.generateMapperInsertValues(tableInfos));
+            mapperData.put("UpdateProperties", GeneratorUtil.generateMapperUpdateProperties(tableInfos));
             mapperData.put("Joins", GeneratorUtil.generateMapperJoins(tableName, parentTableName, relationalTableName, foreignKey, parentForeignKey));
             mapperData.put("ParentEntityName", StringUtil.firstToLowerCase(parentClassName));
             mapperData.put("ParentClassName", parentClassName);
-        } else if (!StringUtil.isBlank(foreignKey)) {
+        } else if (!StringUtil.isBlank(foreignKey)) { // 一对多
             mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, parentTableName, tableInfos, parentTableInfos, StringUtil.firstToLowerCase(parentClassName), foreignKey));
             mapperData.put("InsertValues", GeneratorUtil.generateMapperInsertValues(tableInfos, StringUtil.firstToLowerCase(parentClassName), foreignKey));
             mapperData.put("UpdateProperties", GeneratorUtil.generateMapperUpdateProperties(tableInfos, StringUtil.firstToLowerCase(parentClassName), foreignKey));

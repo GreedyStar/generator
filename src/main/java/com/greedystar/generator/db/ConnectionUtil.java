@@ -45,13 +45,23 @@ public class ConnectionUtil {
      * @return 包含表结构数据的列表
      */
     public List<ColumnInfo> getMetaData(String tableName) throws SQLException {
+        ResultSet tempResultSet = connection.getMetaData().getPrimaryKeys(null, null, tableName);
+        String primaryKey = null;
+        if (tempResultSet.next()) {
+            primaryKey = tempResultSet.getObject(4).toString();
+        }
         List<ColumnInfo> columnInfos = new ArrayList<>();
         statement = connection.createStatement();
         String sql = "SELECT * FROM " + tableName + " WHERE 1 != 1";
         resultSet = statement.executeQuery(sql);
         ResultSetMetaData metaData = resultSet.getMetaData();
         for (int i = 1; i <= metaData.getColumnCount(); i++) {
-            ColumnInfo info = new ColumnInfo(metaData.getColumnName(i), metaData.getColumnType(i));
+            ColumnInfo info;
+            if (metaData.getColumnName(i).equals(primaryKey)) {
+                info = new ColumnInfo(metaData.getColumnName(i), metaData.getColumnType(i), true);
+            } else {
+                info = new ColumnInfo(metaData.getColumnName(i), metaData.getColumnType(i), false);
+            }
             columnInfos.add(info);
         }
         statement.close();
