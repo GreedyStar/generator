@@ -13,7 +13,6 @@ public class FreemarketConfigUtils {
     public final static int TYPE_SERVICE = 2;
     public final static int TYPE_CONTROLLER = 3;
     public final static int TYPE_MAPPER = 4;
-    public final static int TYPE_MAPPER_M2M = 5;
     private static Configuration configuration;
 
     public static synchronized Configuration getInstance() {

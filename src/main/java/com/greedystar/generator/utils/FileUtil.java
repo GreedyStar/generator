@@ -56,8 +56,6 @@ public class FileUtil {
                 return FreemarketConfigUtils.getInstance().getTemplate("Controller.ftl");
             case FreemarketConfigUtils.TYPE_MAPPER:
                 return FreemarketConfigUtils.getInstance().getTemplate("Mapper.ftl");
-            case FreemarketConfigUtils.TYPE_MAPPER_M2M:
-                return FreemarketConfigUtils.getInstance().getTemplate("Mapper_M2M.ftl");
             default:
                 return null;
         }

@@ -16,6 +16,10 @@ public class ${ClassName}Service {
     @Autowired
     private ${ClassName}Dao ${EntityName}Dao;
 
+    public ${ClassName} get(String id){
+        return ${EntityName}Dao.get(id);
+    }
+
     public List<${ClassName}> findList(${ClassName} ${EntityName}) {
         return ${EntityName}Dao.findList(${EntityName});
     }

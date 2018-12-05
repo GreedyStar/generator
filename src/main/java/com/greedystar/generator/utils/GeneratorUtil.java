@@ -171,13 +171,8 @@ public class GeneratorUtil {
      * 生成Mapper ColumnMap字段，多对多
      */
     public static String generateMapperColumnMap(String tableName, String parentTableName, List<ColumnInfo> infos, List<ColumnInfo> parentInfos, String parentEntityName) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < infos.size(); i++) {
-            if (i != 0) {
-                sb.append("        ");
-            }
-            sb.append(tableName).append(".").append(infos.get(i).getColumnName()).append(" AS ").append("\"").append(infos.get(i).getPropertyName()).append("\",\n");
-        }
+        StringBuilder sb = new StringBuilder(generateMapperColumnMap(tableName, infos));
+        sb.append(",\n");
         for (ColumnInfo info : parentInfos) {
             sb.append("        ").append(parentTableName).append(".").append(info.getColumnName()).append(" AS ").append("\"").append(parentEntityName).append("s.").append(info.getPropertyName()).append("\",\n");
         }
@@ -185,7 +180,8 @@ public class GeneratorUtil {
     }
 
     /**
-     * 主表ResultMap
+     * 对应模板文件${ResultMap}字段
+     * 用于 single & one2many & many2many
      *
      * @param infos
      * @return
@@ -203,21 +199,38 @@ public class GeneratorUtil {
     }
 
     /**
-     * 父表ResultMap
-     *
-     * @param parentClassName
-     * @param infos
-     * @return
+     * 对应模板文件${Association}字段
+     * 用于 one2many
      */
-    public static String generateMapperParentResultMap(String parentClassName, List<ColumnInfo> infos) {
+    public static String generateMapperAssociation(List<ColumnInfo> parentInfos, String parentClassName, String parentClassPackage) {
         StringBuilder sb = new StringBuilder();
-        for (ColumnInfo info : infos) {
+        sb.append("<association property=\"").append(StringUtil.firstToLowerCase(parentClassName)).append("\" javaType=\"").append(parentClassPackage).append(".").append(parentClassName).append("\">\n");
+        for (ColumnInfo info : parentInfos) {
             if (info.isPrimaryKey()) {
-                sb.append("<id column=\"").append(StringUtil.firstToLowerCase(parentClassName)).append("s.").append(info.getPropertyName()).append("\" ").append("property=\"").append(info.getPropertyName()).append("\"/> \n");
+                sb.append("            ").append("<id column=\"").append(StringUtil.firstToLowerCase(parentClassName)).append(".").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             } else {
-                sb.append("            ").append("<result column=\"").append(StringUtil.firstToLowerCase(parentClassName)).append("s.").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
+                sb.append("            ").append("<result column=\"").append(StringUtil.firstToLowerCase(parentClassName)).append(".").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             }
         }
+        sb.append("        ").append("</association>");
+        return sb.toString();
+    }
+
+    /**
+     * 对应模板文件${Collection}字段
+     * 用于 many2many
+     */
+    public static String generateMapperCollection(List<ColumnInfo> parentInfos, String parentClassName, String parentClassPackage) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<collection property=\"").append(StringUtil.firstToLowerCase(parentClassName)).append("s\" ofType=\"").append(parentClassPackage).append(".").append(parentClassName).append("\">\n");
+        for (ColumnInfo info : parentInfos) {
+            if (info.isPrimaryKey()) {
+                sb.append("            ").append("<id column=\"").append(StringUtil.firstToLowerCase(parentClassName)).append("s").append(".").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
+            } else {
+                sb.append("            ").append("<result column=\"").append(StringUtil.firstToLowerCase(parentClassName)).append("s").append(".").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
+            }
+        }
+        sb.append("        ").append("</collection>");
         return sb.toString();
     }
 
@@ -235,8 +248,8 @@ public class GeneratorUtil {
      */
     public static String generateMapperJoins(String tableName, String parentTableName, String relationTableName, String foreignKey, String parentForeignKey, String primaryKey, String parentPrimaryKey) {
         StringBuilder sb = new StringBuilder();
-        sb.append("LEFT JOIN ").append(relationTableName).append(" on ").append(relationTableName).append(".").append(foreignKey).append(" = ").append(tableName).append(".").append(primaryKey).append(" ")
-                .append("LEFT JOIN ").append(parentTableName).append(" on ").append(parentTableName).append(".").append(parentPrimaryKey).append(" = ").append(relationTableName).append(".").append(parentForeignKey);
+        sb.append("LEFT JOIN ").append(relationTableName).append(" on ").append(relationTableName).append(".").append(foreignKey).append(" = ").append(tableName).append(".").append(primaryKey).append(" \n")
+                .append("        ").append("LEFT JOIN ").append(parentTableName).append(" on ").append(parentTableName).append(".").append(parentPrimaryKey).append(" = ").append(relationTableName).append(".").append(parentForeignKey);
         return sb.toString();
     }
 
@@ -341,14 +354,14 @@ public class GeneratorUtil {
     /**
      * 生成Mapper 更新属性字段
      */
-    public static String generateMapperUpdateProperties(List<ColumnInfo> infos, String parentEntityName, String foreignKey) {
+    public static String generateMapperUpdateProperties(List<ColumnInfo> infos, String parentEntityName, String foreignKey, String primaryKey) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < infos.size(); i++) {
             if (infos.get(i).getColumnName().equals(foreignKey)) {
                 if (i != 0) {
                     sb.append("        ");
                 }
-                sb.append(infos.get(i).getColumnName()).append(" = #{").append(parentEntityName).append(".id},\n"); // 此处id需要修改为primarykey
+                sb.append(infos.get(i).getColumnName()).append(" = #{").append(parentEntityName).append(".").append(primaryKey).append("},\n");
             } else {
                 if (i != 0) {
                     sb.append("        ");

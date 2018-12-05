@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${BasePackageName}${DaoPackageName}.${ClassName}Dao">
 
+    <resultMap id="${EntityName}ResultMap" type="${BasePackageName}${EntityPackageName}.${ClassName}">
+        ${ResultMap}
+        ${Association}
+        ${Collection}
+    </resultMap>
+
     <sql id="${EntityName}Columns">
         ${ColumnMap}
     </sql>
@@ -10,7 +16,16 @@
         ${Joins}
     </sql>
 
-    <select id="findList" resultType="${BasePackageName}${EntityPackageName}.${ClassName}">
+    <select id="get" resultMap="${EntityName}ResultMap">
+        SELECT
+        <include refid="${EntityName}Columns" />
+        FROM ${TableName} <include refid="${EntityName}Joins" />
+        <where>
+            ${PrimaryKey} = ${id}
+        </where>
+    </select>
+
+    <select id="findList" resultMap="${EntityName}ResultMap">
         SELECT
         <include refid="${EntityName}Columns" />
         FROM ${TableName} <include refid="${EntityName}Joins" />
@@ -19,7 +34,7 @@
         </where>
     </select>
 
-    <select id="findAllList" resultType="${BasePackageName}${EntityPackageName}.${ClassName}">
+    <select id="findAllList" resultMap="${EntityName}ResultMap">
         SELECT
         <include refid="${EntityName}Columns" />
         FROM ${TableName} <include refid="${EntityName}Joins" />

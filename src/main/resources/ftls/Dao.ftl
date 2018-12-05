@@ -12,6 +12,8 @@ import java.util.List;
 @Mapper
 public interface ${ClassName}Dao {
 
+    public ${ClassName} get(String id);
+
     public List<${ClassName}> findList(${ClassName} ${EntityName});
 
     public List<${ClassName}> findAllList();
