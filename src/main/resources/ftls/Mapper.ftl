@@ -36,15 +36,27 @@
         )
     </insert>
 
+    <insert id="insertBatch">
+        INSERT INTO ${TableName}(
+            ${InsertProperties}
+        )
+        VALUES
+        <foreach collection ="list" item="${EntityName}" separator =",">
+        (
+            ${InsertBatchValues}
+        )
+        </foreach>
+    </insert>
+
     <update id="update">
         UPDATE ${TableName} SET
         ${UpdateProperties}
-        WHERE id = ${WhereId}
+        WHERE ${PrimaryKey} = ${WhereId}
     </update>
 
     <update id="delete">
         DELETE FROM ${TableName}
-        WHERE id = ${WhereId}
+        WHERE ${PrimaryKey} = ${WhereId}
     </update>
 
 </mapper>

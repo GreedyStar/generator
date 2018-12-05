@@ -194,7 +194,7 @@ public class GeneratorUtil {
         StringBuilder sb = new StringBuilder();
         for (ColumnInfo info : infos) {
             if (info.isPrimaryKey()) {
-                sb.append("<id column=\"").append(info.getColumnName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
+                sb.append("<id column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             } else {
                 sb.append("        ").append("<result column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             }
@@ -224,19 +224,19 @@ public class GeneratorUtil {
     /**
      * 生成Mapper Joins字段（一对多关系）
      */
-    public static String generateMapperJoins(String tableName, String parentTableName, String foreignKey) {
+    public static String generateMapperJoins(String tableName, String parentTableName, String foreignKey, String parentPrimaryKey) {
         StringBuilder sb = new StringBuilder();
-        sb.append("LEFT JOIN ").append(parentTableName).append(" on ").append(parentTableName).append(".id").append(" = ").append(tableName).append(".").append(foreignKey);
+        sb.append("LEFT JOIN ").append(parentTableName).append(" on ").append(parentTableName).append(".").append(parentPrimaryKey).append(" = ").append(tableName).append(".").append(foreignKey);
         return sb.toString();
     }
 
     /**
      * 生成Mapper Joins字段（多对多关系）
      */
-    public static String generateMapperJoins(String tableName, String parentTableName, String relationTableName, String foreignKey, String parentForeignKey) {
+    public static String generateMapperJoins(String tableName, String parentTableName, String relationTableName, String foreignKey, String parentForeignKey, String primaryKey, String parentPrimaryKey) {
         StringBuilder sb = new StringBuilder();
-        sb.append("LEFT JOIN ").append(relationTableName).append(" on ").append(relationTableName).append(".").append(foreignKey).append(" = ").append(tableName).append(".id ")
-                .append("LEFT JOIN ").append(parentTableName).append(" on ").append(parentTableName).append(".id").append(" = ").append(relationTableName).append(".").append(parentForeignKey);
+        sb.append("LEFT JOIN ").append(relationTableName).append(" on ").append(relationTableName).append(".").append(foreignKey).append(" = ").append(tableName).append(".").append(primaryKey).append(" ")
+                .append("LEFT JOIN ").append(parentTableName).append(" on ").append(parentTableName).append(".").append(parentPrimaryKey).append(" = ").append(relationTableName).append(".").append(parentForeignKey);
         return sb.toString();
     }
 
@@ -269,21 +269,56 @@ public class GeneratorUtil {
     }
 
     /**
+     * 生成Mapper 批量插入属性字段（单表，多对多）
+     */
+    public static String generateMapperInsertBatchValues(List<ColumnInfo> infos, String entityName) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < infos.size(); i++) {
+            if (i != 0) {
+                sb.append("            ");
+            }
+            sb.append("#{").append(entityName).append(".").append(infos.get(i).getPropertyName()).append("},\n");
+        }
+        return sb.toString().substring(0, sb.toString().length() - 2);
+    }
+
+    /**
      * 生成Mapper 插入属性字段（一对多）
      */
-    public static String generateMapperInsertValues(List<ColumnInfo> infos, String parentEntityName, String foreignKey) {
+    public static String generateMapperInsertValues(List<ColumnInfo> infos, String parentEntityName, String foreignKey, String primaryKey) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < infos.size(); i++) {
             if (infos.get(i).getColumnName().equals(foreignKey)) {
                 if (i != 0) {
                     sb.append("            ");
                 }
-                sb.append("#{").append(parentEntityName).append(".id},\n"); // 此处id需要修改为primarykey
+                sb.append("#{").append(parentEntityName).append(".").append(primaryKey).append("},\n"); // 此处id需要修改为primarykey
             } else {
                 if (i != 0) {
                     sb.append("            ");
                 }
                 sb.append("#{").append(infos.get(i).getPropertyName()).append("},\n");
+            }
+        }
+        return sb.toString().substring(0, sb.toString().length() - 2);
+    }
+
+    /**
+     * 生成Mapper 批量插入属性字段（一对多）
+     */
+    public static String generateMapperInsertBatchValues(List<ColumnInfo> infos, String entityName, String parentEntityName, String foreignKey, String primaryKey) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < infos.size(); i++) {
+            if (infos.get(i).getColumnName().equals(foreignKey)) {
+                if (i != 0) {
+                    sb.append("            ");
+                }
+                sb.append("#{").append(entityName).append(".").append(parentEntityName).append(".").append(primaryKey).append("},\n"); // 此处id需要修改为primarykey
+            } else {
+                if (i != 0) {
+                    sb.append("            ");
+                }
+                sb.append("#{").append(entityName).append(".").append(infos.get(i).getPropertyName()).append("},\n");
             }
         }
         return sb.toString().substring(0, sb.toString().length() - 2);

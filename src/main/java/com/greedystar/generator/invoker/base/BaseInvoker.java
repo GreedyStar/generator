@@ -9,7 +9,6 @@ import freemarker.template.TemplateException;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -51,17 +50,17 @@ public abstract class BaseInvoker implements Invoker {
             initTasks();
             while (!taskQueue.isEmpty()) {
                 BaseTask task = taskQueue.poll();
-                task.run();
-//                executorPool.execute(() -> {
-//                    try {
-//                        task.run();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    } catch (TemplateException e) {
-//                        e.printStackTrace();
-//                    }
-//                });
+                executorPool.execute(() -> {
+                    try {
+                        task.run();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (TemplateException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
+            executorPool.shutdown();
         } catch (Exception e) {
             e.printStackTrace();
         }

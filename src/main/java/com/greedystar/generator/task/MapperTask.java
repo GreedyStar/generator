@@ -51,22 +51,26 @@ public class MapperTask extends BaseTask {
         mapperData.put("EntityName", StringUtil.firstToLowerCase(className));
         mapperData.put("TableName", tableName);
         mapperData.put("InsertProperties", GeneratorUtil.generateMapperInsertProperties(tableInfos));
-        mapperData.put("WhereId", "#{id}");
+        mapperData.put("PrimaryKey", getPrimaryKeyColumnInfo(tableInfos).getColumnName());
+        mapperData.put("WhereId", "#{" + getPrimaryKeyColumnInfo(tableInfos).getPropertyName() + "}");
         if (!StringUtil.isBlank(parentForeignKey)) { // 多对多
+            mapperData.put("InsertBatchValues", GeneratorUtil.generateMapperInsertBatchValues(tableInfos, StringUtil.firstToLowerCase(className)));
             mapperData.put("ResultMap", GeneratorUtil.generateMapperResultMap(tableInfos));
             mapperData.put("ParentResultMap", GeneratorUtil.generateMapperParentResultMap(parentClassName, parentTableInfos));
             mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, parentTableName, tableInfos, parentTableInfos, StringUtil.firstToLowerCase(parentClassName)));
             mapperData.put("InsertValues", GeneratorUtil.generateMapperInsertValues(tableInfos));
             mapperData.put("UpdateProperties", GeneratorUtil.generateMapperUpdateProperties(tableInfos));
-            mapperData.put("Joins", GeneratorUtil.generateMapperJoins(tableName, parentTableName, relationalTableName, foreignKey, parentForeignKey));
+            mapperData.put("Joins", GeneratorUtil.generateMapperJoins(tableName, parentTableName, relationalTableName, foreignKey, parentForeignKey, getPrimaryKeyColumnInfo(tableInfos).getColumnName(), getPrimaryKeyColumnInfo(parentTableInfos).getColumnName()));
             mapperData.put("ParentEntityName", StringUtil.firstToLowerCase(parentClassName));
             mapperData.put("ParentClassName", parentClassName);
         } else if (!StringUtil.isBlank(foreignKey)) { // 一对多
+            mapperData.put("InsertBatchValues", GeneratorUtil.generateMapperInsertBatchValues(tableInfos, StringUtil.firstToLowerCase(className), StringUtil.firstToLowerCase(parentClassName), foreignKey, getPrimaryKeyColumnInfo(parentTableInfos).getPropertyName()));
             mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, parentTableName, tableInfos, parentTableInfos, StringUtil.firstToLowerCase(parentClassName), foreignKey));
-            mapperData.put("InsertValues", GeneratorUtil.generateMapperInsertValues(tableInfos, StringUtil.firstToLowerCase(parentClassName), foreignKey));
+            mapperData.put("InsertValues", GeneratorUtil.generateMapperInsertValues(tableInfos, StringUtil.firstToLowerCase(parentClassName), foreignKey, getPrimaryKeyColumnInfo(parentTableInfos).getPropertyName()));
             mapperData.put("UpdateProperties", GeneratorUtil.generateMapperUpdateProperties(tableInfos, StringUtil.firstToLowerCase(parentClassName), foreignKey));
-            mapperData.put("Joins", GeneratorUtil.generateMapperJoins(tableName, parentTableName, foreignKey));
+            mapperData.put("Joins", GeneratorUtil.generateMapperJoins(tableName, parentTableName, foreignKey, getPrimaryKeyColumnInfo(parentTableInfos).getColumnName()));
         } else { // 单表
+            mapperData.put("InsertBatchValues", GeneratorUtil.generateMapperInsertBatchValues(tableInfos, StringUtil.firstToLowerCase(className)));
             mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, tableInfos));
             mapperData.put("InsertValues", GeneratorUtil.generateMapperInsertValues(tableInfos));
             mapperData.put("UpdateProperties", GeneratorUtil.generateMapperUpdateProperties(tableInfos));
@@ -81,4 +85,14 @@ public class MapperTask extends BaseTask {
             FileUtil.generateToJava(FreemarketConfigUtils.TYPE_MAPPER, mapperData, filePath + fileName);
         }
     }
+
+    private ColumnInfo getPrimaryKeyColumnInfo(List<ColumnInfo> list) {
+        for (ColumnInfo columnInfo : list) {
+            if (columnInfo.isPrimaryKey()) {
+                return columnInfo;
+            }
+        }
+        return null;
+    }
+
 }

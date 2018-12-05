@@ -21,7 +21,7 @@ public class FileUtil {
     public static void generateToJava(int type, Object data, String filePath) throws IOException, TemplateException {
         File file = new File(filePath);
         if (file.exists()) {
-            System.out.println("ERROR: " + file.getPath().substring(file.getPath().lastIndexOf("\\") + 1, file.getPath().length()) + " 已存在，请手动修改");
+            System.err.println("ERROR: " + file.getPath().substring(file.getPath().lastIndexOf("\\") + 1, file.getPath().length()) + " 已存在，请手动修改");
             return;
         }
         Template tpl = getTemplate(type); // 获取模板文件

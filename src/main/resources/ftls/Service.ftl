@@ -28,6 +28,10 @@ public class ${ClassName}Service {
         return ${EntityName}Dao.insert(${EntityName});
     }
 
+    public int insertBatch(List<${ClassName}> ${EntityName}s){
+        return ${EntityName}Dao.insertBatch(${EntityName}s);
+    }
+
     public int update(${ClassName} ${EntityName}) {
         return ${EntityName}Dao.update(${EntityName});
     }

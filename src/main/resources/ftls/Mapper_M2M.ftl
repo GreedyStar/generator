@@ -10,26 +10,28 @@
     </resultMap>
 
     <sql id="${EntityName}Columns">
-        ${ColumnMap}
+    ${ColumnMap}
     </sql>
 
     <sql id="${EntityName}Joins">
-        ${Joins}
+    ${Joins}
     </sql>
 
     <select id="findList" resultMap="${EntityName}ResultMap">
         SELECT
         <include refid="${EntityName}Columns"/>
-        FROM ${TableName} <include refid="${EntityName}Joins"/>
+        FROM ${TableName}
+        <include refid="${EntityName}Joins"/>
         <where>
-            <#-- AND ${TableName}.name LIKE concat('%',#{name},'%')-->
+        <#-- AND ${TableName}.name LIKE concat('%',#{name},'%')-->
         </where>
     </select>
 
     <select id="findAllList" resultMap="${EntityName}ResultMap">
         SELECT
         <include refid="${EntityName}Columns"/>
-        FROM ${TableName} <include refid="${EntityName}Joins"/>
+        FROM ${TableName}
+        <include refid="${EntityName}Joins"/>
         <where>
 
         </where>
@@ -44,15 +46,27 @@
         )
     </insert>
 
+    <insert id="insertBatch">
+        INSERT INTO ${TableName}(
+            ${InsertProperties}
+        )
+        VALUES
+        <foreach collection="list" item="${EntityName}" separator=",">
+        (
+            ${InsertBatchValues}
+        )
+        </foreach>
+    </insert>
+
     <update id="update">
         UPDATE ${TableName} SET
         ${UpdateProperties}
-        WHERE id = ${WhereId}
+        WHERE ${PrimaryKey} = ${WhereId}
     </update>
 
     <update id="delete">
         DELETE FROM ${TableName}
-        WHERE id = ${WhereId}
+        WHERE ${PrimaryKey} = ${WhereId}
     </update>
 
 </mapper>

@@ -18,6 +18,8 @@ public interface ${ClassName}Dao {
 
     public int insert(${ClassName} ${EntityName});
 
+    public int insertBatch(List<${ClassName}> ${EntityName}s);
+
     public int update(${ClassName} ${EntityName});
 
     public int delete(${ClassName} ${EntityName});
