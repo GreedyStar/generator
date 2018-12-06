@@ -53,7 +53,7 @@ public class MapperTask extends BaseTask {
         mapperData.put("InsertProperties", GeneratorUtil.generateMapperInsertProperties(tableInfos));
         mapperData.put("PrimaryKey", getPrimaryKeyColumnInfo(tableInfos).getColumnName());
         mapperData.put("WhereId", "#{" + getPrimaryKeyColumnInfo(tableInfos).getPropertyName() + "}");
-        mapperData.put("id", "#{id}");
+        mapperData.put("Id", "#{id}");
         if (!StringUtil.isBlank(parentForeignKey)) { // 多对多
             mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, parentTableName, tableInfos, parentTableInfos, StringUtil.firstToLowerCase(parentClassName)));
             mapperData.put("ResultMap", GeneratorUtil.generateMapperResultMap(tableInfos));

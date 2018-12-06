@@ -21,7 +21,7 @@
         <include refid="${EntityName}Columns" />
         FROM ${TableName} <include refid="${EntityName}Joins" />
         <where>
-        ${TableName}.${PrimaryKey} = ${id}
+        ${TableName}.${PrimaryKey} = ${Id}
         </where>
     </select>
 
