@@ -42,6 +42,15 @@ public class ${ClassName}Controller {
         }
     }
 
+    @RequestMapping(value = "/insertBatch", method = RequestMethod.POST)
+    public String insertBatch(@RequestBody List<${ClassName}> ${EntityName}s) {
+        if (${EntityName}Service.insertBatch(${EntityName}s) > 0) {
+            return "success";
+        } else {
+            return "failed";
+        }
+    }
+
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(@RequestBody ${ClassName} ${EntityName}) {
         if (${EntityName}Service.update(${EntityName}) > 0) {
