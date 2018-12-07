@@ -6,6 +6,6 @@ package com.greedystar.generator.invoker.base;
  */
 public interface Invoker {
 
-    public void execute() throws Exception;
+    public void execute();
 
 }

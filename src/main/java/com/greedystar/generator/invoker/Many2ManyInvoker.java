@@ -69,7 +69,7 @@ public class Many2ManyInvoker extends BaseInvoker {
         }
 
         @Override
-        public BaseInvoker build() throws Exception {
+        public BaseInvoker build() {
             if (!isParamtersValid()) {
                 return null;
             }

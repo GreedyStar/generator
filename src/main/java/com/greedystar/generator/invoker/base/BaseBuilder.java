@@ -6,10 +6,15 @@ package com.greedystar.generator.invoker.base;
  */
 public abstract class BaseBuilder {
 
-    public abstract BaseInvoker build() throws Exception;
+    public abstract BaseInvoker build();
 
-    public boolean isParamtersValid() throws Exception {
-        checkBeforeBuild();
+    public boolean isParamtersValid() {
+        try {
+            checkBeforeBuild();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 
