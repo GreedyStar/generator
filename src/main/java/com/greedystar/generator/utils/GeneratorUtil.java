@@ -180,8 +180,7 @@ public class GeneratorUtil {
     }
 
     /**
-     * 对应模板文件${ResultMap}字段
-     * 用于 single & one2many & many2many
+     * 对应模板文件${ResultMap}字段 用于 single、one2many、many2many
      *
      * @param infos
      * @return
@@ -201,6 +200,11 @@ public class GeneratorUtil {
     /**
      * 对应模板文件${Association}字段
      * 用于 one2many
+     *
+     * @param parentInfos
+     * @param parentClassName
+     * @param parentClassPackage
+     * @return
      */
     public static String generateMapperAssociation(List<ColumnInfo> parentInfos, String parentClassName, String parentClassPackage) {
         StringBuilder sb = new StringBuilder();
@@ -216,9 +220,15 @@ public class GeneratorUtil {
         return sb.toString();
     }
 
+
     /**
      * 对应模板文件${Collection}字段
      * 用于 many2many
+     *
+     * @param parentInfos
+     * @param parentClassName
+     * @param parentClassPackage
+     * @return
      */
     public static String generateMapperCollection(List<ColumnInfo> parentInfos, String parentClassName, String parentClassPackage) {
         StringBuilder sb = new StringBuilder();
@@ -234,8 +244,15 @@ public class GeneratorUtil {
         return sb.toString();
     }
 
+
     /**
      * 生成Mapper Joins字段（一对多关系）
+     *
+     * @param tableName
+     * @param parentTableName
+     * @param foreignKey
+     * @param parentPrimaryKey
+     * @return
      */
     public static String generateMapperJoins(String tableName, String parentTableName, String foreignKey, String parentPrimaryKey) {
         StringBuilder sb = new StringBuilder();
@@ -243,8 +260,18 @@ public class GeneratorUtil {
         return sb.toString();
     }
 
+
     /**
      * 生成Mapper Joins字段（多对多关系）
+     *
+     * @param tableName
+     * @param parentTableName
+     * @param relationTableName
+     * @param foreignKey
+     * @param parentForeignKey
+     * @param primaryKey
+     * @param parentPrimaryKey
+     * @return
      */
     public static String generateMapperJoins(String tableName, String parentTableName, String relationTableName, String foreignKey, String parentForeignKey, String primaryKey, String parentPrimaryKey) {
         StringBuilder sb = new StringBuilder();
@@ -253,8 +280,12 @@ public class GeneratorUtil {
         return sb.toString();
     }
 
+
     /**
      * 生成Mapper 插入列名字段（所有关系皆用）
+     *
+     * @param infos
+     * @return
      */
     public static String generateMapperInsertProperties(List<ColumnInfo> infos) {
         StringBuilder sb = new StringBuilder();

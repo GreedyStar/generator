@@ -36,7 +36,6 @@ public class StringUtil {
 
     /**
      * 数据库列名转换为实体的属性名
-     * 如：userName -> userName, CREATETIME -> createtime, CREATE_TIME -> createTime, create_time -> createTime
      *
      * @param columnName 列名
      * @return 转换后的实体属性名
