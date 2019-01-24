@@ -1,7 +1,8 @@
 package com.greedystar.generator.invoker;
 
-import com.greedystar.generator.invoker.base.BaseBuilder;
-import com.greedystar.generator.invoker.base.BaseInvoker;
+import com.greedystar.generator.invoker.base.AbstractBuilder;
+import com.greedystar.generator.invoker.base.AbstractInvoker;
+import com.greedystar.generator.invoker.base.Invoker;
 import com.greedystar.generator.task.*;
 import com.greedystar.generator.utils.GeneratorUtil;
 import com.greedystar.generator.utils.StringUtil;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
  * Author GreedyStar
  * Date   2018/9/5
  */
-public class SingleInvoker extends BaseInvoker {
+public class SingleInvoker extends AbstractInvoker {
 
     @Override
     protected void getTableInfos() throws SQLException {
@@ -21,14 +22,10 @@ public class SingleInvoker extends BaseInvoker {
 
     @Override
     protected void initTasks() {
-        taskQueue.add(new DaoTask(className));
-        taskQueue.add(new ServiceTask(className));
-        taskQueue.add(new ControllerTask(className));
-        taskQueue.add(new EntityTask(className, tableInfos));
-        taskQueue.add(new MapperTask(className, tableName, tableInfos));
+        taskQueue.initSingleTasks(className, tableName, tableInfos);
     }
 
-    public static class Builder extends BaseBuilder {
+    public static class Builder extends AbstractBuilder {
         private SingleInvoker invoker = new SingleInvoker();
 
         public Builder setTableName(String tableName) {
@@ -42,7 +39,7 @@ public class SingleInvoker extends BaseInvoker {
         }
 
         @Override
-        public BaseInvoker build(){
+        public Invoker build() {
             if (!isParamtersValid()) {
                 return null;
             }

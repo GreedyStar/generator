@@ -72,10 +72,10 @@ public class TypeUtil {
             case Types.NULL:
             case Types.OTHER:
             case Types.JAVA_OBJECT:
-                sb.append("object");
+                sb.append("Object");
                 break;
             default:
-                sb.append("object");
+                sb.append("Object");
 
         }
         return sb.toString();

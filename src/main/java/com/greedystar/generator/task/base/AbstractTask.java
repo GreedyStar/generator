@@ -14,7 +14,7 @@ import java.util.List;
  * Author GreedyStar
  * Date   2018/4/20
  */
-public abstract class BaseTask implements Serializable {
+public abstract class AbstractTask implements Serializable {
     protected String tableName;
     protected String className;
     protected String parentTableName;
@@ -30,7 +30,7 @@ public abstract class BaseTask implements Serializable {
      *
      * @param className
      */
-    public BaseTask(String className) {
+    public AbstractTask(String className) {
         this.className = className;
     }
 
@@ -42,7 +42,7 @@ public abstract class BaseTask implements Serializable {
      * @param foreignKey
      * @param tableInfos
      */
-    public BaseTask(String className, String parentClassName, String foreignKey, String parentForeignKey, List<ColumnInfo> tableInfos) {
+    public AbstractTask(String className, String parentClassName, String foreignKey, String parentForeignKey, List<ColumnInfo> tableInfos) {
         this.className = className;
         this.parentClassName = parentClassName;
         this.foreignKey = foreignKey;
@@ -63,7 +63,7 @@ public abstract class BaseTask implements Serializable {
      * @param tableInfos
      * @param parentTableInfos
      */
-    public BaseTask(String tableName, String className, String parentTableName, String parentClassName, String foreignKey, String parentForeignKey, String relationalTableName, List<ColumnInfo> tableInfos, List<ColumnInfo> parentTableInfos) {
+    public AbstractTask(String tableName, String className, String parentTableName, String parentClassName, String foreignKey, String parentForeignKey, String relationalTableName, List<ColumnInfo> tableInfos, List<ColumnInfo> parentTableInfos) {
         this.tableName = tableName;
         this.className = className;
         this.parentTableName = parentTableName;

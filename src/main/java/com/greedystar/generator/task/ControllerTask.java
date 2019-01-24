@@ -1,13 +1,12 @@
 package com.greedystar.generator.task;
 
-import com.greedystar.generator.task.base.BaseTask;
+import com.greedystar.generator.task.base.AbstractTask;
 import com.greedystar.generator.utils.ConfigUtil;
 import com.greedystar.generator.utils.FileUtil;
 import com.greedystar.generator.utils.FreemarketConfigUtils;
 import com.greedystar.generator.utils.StringUtil;
 import freemarker.template.TemplateException;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,7 +17,7 @@ import java.util.Map;
  * Author GreedyStar
  * Date   2018/4/20
  */
-public class ControllerTask extends BaseTask {
+public class ControllerTask extends AbstractTask {
 
     public ControllerTask(String className) {
         super(className);
@@ -31,7 +30,11 @@ public class ControllerTask extends BaseTask {
         Map<String, String> controllerData = new HashMap<>();
         controllerData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
         controllerData.put("ControllerPackageName", ConfigUtil.getConfiguration().getPath().getController());
-        controllerData.put("ServicePackageName", ConfigUtil.getConfiguration().getPath().getService());
+        if (StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getInterf())) {
+            controllerData.put("ServicePackageName", ConfigUtil.getConfiguration().getPath().getService());
+        } else {
+            controllerData.put("ServicePackageName", ConfigUtil.getConfiguration().getPath().getInterf());
+        }
         controllerData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
         controllerData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         controllerData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));

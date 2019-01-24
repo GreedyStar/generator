@@ -1,7 +1,6 @@
-package ${BasePackageName}${DaoPackageName};
+package ${BasePackageName}${InterfacePackageName};
 
 import ${BasePackageName}${EntityPackageName}.${ClassName};
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -9,8 +8,7 @@ import java.util.List;
  * Author ${Author}
  * Date  ${Date}
  */
-@Mapper
-public interface ${ClassName}Dao {
+public interface ${ClassName}Service {
 
     public ${ClassName} get(String id);
 

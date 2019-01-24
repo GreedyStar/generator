@@ -6,7 +6,8 @@ author: unknown
 packageName:
 path:
   controller: controller
-  service: service
+  service: service.impl
+  interf: service
   dao: dao
   entity: entity
   mapper: mappers

@@ -86,6 +86,7 @@ public class Configuration implements Serializable {
     public static class Path {
         private String controller;
         private String service;
+        private String interf;
         private String dao;
         private String entity;
         private String mapper;
@@ -93,9 +94,10 @@ public class Configuration implements Serializable {
         public Path() {
         }
 
-        public Path(String controller, String service, String dao, String entity, String mapper) {
+        public Path(String controller, String service, String interf,String dao, String entity, String mapper) {
             this.controller = controller;
             this.service = service;
+            this.interf = interf;
             this.dao = dao;
             this.entity = entity;
             this.mapper = mapper;
@@ -115,6 +117,14 @@ public class Configuration implements Serializable {
 
         public void setService(String service) {
             this.service = service;
+        }
+
+        public String getInterf() {
+            return interf;
+        }
+
+        public void setInterf(String interf) {
+            this.interf = interf;
         }
 
         public String getDao() {

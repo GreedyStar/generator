@@ -1,6 +1,6 @@
 package com.greedystar.generator.task;
 
-import com.greedystar.generator.task.base.BaseTask;
+import com.greedystar.generator.task.base.AbstractTask;
 import com.greedystar.generator.utils.ConfigUtil;
 import com.greedystar.generator.utils.FileUtil;
 import com.greedystar.generator.utils.FreemarketConfigUtils;
@@ -17,7 +17,7 @@ import java.util.Map;
  * Author GreedyStar
  * Date   2018/4/20
  */
-public class ServiceTask extends BaseTask {
+public class ServiceTask extends AbstractTask {
 
     public ServiceTask(String className) {
         super(className);
@@ -36,8 +36,22 @@ public class ServiceTask extends BaseTask {
         serviceData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         serviceData.put("ClassName", className);
         serviceData.put("EntityName", StringUtil.firstToLowerCase(className));
+        if (StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getInterf())) { // 表示不生成Service接口文件
+            serviceData.put("Impl", "");
+            serviceData.put("Override", "");
+            serviceData.put("InterfaceImport", "");
+        } else {
+            serviceData.put("Impl", "Impl implements " + className + "Service");
+            serviceData.put("Override", "\n    @Override");
+            serviceData.put("InterfaceImport", "import " + ConfigUtil.getConfiguration().getPackageName() + ConfigUtil.getConfiguration().getPath().getInterf() + "." + className + "Service;");
+        }
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getService());
-        String fileName = className + "Service.java";
+        String fileName;
+        if (StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getInterf())) { // 表示不生成Service接口文件
+            fileName = className + "Service.java";
+        } else {
+            fileName = className + "ServiceImpl.java";
+        }
         // 生成Service文件
         FileUtil.generateToJava(FreemarketConfigUtils.TYPE_SERVICE, serviceData, filePath + fileName);
     }

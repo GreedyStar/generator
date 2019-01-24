@@ -2,7 +2,7 @@ package com.greedystar.generator.invoker.base;
 
 import com.greedystar.generator.db.ConnectionUtil;
 import com.greedystar.generator.entity.ColumnInfo;
-import com.greedystar.generator.task.base.BaseTask;
+import com.greedystar.generator.task.base.AbstractTask;
 import com.greedystar.generator.utils.ConfigUtil;
 import com.greedystar.generator.utils.TaskQueue;
 import freemarker.template.TemplateException;
@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
  * Author GreedyStar
  * Date   2018/9/5
  */
-public abstract class BaseInvoker implements Invoker {
+public abstract class AbstractInvoker implements Invoker {
     protected String tableName;
     protected String className;
     protected String parentTableName;
@@ -28,7 +28,7 @@ public abstract class BaseInvoker implements Invoker {
     protected List<ColumnInfo> tableInfos;
     protected List<ColumnInfo> parentTableInfos;
     protected ConnectionUtil connectionUtil = new ConnectionUtil();
-    protected TaskQueue<BaseTask> taskQueue = new TaskQueue();
+    protected TaskQueue taskQueue = new TaskQueue();
     private ExecutorService executorPool = Executors.newFixedThreadPool(6);
 
     private void initDataSource() throws Exception {
@@ -49,7 +49,7 @@ public abstract class BaseInvoker implements Invoker {
             initDataSource();
             initTasks();
             while (!taskQueue.isEmpty()) {
-                BaseTask task = taskQueue.poll();
+                AbstractTask task = taskQueue.poll();
                 executorPool.execute(() -> {
                     try {
                         task.run();

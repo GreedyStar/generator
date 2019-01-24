@@ -28,7 +28,7 @@ public class ConfigUtil {
         Configuration configuration = new Configuration();
         configuration.setAuthor("unknown");
         configuration.setPackageName("");
-        configuration.setPath(new Configuration.Path("controller", "service", "dao", "entity", "mappers"));
+        configuration.setPath(new Configuration.Path("controller", "service.impl", "service", "dao", "entity", "mappers"));
         configuration.setDb(new Configuration.Db("", "", ""));
         return configuration;
     }

@@ -1,48 +1,73 @@
 package com.greedystar.generator.utils;
 
+import com.greedystar.generator.entity.ColumnInfo;
 import com.greedystar.generator.task.*;
+import com.greedystar.generator.task.base.AbstractTask;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Author GreedyStar
  * Date   2018-11-27
  */
-public class TaskQueue<E> extends LinkedList<E> {
+public class TaskQueue {
 
-    /**
-     * 根据类型检查是否配置了相应的代码路径，未配置则不添加任务
-     *
-     * @param task 任务
-     * @return
-     */
-    @Override
-    public boolean add(E task) {
-        if (task instanceof ControllerTask) {
-            if (StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getController())) {
-                return false;
-            }
+    private LinkedList<AbstractTask> taskQueue = new LinkedList<>();
+
+    private void initCommonTasks(String className) {
+        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getController())) {
+            taskQueue.add(new ControllerTask(className));
         }
-        if (task instanceof ServiceTask) {
-            if (StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getService())) {
-                return false;
-            }
+        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getService())) {
+            taskQueue.add(new ServiceTask(className));
         }
-        if (task instanceof DaoTask) {
-            if (StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getDao())) {
-                return false;
-            }
+        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getInterf())) {
+            taskQueue.add(new InterfaceTask(className));
         }
-        if (task instanceof EntityTask) {
-            if (StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getEntity())) {
-                return false;
-            }
+        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getDao())) {
+            taskQueue.add(new DaoTask(className));
         }
-        if (task instanceof MapperTask) {
-            if (StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getMapper())) {
-                return false;
-            }
-        }
-        return super.add(task);
     }
+
+    public void initSingleTasks(String className, String tableName, List<ColumnInfo> tableInfos) {
+        initCommonTasks(className);
+        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getEntity())) {
+            taskQueue.add(new EntityTask(className, tableInfos));
+        }
+        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getMapper())) {
+            taskQueue.add(new MapperTask(className, tableName, tableInfos));
+        }
+    }
+
+    public void initOne2ManyTasks(String tableName, String className, String parentTableName, String parentClassName, String foreignKey, List<ColumnInfo> tableInfos, List<ColumnInfo> parentTableInfos) {
+        initCommonTasks(className);
+        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getEntity())) {
+            taskQueue.add(new EntityTask(className, parentClassName, foreignKey, tableInfos));
+            taskQueue.add(new EntityTask(parentClassName, parentTableInfos));
+        }
+        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getMapper())) {
+            taskQueue.add(new MapperTask(tableName, className, parentTableName, parentClassName, foreignKey, tableInfos, parentTableInfos));
+        }
+    }
+
+    public void initMany2ManyTasks(String tableName, String className, String parentTableName, String parentClassName, String foreignKey, String parentForeignKey, String relationalTableName, List<ColumnInfo> tableInfos, List<ColumnInfo> parentTableInfos) {
+        initCommonTasks(className);
+        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getEntity())) {
+            taskQueue.add(new EntityTask(className, parentClassName, foreignKey, parentForeignKey, tableInfos));
+            taskQueue.add(new EntityTask(parentClassName, parentTableInfos));
+        }
+        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getMapper())) {
+            taskQueue.add(new MapperTask(tableName, className, parentTableName, parentClassName, foreignKey, parentForeignKey, relationalTableName, tableInfos, parentTableInfos));
+        }
+    }
+
+    public boolean isEmpty() {
+        return taskQueue.isEmpty();
+    }
+
+    public AbstractTask poll() {
+        return taskQueue.poll();
+    }
+
 }

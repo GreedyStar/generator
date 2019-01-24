@@ -1,11 +1,10 @@
 package com.greedystar.generator.task;
 
 import com.greedystar.generator.entity.ColumnInfo;
-import com.greedystar.generator.task.base.BaseTask;
+import com.greedystar.generator.task.base.AbstractTask;
 import com.greedystar.generator.utils.*;
 import freemarker.template.TemplateException;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.Map;
  * Author GreedyStar
  * Date   2018/4/20
  */
-public class MapperTask extends BaseTask {
+public class MapperTask extends AbstractTask {
 
     /**
      * 单表Mapper

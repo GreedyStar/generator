@@ -4,9 +4,9 @@ package com.greedystar.generator.invoker.base;
  * Author GreedyStar
  * Date   2018/9/5
  */
-public abstract class BaseBuilder {
+public abstract class AbstractBuilder {
 
-    public abstract BaseInvoker build();
+    public abstract Invoker build();
 
     public boolean isParamtersValid() {
         try {

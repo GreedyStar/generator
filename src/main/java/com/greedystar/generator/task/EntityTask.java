@@ -1,11 +1,10 @@
 package com.greedystar.generator.task;
 
 import com.greedystar.generator.entity.ColumnInfo;
-import com.greedystar.generator.task.base.BaseTask;
+import com.greedystar.generator.task.base.AbstractTask;
 import com.greedystar.generator.utils.*;
 import freemarker.template.TemplateException;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,7 +16,7 @@ import java.util.Map;
  * Author GreedyStar
  * Date   2018/4/20
  */
-public class EntityTask extends BaseTask {
+public class EntityTask extends AbstractTask {
 
     /**
      * 1.单表生成  2.多表时生成子表实体
