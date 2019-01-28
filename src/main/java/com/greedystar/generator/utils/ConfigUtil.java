@@ -13,30 +13,19 @@ import java.net.URL;
 public class ConfigUtil {
     private static Configuration configuration;
 
-    private static void initConfig() {
+    static {
         URL url = ConfigUtil.class.getClassLoader().getResource("generator.yaml");
-        InputStream inputStream = ConfigUtil.class.getClassLoader().getResourceAsStream("generator.yaml");
-        if (null == url) {
-            configuration = initWithDefaultParams();
+        if (url.getPath().contains("jar")) { // 用户未提供配置文件
+            System.err.println("Can not find file named 'generator.yaml' at resources path, please make sure that you have defined that file.");
+            System.exit(0);
         } else {
+            InputStream inputStream = ConfigUtil.class.getClassLoader().getResourceAsStream("generator.yaml");
             Yaml yaml = new Yaml();
             configuration = yaml.loadAs(inputStream, Configuration.class);
         }
     }
 
-    private static Configuration initWithDefaultParams() {
-        Configuration configuration = new Configuration();
-        configuration.setAuthor("unknown");
-        configuration.setPackageName("");
-        configuration.setPath(new Configuration.Path("controller", "service.impl", "service", "dao", "entity", "mappers"));
-        configuration.setDb(new Configuration.Db("", "", ""));
-        return configuration;
-    }
-
     public static Configuration getConfiguration() {
-        if (null == configuration) {
-            initConfig();
-        }
         return configuration;
     }
 
