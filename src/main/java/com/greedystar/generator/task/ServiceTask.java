@@ -26,7 +26,6 @@ public class ServiceTask extends AbstractTask {
     @Override
     public void run() throws IOException, TemplateException {
         // 生成Service填充数据
-        System.out.println("Generating " + className + "Service.java");
         Map<String, String> serviceData = new HashMap<>();
         serviceData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
         serviceData.put("ServicePackageName", ConfigUtil.getConfiguration().getPath().getService());
@@ -36,21 +35,20 @@ public class ServiceTask extends AbstractTask {
         serviceData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         serviceData.put("ClassName", className);
         serviceData.put("EntityName", StringUtil.firstToLowerCase(className));
+        String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getService());
+        String fileName;
         if (StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getInterf())) { // 表示不生成Service接口文件
             serviceData.put("Impl", "");
             serviceData.put("Override", "");
             serviceData.put("InterfaceImport", "");
+            fileName = className + "Service.java";
+            System.out.println("Generating " + className + "Service.java");
         } else {
             serviceData.put("Impl", "Impl implements " + className + "Service");
             serviceData.put("Override", "\n    @Override");
             serviceData.put("InterfaceImport", "import " + ConfigUtil.getConfiguration().getPackageName() + ConfigUtil.getConfiguration().getPath().getInterf() + "." + className + "Service;");
-        }
-        String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getService());
-        String fileName;
-        if (StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getInterf())) { // 表示不生成Service接口文件
-            fileName = className + "Service.java";
-        } else {
             fileName = className + "ServiceImpl.java";
+            System.out.println("Generating " + className + "ServiceImpl.java");
         }
         // 生成Service文件
         FileUtil.generateToJava(FreemarketConfigUtils.TYPE_SERVICE, serviceData, filePath + fileName);
