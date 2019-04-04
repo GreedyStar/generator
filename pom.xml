@@ -6,7 +6,7 @@
 
     <groupId>com.greedystar</groupId>
     <artifactId>generator</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
 
     <parent>
         <groupId>org.sonatype.oss</groupId>
