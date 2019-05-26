@@ -26,7 +26,10 @@ public class GeneratorUtil {
             if (i != 0) {
                 sb.append("    ");
             }
-            sb.append("private ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(";\n");
+            sb.append("/**").append("\n");
+            sb.append("    ").append(" * ").append(infos.get(i).getRemarks()).append("\n");
+            sb.append("    ").append(" */").append("\n");
+            sb.append("    ").append("private ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(";\n");
         }
         return sb.toString();
     }
@@ -82,7 +85,7 @@ public class GeneratorUtil {
                 sb.append("    ");
             }
             sb.append("public void set").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append(" (").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(") {this.").append(infos.get(i).getPropertyName()).append(" = ").append(infos.get(i).getPropertyName()).append(";} \n");
-            if (infos.get(i).getType() == Types.BIT || infos.get(i).getType() == Types.TINYINT) {
+            if ("BIT".equals(infos.get(i).getType()) || "TINYINT".equals(infos.get(i).getType())) {
                 sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");
             } else {
                 sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");
@@ -121,7 +124,7 @@ public class GeneratorUtil {
                     sb.append("    ");
                 }
                 sb.append("public void set").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append(" (").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(") {this.").append(infos.get(i).getPropertyName()).append(" = ").append(infos.get(i).getPropertyName()).append(";} \n");
-                if (infos.get(i).getType() == Types.BIT || infos.get(i).getType() == Types.TINYINT) {
+                if ("BIT".equals(infos.get(i).getType()) || "TINYINT".equals(infos.get(i).getType())) {
                     sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");
                 } else {
                     sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");

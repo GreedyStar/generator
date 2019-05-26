@@ -7,6 +7,7 @@ import com.greedystar.generator.utils.ConfigUtil;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Author GreedyStar
@@ -14,8 +15,9 @@ import java.util.List;
  */
 public class ConnectionUtil {
     private Connection connection;
-    private Statement statement;
-    private ResultSet resultSet;
+
+    public ConnectionUtil() {
+    }
 
     /**
      * 初始化数据库连接
@@ -28,7 +30,12 @@ public class ConnectionUtil {
             String url = ConfigUtil.getConfiguration().getDb().getUrl();
             String username = ConfigUtil.getConfiguration().getDb().getUsername();
             String password = ConfigUtil.getConfiguration().getDb().getPassword();
-            connection = DriverManager.getConnection(url, username, password);
+            Properties properties = new Properties();
+            properties.put("user", username);
+            properties.put("password", password == null ? "" : password);
+            properties.setProperty("remarks", "true");
+            properties.setProperty("useInformationSchema", "true");
+            connection = DriverManager.getConnection(url, properties);
             return true;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -45,27 +52,32 @@ public class ConnectionUtil {
      * @return 包含表结构数据的列表
      */
     public List<ColumnInfo> getMetaData(String tableName) throws SQLException {
-        ResultSet tempResultSet = connection.getMetaData().getPrimaryKeys(null, null, tableName);
+        // 获取主键
+        ResultSet keyResultSet = connection.getMetaData().getPrimaryKeys(null, null, tableName);
         String primaryKey = null;
-        if (tempResultSet.next()) {
-            primaryKey = tempResultSet.getObject(4).toString();
+        if (keyResultSet.next()) {
+            primaryKey = keyResultSet.getObject(4).toString();
         }
+        // 获取表注释
+        ResultSet tableResultSet = connection.getMetaData().getTables(null, connection.getSchema(), tableName.toUpperCase(), new String[]{"TABLE"});
+        String tableRemarks = null;
+        if (tableResultSet.next()) {
+            tableRemarks = tableResultSet.getString("REMARKS") == null ? "Unknown Table" : tableResultSet.getString("REMARKS");
+        }
+        // 获取列信息
         List<ColumnInfo> columnInfos = new ArrayList<>();
-        statement = connection.createStatement();
-        String sql = "SELECT * FROM " + tableName + " WHERE 1 != 1";
-        resultSet = statement.executeQuery(sql);
-        ResultSetMetaData metaData = resultSet.getMetaData();
-        for (int i = 1; i <= metaData.getColumnCount(); i++) {
-            ColumnInfo info;
-            if (metaData.getColumnName(i).equals(primaryKey)) {
-                info = new ColumnInfo(metaData.getColumnName(i), metaData.getColumnType(i), true);
+        ResultSet columnResultSet = connection.getMetaData().getColumns(null, connection.getSchema(), tableName.toUpperCase(), "%");
+        while (columnResultSet.next()) {
+            boolean isPrimaryKey;
+            if (columnResultSet.getString("COLUMN_NAME").equals(primaryKey)) {
+                isPrimaryKey = true;
             } else {
-                info = new ColumnInfo(metaData.getColumnName(i), metaData.getColumnType(i), false);
+                isPrimaryKey = false;
             }
+            ColumnInfo info = new ColumnInfo(columnResultSet.getString("COLUMN_NAME"), columnResultSet.getString("TYPE_NAME"), columnResultSet.getString("REMARKS"), tableRemarks, isPrimaryKey);
             columnInfos.add(info);
         }
-        statement.close();
-        resultSet.close();
+        columnResultSet.close();
         return columnInfos;
     }
 

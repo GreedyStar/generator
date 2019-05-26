@@ -20,7 +20,7 @@ public class FreemarketConfigUtils {
         if (null == configuration) {
             configuration = new Configuration(Configuration.VERSION_2_3_23);
             try {
-                if (path.contains("jar")){
+                if (path.contains("jar")) {
                     configuration.setClassForTemplateLoading(FreemarketConfigUtils.class, "/ftls");
                 } else {
                     configuration.setDirectoryForTemplateLoading(new File(path));

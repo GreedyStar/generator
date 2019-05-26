@@ -1,7 +1,5 @@
 package com.greedystar.generator.utils;
 
-import java.sql.Types;
-
 /**
  * Author GreedyStar
  * Date   2018/4/19
@@ -11,67 +9,68 @@ public class TypeUtil {
     /**
      * 将数据库数据类型转换为Java数据类型
      *
-     * @param sqlType
+     * @param typeName
      * @return
      */
-    public static String parseTypeFormSqlType(int sqlType) {
+    public static String parseTypeFormSqlType(String typeName) {
         StringBuilder sb = new StringBuilder();
-        switch (sqlType) {
-            case Types.BIT:
-            case Types.BOOLEAN:
+        switch (typeName) {
+            case "BIT":
+            case "BOOLEAN":
                 sb.append("boolean");
                 break;
-            case Types.TINYINT:
+            case "TINYINT":
                 sb.append("byte");
                 break;
-            case Types.SMALLINT:
+            case "SMALLINT":
                 sb.append("short");
                 break;
-            case Types.INTEGER:
+            case "INTEGER":
+            case "INT":
                 sb.append("int");
                 break;
-            case Types.BIGINT:
+            case "BIGINT":
                 sb.append("long");
                 break;
-            case Types.REAL:
+            case "REAL":
                 sb.append("float");
                 break;
-            case Types.FLOAT:
-            case Types.DOUBLE:
+            case "FLOAT":
+            case "DOUBLE":
                 sb.append("double");
                 break;
-            case Types.DECIMAL:
-            case Types.NUMERIC:
+            case "DECIMAL":
+            case "NUMERIC":
                 sb.append("BigDecimal");
                 break;
-            case Types.VARCHAR:
-            case Types.CHAR:
-            case Types.NCHAR:
-            case Types.NVARCHAR:
-            case Types.LONGVARCHAR:
-            case Types.LONGNVARCHAR:
+            case "VARCHAR":
+            case "CHAR":
+            case "NCHAR":
+            case "NVARCHAR":
+            case "LONGVARCHAR":
+            case "LONGNVARCHAR":
                 sb.append("String");
                 break;
-            case Types.DATE:
+            case "DATE":
                 sb.append("Date");
                 break;
-            case Types.TIME:
+            case "TIME":
                 sb.append("Time");
                 break;
-            case Types.TIMESTAMP:
+            case "TIMESTAMP":
                 sb.append("Timestamp");
                 break;
-            case Types.NCLOB:
-            case Types.CLOB:
-            case Types.BLOB:
-            case Types.BINARY:
-            case Types.VARBINARY:
-            case Types.LONGVARBINARY:
+            case "NCLOB":
+            case "CLOB":
+            case "BLOB":
+            case "BINARY":
+            case "VARBINARY":
+            case "LONGVARBINARY":
                 sb.append("byte[]");
                 break;
-            case Types.NULL:
-            case Types.OTHER:
-            case Types.JAVA_OBJECT:
+            case "NULL":
+            case "OTHER":
+            case "JAVA_OBJECT":
                 sb.append("Object");
                 break;
             default:

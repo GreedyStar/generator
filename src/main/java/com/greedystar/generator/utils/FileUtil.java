@@ -19,6 +19,13 @@ public class FileUtil {
      * @throws TemplateException
      */
     public static void generateToJava(int type, Object data, String filePath) throws IOException, TemplateException {
+        // 代码生成路径目录不存在则自动创建
+        String dirPath = filePath.substring(0, filePath.lastIndexOf(File.separator));
+        File dir = new File(dirPath);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+        // 已存在的文件不予覆盖
         File file = new File(filePath);
         if (file.exists()) {
             System.err.println("ERROR: " + file.getPath().substring(file.getPath().lastIndexOf("\\") + 1, file.getPath().length()) + " 已存在，请手动修改");

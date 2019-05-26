@@ -49,6 +49,7 @@ public class EntityTask extends AbstractTask {
         entityData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         entityData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         entityData.put("ClassName", className);
+        entityData.put("Remarks", tableInfos.get(0).getTableRemarks());
         if (!StringUtil.isBlank(parentForeignKey)) { // 多对多：主表实体
             entityData.put("Properties", GeneratorUtil.generateEntityProperties(parentClassName, tableInfos));
             entityData.put("Methods", GeneratorUtil.generateEntityMethods(parentClassName, tableInfos));
