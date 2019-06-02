@@ -3,7 +3,7 @@ package com.greedystar.generator.task;
 import com.greedystar.generator.task.base.AbstractTask;
 import com.greedystar.generator.utils.ConfigUtil;
 import com.greedystar.generator.utils.FileUtil;
-import com.greedystar.generator.utils.FreemarketConfigUtils;
+import com.greedystar.generator.utils.FreemarketConfigUtil;
 import com.greedystar.generator.utils.StringUtil;
 import freemarker.template.TemplateException;
 
@@ -51,6 +51,6 @@ public class ServiceTask extends AbstractTask {
             System.out.println("Generating " + className + "ServiceImpl.java");
         }
         // 生成Service文件
-        FileUtil.generateToJava(FreemarketConfigUtils.TYPE_SERVICE, serviceData, filePath + fileName);
+        FileUtil.generateToJava(FreemarketConfigUtil.TYPE_SERVICE, serviceData, filePath + fileName);
     }
 }

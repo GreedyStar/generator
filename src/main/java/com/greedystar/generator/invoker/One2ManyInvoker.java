@@ -16,7 +16,7 @@ import java.sql.SQLException;
 public class One2ManyInvoker extends AbstractInvoker {
 
     @Override
-    protected void getTableInfos() throws SQLException {
+    protected void getTableInfos() throws Exception {
         tableInfos = connectionUtil.getMetaData(tableName);
         parentTableInfos = connectionUtil.getMetaData(parentTableName);
     }

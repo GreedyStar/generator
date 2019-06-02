@@ -3,7 +3,7 @@ package com.greedystar.generator.task;
 import com.greedystar.generator.task.base.AbstractTask;
 import com.greedystar.generator.utils.ConfigUtil;
 import com.greedystar.generator.utils.FileUtil;
-import com.greedystar.generator.utils.FreemarketConfigUtils;
+import com.greedystar.generator.utils.FreemarketConfigUtil;
 import com.greedystar.generator.utils.StringUtil;
 import freemarker.template.TemplateException;
 
@@ -43,6 +43,6 @@ public class ControllerTask extends AbstractTask {
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getController());
         String fileName = className + "Controller.java";
         // 生成Controller文件
-        FileUtil.generateToJava(FreemarketConfigUtils.TYPE_CONTROLLER, controllerData, filePath + fileName);
+        FileUtil.generateToJava(FreemarketConfigUtil.TYPE_CONTROLLER, controllerData, filePath + fileName);
     }
 }

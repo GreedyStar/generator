@@ -1,18 +1,18 @@
-package com.greedystar.generator.utils;
+package com.greedystar.generator.utils.convertor;
 
 /**
  * Author GreedyStar
- * Date   2018/4/19
+ * Date   2019/6/2
  */
-public class TypeUtil {
+public class DefaultConvertor implements TypeConvertor {
 
     /**
-     * 将数据库数据类型转换为Java数据类型
+     * 将JDBC类型转换为Java类型
      *
-     * @param typeName
-     * @return
+     * @param typeName JDBC类型名
      */
-    public static String parseTypeFormSqlType(String typeName) {
+    @Override
+    public String convertType(String typeName) {
         StringBuilder sb = new StringBuilder();
         switch (typeName) {
             case "BIT":
@@ -41,12 +41,16 @@ public class TypeUtil {
                 break;
             case "DECIMAL":
             case "NUMERIC":
+            case "NUMBER":
                 sb.append("BigDecimal");
                 break;
             case "VARCHAR":
+            case "VARCHAR2":
             case "CHAR":
             case "NCHAR":
             case "NVARCHAR":
+            case "NVARCHAR2":
+            case "LONG":
             case "LONGVARCHAR":
             case "LONGNVARCHAR":
                 sb.append("String");
@@ -79,5 +83,4 @@ public class TypeUtil {
         }
         return sb.toString();
     }
-
 }

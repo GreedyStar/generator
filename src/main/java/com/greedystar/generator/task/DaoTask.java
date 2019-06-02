@@ -3,7 +3,7 @@ package com.greedystar.generator.task;
 import com.greedystar.generator.task.base.AbstractTask;
 import com.greedystar.generator.utils.ConfigUtil;
 import com.greedystar.generator.utils.FileUtil;
-import com.greedystar.generator.utils.FreemarketConfigUtils;
+import com.greedystar.generator.utils.FreemarketConfigUtil;
 import com.greedystar.generator.utils.StringUtil;
 import freemarker.template.TemplateException;
 
@@ -38,6 +38,6 @@ public class DaoTask extends AbstractTask {
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getDao());
         String fileName = className + "Dao.java";
         // 生成dao文件
-        FileUtil.generateToJava(FreemarketConfigUtils.TYPE_DAO, daoData, filePath + fileName);
+        FileUtil.generateToJava(FreemarketConfigUtil.TYPE_DAO, daoData, filePath + fileName);
     }
 }

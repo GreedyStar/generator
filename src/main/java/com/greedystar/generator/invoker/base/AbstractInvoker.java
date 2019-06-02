@@ -39,7 +39,7 @@ public abstract class AbstractInvoker implements Invoker {
         connectionUtil.close();
     }
 
-    protected abstract void getTableInfos() throws SQLException;
+    protected abstract void getTableInfos() throws Exception;
 
     protected abstract void initTasks();
 

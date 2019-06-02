@@ -84,7 +84,7 @@ public class MapperTask extends AbstractTask {
         String filePath = FileUtil.getResourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getMapper());
         String fileName = className + "Mapper.xml";
         // 生成Mapper文件
-        FileUtil.generateToJava(FreemarketConfigUtils.TYPE_MAPPER, mapperData, filePath + fileName);
+        FileUtil.generateToJava(FreemarketConfigUtil.TYPE_MAPPER, mapperData, filePath + fileName);
     }
 
     private ColumnInfo getPrimaryKeyColumnInfo(List<ColumnInfo> list) {

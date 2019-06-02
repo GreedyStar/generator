@@ -3,7 +3,7 @@ package com.greedystar.generator.task;
 import com.greedystar.generator.task.base.AbstractTask;
 import com.greedystar.generator.utils.ConfigUtil;
 import com.greedystar.generator.utils.FileUtil;
-import com.greedystar.generator.utils.FreemarketConfigUtils;
+import com.greedystar.generator.utils.FreemarketConfigUtil;
 import com.greedystar.generator.utils.StringUtil;
 import freemarker.template.TemplateException;
 
@@ -38,6 +38,6 @@ public class InterfaceTask extends AbstractTask {
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getInterf());
         String fileName = className + "Service.java";
         // 生成Service接口文件
-        FileUtil.generateToJava(FreemarketConfigUtils.TYPE_INTERFACE, interfaceData, filePath + fileName);
+        FileUtil.generateToJava(FreemarketConfigUtil.TYPE_INTERFACE, interfaceData, filePath + fileName);
     }
 }
