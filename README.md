@@ -14,7 +14,7 @@ Generator 是一款基于数据库表生成相应Java代码的工具，代码模
 * v1.1.0 支持连接远程MySql、Oracle、SqlServer数据库(可配置)
 * v1.2.0 添加列名到属性名的映射规则；代码生成任务多线程；可配置生成策略等
 * v1.2.1 Service层添加接口和实现类的支持
-* v1.2.2 添加实体类的类、字段注释，自动创建代码生成目录
+* v1.2.2 添加实体类的类、字段注释，自动创建代码生成目录，可自定义类型转换器
 
 详细 Release note ：[GreedyStar/generator/Releases](https://github.com/GreedyStar/generator/releases)
 
