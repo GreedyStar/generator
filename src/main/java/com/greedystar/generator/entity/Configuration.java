@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class Configuration implements Serializable {
     private String author;
     private String packageName;
+    private String convertor;
     private Path path;
     private Db db;
 
@@ -26,6 +27,14 @@ public class Configuration implements Serializable {
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    public String getConvertor() {
+        return convertor;
+    }
+
+    public void setConvertor(String convertor) {
+        this.convertor = convertor;
     }
 
     public Path getPath() {

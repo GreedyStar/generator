@@ -10,6 +10,7 @@ public interface TypeConvertor {
      * 将JDBC类型转换为Java类型
      *
      * @param typeName JDBC类型名
+     * @return Java类型名
      */
     String convertType(String typeName);
 
