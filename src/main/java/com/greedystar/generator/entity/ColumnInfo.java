@@ -3,6 +3,7 @@ package com.greedystar.generator.entity;
 import com.greedystar.generator.utils.StringUtil;
 
 import java.io.Serializable;
+import java.sql.JDBCType;
 
 /**
  * Author GreedyStar
@@ -10,7 +11,7 @@ import java.io.Serializable;
  */
 public class ColumnInfo implements Serializable {
     private String columnName; // 列名
-    private String type; // 类型代码
+    private JDBCType type; // 类型代码
     private String remarks; // 列备注
     private String tableRemarks; // 表注释
     private String propertyName; // 属性名
@@ -20,9 +21,9 @@ public class ColumnInfo implements Serializable {
 
     }
 
-    public ColumnInfo(String columnName, String type, String remarks, String tableRemarks, boolean isPrimaryKey) {
+    public ColumnInfo(String columnName, int type, String remarks, String tableRemarks, boolean isPrimaryKey) {
         this.columnName = columnName;
-        this.type = type;
+        this.type = JDBCType.valueOf(type);
         this.remarks = remarks;
         this.tableRemarks = tableRemarks;
         this.propertyName = StringUtil.columnName2PropertyName(columnName);
@@ -37,11 +38,11 @@ public class ColumnInfo implements Serializable {
         this.columnName = columnName;
     }
 
-    public String getType() {
+    public JDBCType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(JDBCType type) {
         this.type = type;
     }
 

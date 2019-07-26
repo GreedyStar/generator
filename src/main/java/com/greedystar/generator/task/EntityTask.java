@@ -42,7 +42,6 @@ public class EntityTask extends AbstractTask {
     @Override
     public void run() throws IOException, TemplateException {
         // 生成Entity填充数据
-        System.out.println("Generating " + className + ".java");
         Map<String, String> entityData = new HashMap<>();
         entityData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
         entityData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());

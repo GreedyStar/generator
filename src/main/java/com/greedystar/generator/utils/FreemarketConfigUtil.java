@@ -16,19 +16,23 @@ public class FreemarketConfigUtil {
     public final static int TYPE_INTERFACE = 5;
     private static Configuration configuration;
 
-    public static synchronized Configuration getInstance() {
+    public static Configuration getInstance() {
         if (null == configuration) {
-            configuration = new Configuration(Configuration.VERSION_2_3_23);
-            try {
-                if (path.contains("jar")) {
-                    configuration.setClassForTemplateLoading(FreemarketConfigUtil.class, "/ftls");
-                } else {
-                    configuration.setDirectoryForTemplateLoading(new File(path));
+            synchronized (FreemarketConfigUtil.class) {
+                if (null == configuration) {
+                    configuration = new Configuration(Configuration.VERSION_2_3_23);
+                    try {
+                        if (path.contains("jar")) {
+                            configuration.setClassForTemplateLoading(FreemarketConfigUtil.class, "/ftls");
+                        } else {
+                            configuration.setDirectoryForTemplateLoading(new File(path));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    configuration.setEncoding(Locale.CHINA, "utf-8");
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-            configuration.setEncoding(Locale.CHINA, "utf-8");
         }
         return configuration;
     }

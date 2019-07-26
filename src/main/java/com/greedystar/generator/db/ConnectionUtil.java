@@ -60,11 +60,17 @@ public class ConnectionUtil {
         if (keyResultSet.next()) {
             primaryKey = keyResultSet.getObject(4).toString();
         }
+        keyResultSet.close();
         // 获取表注释
-        ResultSet tableResultSet = connection.getMetaData().getTables(null, getSchema(connection), tableName.toUpperCase(), new String[]{"TABLE"});
         String tableRemarks = null;
-        if (tableResultSet.next()) {
-            tableRemarks = tableResultSet.getString("REMARKS") == null ? "Unknown Table" : tableResultSet.getString("REMARKS");
+        if (connection.getMetaData().getURL().contains("sqlserver")) { // SQLServer
+            tableRemarks = parseSqlServerTableRemarks(tableName);
+        } else { // Oracle & MySQL
+            ResultSet tableResultSet = connection.getMetaData().getTables(null, getSchema(connection), tableName.toUpperCase(), new String[]{"TABLE"});
+            if (tableResultSet.next()) {
+                tableRemarks = tableResultSet.getString("REMARKS") == null ? "Unknown Table" : tableResultSet.getString("REMARKS");
+            }
+            tableResultSet.close();
         }
         // 获取列信息
         List<ColumnInfo> columnInfos = new ArrayList<>();
@@ -76,16 +82,17 @@ public class ConnectionUtil {
             } else {
                 isPrimaryKey = false;
             }
-            ColumnInfo info = new ColumnInfo(columnResultSet.getString("COLUMN_NAME"), columnResultSet.getString("TYPE_NAME").toUpperCase(), columnResultSet.getString("REMARKS"), tableRemarks, isPrimaryKey);
+            ColumnInfo info = new ColumnInfo(columnResultSet.getString("COLUMN_NAME"), columnResultSet.getInt("DATA_TYPE"), columnResultSet.getString("REMARKS"), tableRemarks, isPrimaryKey);
             columnInfos.add(info);
         }
         columnResultSet.close();
         if (columnInfos.size() == 0) {
             throw new Exception("Can not find column information from table:" + tableName);
         }
-        if (connection.getMetaData().getURL().contains("sqlserver")) { // SQLServer需要单独处理REMARKS
+        if (connection.getMetaData().getURL().contains("sqlserver")) { // SQLServer需要单独处理列REMARKS
             parseSqlServerColumnRemarks(tableName, columnInfos);
         }
+        connection.close();
         return columnInfos;
     }
 
@@ -105,6 +112,7 @@ public class ConnectionUtil {
         while (resultSet.next()) {
             tableRemarks = resultSet.getString("REMARKS");
         }
+        resultSet.close();
         preparedStatement.close();
         return tableRemarks;
     }
@@ -117,7 +125,6 @@ public class ConnectionUtil {
      * @throws SQLException
      */
     private void parseSqlServerColumnRemarks(String tableName, List<ColumnInfo> columnInfos) throws SQLException {
-        String tableRemarks = parseSqlServerTableRemarks(tableName);
         HashMap<String, String> map = new HashMap<>();
         String sql = "SELECT c.name AS COLUMN_NAME, CAST(ISNULL(p.value, '') AS nvarchar(25)) AS REMARKS FROM sys.tables t INNER JOIN sys.columns c ON c.object_id = t.object_id LEFT JOIN sys.extended_properties p ON p.major_id = c.object_id AND p.minor_id = c.column_id WHERE t.name = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -128,19 +135,9 @@ public class ConnectionUtil {
         }
         for (ColumnInfo columnInfo : columnInfos) {
             columnInfo.setRemarks(map.get(columnInfo.getColumnName()));
-            columnInfo.setTableRemarks(tableRemarks);
         }
+        resultSet.close();
         preparedStatement.close();
-    }
-
-    public void close() {
-        try {
-            if (!connection.isClosed()) {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public String getSchema(Connection connection) throws SQLException {
