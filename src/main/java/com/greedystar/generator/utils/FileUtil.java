@@ -18,14 +18,18 @@ public class FileUtil {
      * @throws IOException
      * @throws TemplateException
      */
-    public static void generateToJava(int type, Object data, String filePath) throws IOException, TemplateException {
+    public static void generateToJava(int type, Object data, String filePath, String fileName) throws IOException, TemplateException {
+        String path = filePath + fileName; // 待生成的代码文件路径
         // 已存在的文件不予覆盖
-        File file = new File(filePath);
+        File file = new File(path);
         if (file.exists()) {
-            filePath += ".generated";
+            path += ".generated";
+            System.err.printf("%s already exit. Generating %s \n", fileName, path);
+        } else {
+            System.out.printf("Generating %s \n", path);
         }
         // 代码生成路径目录不存在则自动创建
-        String dirPath = filePath.substring(0, filePath.lastIndexOf(File.separator));
+        String dirPath = path.substring(0, path.lastIndexOf(File.separator));
         File dir = new File(dirPath);
         if (!dir.exists()) {
             dir.mkdir();
@@ -35,9 +39,8 @@ public class FileUtil {
         StringWriter writer = new StringWriter();
         tpl.process(data, writer);
         writer.flush();
-        System.out.println("Generating " + filePath);
         // 写入文件
-        FileOutputStream fos = new FileOutputStream(filePath);
+        FileOutputStream fos = new FileOutputStream(path);
         OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
         BufferedWriter bw = new BufferedWriter(osw, 1024);
         tpl.process(data, bw);

@@ -49,6 +49,6 @@ public class ServiceTask extends AbstractTask {
             fileName = className + "ServiceImpl.java";
         }
         // 生成Service文件
-        FileUtil.generateToJava(FreemarketConfigUtil.TYPE_SERVICE, serviceData, filePath + fileName);
+        FileUtil.generateToJava(FreemarketConfigUtil.TYPE_SERVICE, serviceData, filePath, fileName);
     }
 }

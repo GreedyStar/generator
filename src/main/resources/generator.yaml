@@ -4,6 +4,7 @@ db:
   password:
 author: unknown
 packageName:
+convertor:
 path:
   controller: controller
   service: service.impl

@@ -42,6 +42,6 @@ public class ControllerTask extends AbstractTask {
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getController());
         String fileName = className + "Controller.java";
         // 生成Controller文件
-        FileUtil.generateToJava(FreemarketConfigUtil.TYPE_CONTROLLER, controllerData, filePath + fileName);
+        FileUtil.generateToJava(FreemarketConfigUtil.TYPE_CONTROLLER, controllerData, filePath, fileName);
     }
 }

@@ -37,6 +37,6 @@ public class DaoTask extends AbstractTask {
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getDao());
         String fileName = className + "Dao.java";
         // 生成dao文件
-        FileUtil.generateToJava(FreemarketConfigUtil.TYPE_DAO, daoData, filePath + fileName);
+        FileUtil.generateToJava(FreemarketConfigUtil.TYPE_DAO, daoData, filePath, fileName);
     }
 }
