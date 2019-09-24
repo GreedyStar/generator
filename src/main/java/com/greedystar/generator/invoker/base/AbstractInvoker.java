@@ -18,19 +18,60 @@ import java.util.concurrent.Executors;
  * Date   2018/9/5
  */
 public abstract class AbstractInvoker implements Invoker {
+    /**
+     * 主表名
+     */
     protected String tableName;
+    /**
+     * 主类名
+     */
     protected String className;
+    /**
+     * 父表名
+     */
     protected String parentTableName;
+    /**
+     * 父类名
+     */
     protected String parentClassName;
+    /**
+     * 外键列名
+     */
     protected String foreignKey;
+    /**
+     * 关系表名
+     */
     protected String relationalTableName;
+    /**
+     * 父表外键列名
+     */
     protected String parentForeignKey;
+    /**
+     * 主表元数据
+     */
     protected List<ColumnInfo> tableInfos;
+    /**
+     * 父表元数据
+     */
     protected List<ColumnInfo> parentTableInfos;
+    /**
+     * 数据库连接工具
+     */
     protected ConnectionUtil connectionUtil = new ConnectionUtil();
+    /**
+     * 任务队列
+     */
     protected TaskQueue taskQueue = new TaskQueue();
+    /**
+     * 线程池
+     */
     private ExecutorService executorPool = Executors.newFixedThreadPool(6);
 
+    /**
+     * 初始化数据源
+     *
+     * @throws Exception
+     */
     private void initDataSource() throws Exception {
         if (!this.connectionUtil.initConnection()) {
             throw new Exception("Failed to connect to database at url:" + ConfigUtil.getConfiguration().getDb().getUrl());
@@ -38,10 +79,21 @@ public abstract class AbstractInvoker implements Invoker {
         getTableInfos();
     }
 
+    /**
+     * 获取表元数据，模板方法，由子类实现
+     *
+     * @throws Exception
+     */
     protected abstract void getTableInfos() throws Exception;
 
+    /**
+     * 初始化代码生成任务，模板方法，由子类实现
+     */
     protected abstract void initTasks();
 
+    /**
+     * 开始生成代码
+     */
     @Override
     public void execute() {
         try {

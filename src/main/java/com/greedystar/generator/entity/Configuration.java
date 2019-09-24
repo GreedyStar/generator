@@ -7,10 +7,25 @@ import java.io.Serializable;
  * Date   2018/9/7
  */
 public class Configuration implements Serializable {
+    /**
+     * 代码作者
+     */
     private String author;
+    /**
+     * 顶级包名
+     */
     private String packageName;
+    /**
+     * 类型转换器全限定类名
+     */
     private String convertor;
+    /**
+     * 代码生成路径
+     */
     private Path path;
+    /**
+     * 数据库配置
+     */
     private Db db;
 
     public String getAuthor() {
@@ -54,8 +69,17 @@ public class Configuration implements Serializable {
     }
 
     public static class Db {
+        /**
+         * 数据库URL
+         */
         private String url;
+        /**
+         * 数据库用户名
+         */
         private String username;
+        /**
+         * 数据库密码
+         */
         private String password;
 
         public Db() {
@@ -93,17 +117,35 @@ public class Configuration implements Serializable {
     }
 
     public static class Path {
+        /**
+         * Controller代码包路径
+         */
         private String controller;
+        /**
+         * Service或ServiceImpl代码包路径
+         */
         private String service;
+        /**
+         * Service接口代码包路径
+         */
         private String interf;
+        /**
+         * Dao代码包路径
+         */
         private String dao;
+        /**
+         * Entity代码包路径
+         */
         private String entity;
+        /**
+         * Mapper映射文件路径
+         */
         private String mapper;
 
         public Path() {
         }
 
-        public Path(String controller, String service, String interf,String dao, String entity, String mapper) {
+        public Path(String controller, String service, String interf, String dao, String entity, String mapper) {
             this.controller = controller;
             this.service = service;
             this.interf = interf;

@@ -10,16 +10,30 @@ import java.sql.JDBCType;
  * Date   2018/4/19
  */
 public class ColumnInfo implements Serializable {
-    private String columnName; // 列名
-    private JDBCType type; // 类型代码
-    private String remarks; // 列备注
-    private String tableRemarks; // 表注释
-    private String propertyName; // 属性名
-    private boolean isPrimaryKey; // 是否主键
-
-    public ColumnInfo() {
-
-    }
+    /**
+     * 列名
+     */
+    private String columnName;
+    /**
+     * 类型代码
+     */
+    private JDBCType type;
+    /**
+     * 列备注
+     */
+    private String remarks;
+    /**
+     * 表备注
+     */
+    private String tableRemarks;
+    /**
+     * 属性名
+     */
+    private String propertyName;
+    /**
+     * 是否主键
+     */
+    private boolean isPrimaryKey;
 
     public ColumnInfo(String columnName, int type, String remarks, String tableRemarks, boolean isPrimaryKey) {
         this.columnName = columnName;

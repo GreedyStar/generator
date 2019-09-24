@@ -19,6 +19,7 @@ public class One2ManyInvoker extends AbstractInvoker {
     protected void getTableInfos() throws Exception {
         tableInfos = connectionUtil.getMetaData(tableName);
         parentTableInfos = connectionUtil.getMetaData(parentTableName);
+        connectionUtil.closeConnection();
     }
 
     @Override

@@ -4,6 +4,7 @@ package com.greedystar.generator.db;
 import com.greedystar.generator.entity.ColumnInfo;
 import com.greedystar.generator.entity.Configuration;
 import com.greedystar.generator.utils.ConfigUtil;
+import com.greedystar.generator.utils.StringUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class ConnectionUtil {
         } else { // Oracle & MySQL
             ResultSet tableResultSet = connection.getMetaData().getTables(null, getSchema(connection), tableName.toUpperCase(), new String[]{"TABLE"});
             if (tableResultSet.next()) {
-                tableRemarks = tableResultSet.getString("REMARKS") == null ? "Unknown Table" : tableResultSet.getString("REMARKS");
+                tableRemarks = StringUtil.isBlank(tableResultSet.getString("REMARKS")) ? "Unknown Table" : tableResultSet.getString("REMARKS");
             }
             tableResultSet.close();
         }
@@ -82,7 +83,8 @@ public class ConnectionUtil {
             } else {
                 isPrimaryKey = false;
             }
-            ColumnInfo info = new ColumnInfo(columnResultSet.getString("COLUMN_NAME"), columnResultSet.getInt("DATA_TYPE"), columnResultSet.getString("REMARKS"), tableRemarks, isPrimaryKey);
+            ColumnInfo info = new ColumnInfo(columnResultSet.getString("COLUMN_NAME"), columnResultSet.getInt("DATA_TYPE"),
+                    StringUtil.isBlank(columnResultSet.getString("REMARKS")) ? "Unknown" : columnResultSet.getString("REMARKS"), tableRemarks, isPrimaryKey);
             columnInfos.add(info);
         }
         columnResultSet.close();
@@ -92,7 +94,6 @@ public class ConnectionUtil {
         if (connection.getMetaData().getURL().contains("sqlserver")) { // SQLServer需要单独处理列REMARKS
             parseSqlServerColumnRemarks(tableName, columnInfos);
         }
-        connection.close();
         return columnInfos;
     }
 
@@ -110,7 +111,7 @@ public class ConnectionUtil {
         preparedStatement.setString(1, tableName);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
-            tableRemarks = resultSet.getString("REMARKS");
+            tableRemarks = StringUtil.isBlank(resultSet.getString("REMARKS")) ? "Unknown Table" : resultSet.getString("REMARKS");
         }
         resultSet.close();
         preparedStatement.close();
@@ -131,7 +132,7 @@ public class ConnectionUtil {
         preparedStatement.setString(1, tableName);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
-            map.put(resultSet.getString("COLUMN_NAME"), resultSet.getString("REMARKS"));
+            map.put(resultSet.getString("COLUMN_NAME"), StringUtil.isBlank(resultSet.getString("REMARKS")) ? "Unknown" : resultSet.getString("REMARKS"));
         }
         for (ColumnInfo columnInfo : columnInfos) {
             columnInfo.setRemarks(map.get(columnInfo.getColumnName()));
@@ -148,6 +149,16 @@ public class ConnectionUtil {
             schema = connection.getMetaData().getUserName();
         }
         return schema;
+    }
+
+    public void closeConnection() {
+        try {
+            if (!connection.isClosed()) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
