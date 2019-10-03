@@ -18,7 +18,6 @@ public class SingleInvoker extends AbstractInvoker {
     @Override
     protected void getTableInfos() throws Exception {
         tableInfos = connectionUtil.getMetaData(tableName);
-        connectionUtil.closeConnection();
     }
 
     @Override

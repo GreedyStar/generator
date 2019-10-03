@@ -77,6 +77,7 @@ public abstract class AbstractInvoker implements Invoker {
             throw new Exception("Failed to connect to database at url:" + ConfigUtil.getConfiguration().getDb().getUrl());
         }
         getTableInfos();
+        connectionUtil.closeConnection();
     }
 
     /**
