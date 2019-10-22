@@ -29,10 +29,8 @@ public class FileUtil {
             System.out.printf("Generating %s \n", path);
         }
         // 代码生成路径目录不存在则自动创建
-        String dirPath = path.substring(0, path.lastIndexOf(File.separator));
-        File dir = new File(dirPath);
-        if (!dir.exists()) {
-            dir.mkdir();
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
         }
         Template tpl = getTemplate(type); // 获取模板文件
         // 填充数据
