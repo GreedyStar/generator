@@ -2,6 +2,7 @@ package ${BasePackageName}${DaoPackageName};
 
 import ${BasePackageName}${EntityPackageName}.${ClassName};
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
  * Date  ${Date}
  */
 @Mapper
+@Component
 public interface ${ClassName}Dao {
 
     public ${ClassName} get(String id);
