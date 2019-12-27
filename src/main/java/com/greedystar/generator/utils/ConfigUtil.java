@@ -19,9 +19,15 @@ public class ConfigUtil {
             System.err.println("Can not find file named 'generator.yaml' at resources path, please make sure that you have defined that file.");
             System.exit(0);
         } else {
-            InputStream inputStream = ConfigUtil.class.getClassLoader().getResourceAsStream("generator.yaml");
-            Yaml yaml = new Yaml();
-            configuration = yaml.loadAs(inputStream, Configuration.class);
+            try {
+                InputStream inputStream = ConfigUtil.class.getClassLoader().getResourceAsStream("generator.yaml");
+                Yaml yaml = new Yaml();
+                configuration = yaml.loadAs(inputStream, Configuration.class);
+            } catch (Exception e) {
+                System.err.println("Syntax error in 'generator.yaml', please check it out.");
+                e.printStackTrace();
+                System.exit(0);
+            }
         }
     }
 
