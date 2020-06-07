@@ -194,7 +194,7 @@ public class GeneratorUtil {
     }
 
     /**
-     * 对应模板文件${ResultMap}字段 用于 single、one2many、many2many
+     * 对应模板文件${ResultMap}字段 用于 single、many2many
      *
      * @param infos
      * @return
@@ -205,6 +205,24 @@ public class GeneratorUtil {
             if (info.isPrimaryKey()) {
                 sb.append("<id column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             } else {
+                sb.append(SPACE_8).append("<result column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 对应模板文件${ResultMap}字段 用于 one2many
+     *
+     * @param infos
+     * @return
+     */
+    public static String generateMapperResultMap(List<ColumnInfo> infos, String foreignKey) {
+        StringBuilder sb = new StringBuilder();
+        for (ColumnInfo info : infos) {
+            if (info.isPrimaryKey()) {
+                sb.append("<id column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
+            } else if (!info.getColumnName().equals(foreignKey)) {
                 sb.append(SPACE_8).append("<result column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             }
         }
