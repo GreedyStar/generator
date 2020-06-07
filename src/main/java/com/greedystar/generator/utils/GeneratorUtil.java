@@ -222,7 +222,7 @@ public class GeneratorUtil {
         for (ColumnInfo info : infos) {
             if (info.isPrimaryKey()) {
                 sb.append("<id column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
-            } else if (!info.getColumnName().equals(foreignKey)) {
+            } else if (!info.getColumnName().equals(foreignKey)) { // 外键会映射为<association></association>
                 sb.append(SPACE_8).append("<result column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             }
         }
