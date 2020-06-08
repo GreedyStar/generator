@@ -95,12 +95,14 @@ public class GeneratorUtil {
             if (i != 0) {
                 sb.append(SPACE_4);
             }
-            sb.append("public void set").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append(" (").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(") {this.").append(infos.get(i).getPropertyName()).append(" = ").append(infos.get(i).getPropertyName()).append(";} \n");
-            if ("BIT".equals(infos.get(i).getType()) || "TINYINT".equals(infos.get(i).getType())) {
-                sb.append(SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");
+            sb.append("public void set").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append(" (").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(") {this.").append(infos.get(i).getPropertyName()).append(" = ").append(infos.get(i).getPropertyName()).append(";}");
+            sb.append("\n\n");
+            if (ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType()).equals("boolean") || ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType()).equals("Boolean")) {
+                sb.append(SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";}");
             } else {
-                sb.append(SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");
+                sb.append(SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";}");
             }
+            sb.append("\n\n");
         }
         return sb.toString();
     }
@@ -115,7 +117,9 @@ public class GeneratorUtil {
     public static String generateEntityMethods(String parentClassName, List<ColumnInfo> infos) {
         StringBuilder sb = new StringBuilder(generateEntityMethods(infos));
         sb.append(SPACE_4).append("public void set" + parentClassName + "s (List<" + parentClassName + "> " + StringUtil.firstToLowerCase(parentClassName) + "s) { \n this." + StringUtil.firstToLowerCase(parentClassName) + "s = " + StringUtil.firstToLowerCase(parentClassName) + "s;\n} \n");
-        sb.append(SPACE_4).append("public List<" + parentClassName + "> get" + parentClassName + "s(){ return this." + StringUtil.firstToLowerCase(parentClassName) + "s;} \n");
+        sb.append("\n\n");
+        sb.append(SPACE_4).append("public List<" + parentClassName + "> get" + parentClassName + "s(){ return this." + StringUtil.firstToLowerCase(parentClassName) + "s;}");
+        sb.append("\n\n");
         return sb.toString();
     }
 
@@ -135,11 +139,13 @@ public class GeneratorUtil {
                     sb.append(SPACE_4);
                 }
                 sb.append("public void set").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append(" (").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(") {this.").append(infos.get(i).getPropertyName()).append(" = ").append(infos.get(i).getPropertyName()).append(";} \n");
-                if ("BIT".equals(infos.get(i).getType()) || "TINYINT".equals(infos.get(i).getType())) {
-                    sb.append(SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");
+                sb.append("\n\n");
+                if (ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType()).equals("boolean") || ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType()).equals("boolean")) {
+                    sb.append(SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";}");
                 } else {
-                    sb.append(SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");
+                    sb.append(SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";}");
                 }
+                sb.append("\n\n");
             }
         }
         // 外键为存取父表实体引用

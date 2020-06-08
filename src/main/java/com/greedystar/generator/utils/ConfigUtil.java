@@ -23,6 +23,12 @@ public class ConfigUtil {
                 InputStream inputStream = ConfigUtil.class.getClassLoader().getResourceAsStream("generator.yaml");
                 Yaml yaml = new Yaml();
                 configuration = yaml.loadAs(inputStream, Configuration.class);
+                if (null == configuration.getDb() || null == configuration.getPath()) {
+                    throw new Exception("Can not find attributes named 'db' and 'path' in generator.yml, please make sure that you have configured those attributes.");
+                }
+                if (StringUtil.isBlank(configuration.getDb().getUrl()) || StringUtil.isBlank(configuration.getDb().getUsername())) {
+                    throw new Exception("Please configure the correct db connection parameters in generator.yml, i.e. url, username and password.");
+                }
             } catch (Exception e) {
                 System.err.println("Syntax error in 'generator.yaml', please check it out.");
                 e.printStackTrace();
