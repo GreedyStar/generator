@@ -32,10 +32,11 @@ public class DaoTask extends AbstractTask {
         daoData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
         daoData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         daoData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        daoData.put("ClassName", className);
-        daoData.put("EntityName", StringUtil.firstToLowerCase(className));
+        daoData.put("ClassName", className + ConfigUtil.getConfiguration().getSuffix().getEntity());
+        daoData.put("EntityName", StringUtil.firstToLowerCase(className) + ConfigUtil.getConfiguration().getSuffix().getEntity());
+        daoData.put("DaoClassName", className + ConfigUtil.getConfiguration().getSuffix().getDao());
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getDao());
-        String fileName = className + "Dao.java";
+        String fileName = className + ConfigUtil.getConfiguration().getSuffix().getDao() + ".java";
         // 生成dao文件
         FileUtil.generateToJava(FreemarketConfigUtil.TYPE_DAO, daoData, filePath, fileName);
     }

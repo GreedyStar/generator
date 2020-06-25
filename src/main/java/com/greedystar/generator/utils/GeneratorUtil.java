@@ -52,7 +52,7 @@ public class GeneratorUtil {
      * @param infos           表结构
      * @return
      */
-    public static String generateEntityProperties(String parentClassName, List<ColumnInfo> infos) {
+    public static String generateEntityProperties(String parentClassName, String relationalTableName, String foreignKey, String parentForeignKey, List<ColumnInfo> infos) {
         StringBuilder sb = new StringBuilder(generateEntityProperties(infos));
         sb.append(SPACE_4).append("private List<").append(parentClassName).append(">").append(" ").append(StringUtil.firstToLowerCase(parentClassName)).append("s; \n");
         return sb.toString();
@@ -90,6 +90,9 @@ public class GeneratorUtil {
      * @return
      */
     public static String generateEntityMethods(List<ColumnInfo> infos) {
+        if (ConfigUtil.getConfiguration().isLombokEnable()) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < infos.size(); i++) {
             if (i != 0) {
@@ -115,6 +118,9 @@ public class GeneratorUtil {
      * @return
      */
     public static String generateEntityMethods(String parentClassName, List<ColumnInfo> infos) {
+        if (ConfigUtil.getConfiguration().isLombokEnable()) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder(generateEntityMethods(infos));
         sb.append(SPACE_4).append("public void set" + parentClassName + "s (List<" + parentClassName + "> " + StringUtil.firstToLowerCase(parentClassName) + "s) { \n this." + StringUtil.firstToLowerCase(parentClassName) + "s = " + StringUtil.firstToLowerCase(parentClassName) + "s;\n} \n");
         sb.append("\n\n");
@@ -132,6 +138,9 @@ public class GeneratorUtil {
      * @return
      */
     public static String generateEntityMethods(String parentClassName, List<ColumnInfo> infos, String foreignKey) {
+        if (ConfigUtil.getConfiguration().isLombokEnable()) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < infos.size(); i++) {
             if (infos.get(i).isPrimaryKey() || !infos.get(i).getColumnName().equals(foreignKey)) {

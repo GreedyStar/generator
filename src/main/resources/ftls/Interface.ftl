@@ -8,7 +8,7 @@ import java.util.List;
  * Author ${Author}
  * Date  ${Date}
  */
-public interface ${ClassName}Service {
+public interface ${InterfaceClassName} {
 
     public ${ClassName} get(String id);
 

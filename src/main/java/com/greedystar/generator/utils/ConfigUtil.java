@@ -1,10 +1,12 @@
 package com.greedystar.generator.utils;
 
 import com.greedystar.generator.entity.Configuration;
+import org.apache.commons.io.IOUtils;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Author GreedyStar
@@ -20,7 +22,8 @@ public class ConfigUtil {
             System.exit(0);
         } else {
             try {
-                InputStream inputStream = ConfigUtil.class.getClassLoader().getResourceAsStream("generator.yaml");
+                String configStr = StringUtil.line2Camel(IOUtils.toString((InputStream) url.getContent()));
+                InputStream inputStream = IOUtils.toInputStream(configStr, StandardCharsets.UTF_8.name());
                 Yaml yaml = new Yaml();
                 configuration = yaml.loadAs(inputStream, Configuration.class);
                 if (null == configuration.getDb() || null == configuration.getPath()) {
@@ -28,6 +31,10 @@ public class ConfigUtil {
                 }
                 if (StringUtil.isBlank(configuration.getDb().getUrl()) || StringUtil.isBlank(configuration.getDb().getUsername())) {
                     throw new Exception("Please configure the correct db connection parameters in generator.yml, i.e. url, username and password.");
+                }
+                // 用户未配置类名后缀，那么添加一个默认的空对象
+                if (configuration.getSuffix() == null) {
+                    configuration.setSuffix(new Configuration.Suffix());
                 }
             } catch (Exception e) {
                 System.err.println("Syntax error in 'generator.yaml', please check it out.");

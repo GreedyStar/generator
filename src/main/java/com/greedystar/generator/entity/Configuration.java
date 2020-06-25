@@ -20,6 +20,10 @@ public class Configuration implements Serializable {
      */
     private String convertor;
     /**
+     * 启用lombok
+     */
+    private boolean lombokEnable;
+    /**
      * 代码生成路径
      */
     private Path path;
@@ -27,6 +31,10 @@ public class Configuration implements Serializable {
      * 数据库配置
      */
     private Db db;
+    /**
+     * 代码文件后缀
+     */
+    private Suffix suffix;
 
     public String getAuthor() {
         return author;
@@ -52,6 +60,14 @@ public class Configuration implements Serializable {
         this.convertor = convertor;
     }
 
+    public boolean isLombokEnable() {
+        return lombokEnable;
+    }
+
+    public void setLombokEnable(boolean lombokEnable) {
+        this.lombokEnable = lombokEnable;
+    }
+
     public Path getPath() {
         return path;
     }
@@ -66,6 +82,14 @@ public class Configuration implements Serializable {
 
     public void setDb(Db db) {
         this.db = db;
+    }
+
+    public Suffix getSuffix() {
+        return suffix;
+    }
+
+    public void setSuffix(Suffix suffix) {
+        this.suffix = suffix;
     }
 
     public static class Db {
@@ -196,6 +220,81 @@ public class Configuration implements Serializable {
 
         public String getMapper() {
             return mapper == null ? "" : mapper;
+        }
+
+        public void setMapper(String mapper) {
+            this.mapper = mapper;
+        }
+
+    }
+
+    public static class Suffix {
+        /**
+         * Controller类的后缀，默认为Controller，即XXController
+         */
+        private String controller;
+        /**
+         * Service类或ServiceImpl类的后缀，默认为Service或ServiceImpl，即XXService或XXServiceImpl
+         */
+        private String service;
+        /**
+         * Dao类的后缀，默认为Dao，即XXDao
+         */
+        private String dao;
+        /**
+         * Entity类的后缀，默认为空，即XX
+         */
+        private String entity;
+        /**
+         * Mapper映射文件的后缀，默认为Mapper，即XXMapper
+         */
+        private String mapper;
+
+        public Suffix() {
+        }
+
+        public Suffix(String controller, String service, String dao, String entity, String mapper) {
+            this.controller = controller;
+            this.service = service;
+            this.dao = dao;
+            this.entity = entity;
+            this.mapper = mapper;
+        }
+
+        public String getController() {
+            return controller == null ? "Controller" : controller;
+        }
+
+        public void setController(String controller) {
+            this.controller = controller;
+        }
+
+        public String getService() {
+            return service == null ? "Service" : service;
+        }
+
+        public void setService(String service) {
+            this.service = service;
+        }
+
+        public String getDao() {
+            return dao == null ? "Dao" : dao;
+        }
+
+        public void setDao(String dao) {
+            this.dao = dao;
+        }
+
+        public String getEntity() {
+            return entity == null ? "" : entity;
+        }
+
+        public void setEntity(String entity) {
+            this.entity = entity;
+        }
+
+        public String getMapper() {
+            return mapper == null ? "Mapper" : mapper;
         }
 
         public void setMapper(String mapper) {

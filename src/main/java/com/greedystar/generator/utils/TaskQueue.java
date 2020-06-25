@@ -38,14 +38,14 @@ public class TaskQueue {
     /**
      * 初始化单表生成任务，包括Entity、Mapper任务
      *
-     * @param className  类名
      * @param tableName  表名
+     * @param className  类名
      * @param tableInfos 表元数据
      */
-    public void initSingleTasks(String className, String tableName, List<ColumnInfo> tableInfos) {
+    public void initSingleTasks(String tableName, String className, List<ColumnInfo> tableInfos) {
         initCommonTasks(className);
         if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getEntity())) {
-            taskQueue.add(new EntityTask(className, tableInfos));
+            taskQueue.add(new EntityTask(tableName, className, tableInfos));
         }
         if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getMapper())) {
             taskQueue.add(new MapperTask(className, tableName, tableInfos));
@@ -66,8 +66,8 @@ public class TaskQueue {
     public void initOne2ManyTasks(String tableName, String className, String parentTableName, String parentClassName, String foreignKey, List<ColumnInfo> tableInfos, List<ColumnInfo> parentTableInfos) {
         initCommonTasks(className);
         if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getEntity())) {
-            taskQueue.add(new EntityTask(className, parentClassName, foreignKey, tableInfos));
-            taskQueue.add(new EntityTask(parentClassName, parentTableInfos));
+            taskQueue.add(new EntityTask(tableName, className, parentClassName, foreignKey, tableInfos));
+            taskQueue.add(new EntityTask(tableName, parentClassName, parentTableInfos));
         }
         if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getMapper())) {
             taskQueue.add(new MapperTask(tableName, className, parentTableName, parentClassName, foreignKey, tableInfos, parentTableInfos));
@@ -90,8 +90,8 @@ public class TaskQueue {
     public void initMany2ManyTasks(String tableName, String className, String parentTableName, String parentClassName, String foreignKey, String parentForeignKey, String relationalTableName, List<ColumnInfo> tableInfos, List<ColumnInfo> parentTableInfos) {
         initCommonTasks(className);
         if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getEntity())) {
-            taskQueue.add(new EntityTask(className, parentClassName, foreignKey, parentForeignKey, tableInfos));
-            taskQueue.add(new EntityTask(parentClassName, parentTableInfos));
+            taskQueue.add(new EntityTask(tableName, className, parentClassName, relationalTableName, foreignKey, parentForeignKey, tableInfos));
+            taskQueue.add(new EntityTask(tableName, parentClassName, parentTableInfos));
         }
         if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getMapper())) {
             taskQueue.add(new MapperTask(tableName, className, parentTableName, parentClassName, foreignKey, parentForeignKey, relationalTableName, tableInfos, parentTableInfos));

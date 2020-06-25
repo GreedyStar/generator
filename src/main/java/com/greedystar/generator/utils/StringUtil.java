@@ -75,6 +75,12 @@ public class StringUtil {
         return true;
     }
 
+    /**
+     * 包名转换为文件系统路径
+     *
+     * @param packageName
+     * @return
+     */
     public static String package2Path(String packageName) {
         if (StringUtil.isBlank(packageName)) {
             return "";
@@ -85,6 +91,19 @@ public class StringUtil {
             sb.append(str).append(File.separator);
         }
         return sb.toString();
+    }
+
+    /**
+     * 短横线转驼峰
+     *
+     * @param str
+     * @return
+     */
+    public static String line2Camel(String str) {
+        return str.replace("package-name", "packageName")
+                .replace("lombok-enable", "lombokEnable")
+                .replace("mybatis-plus-enable", "mybatisPlusEnable")
+                .replace("spring-data-jpa-enable", "springDataJpaEnable");
     }
 
 }

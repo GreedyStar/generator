@@ -1,15 +1,13 @@
 package ${BasePackageName}${ControllerPackageName};
 
 import ${BasePackageName}${EntityPackageName}.${ClassName};
-import ${BasePackageName}${ServicePackageName}.${ClassName}Service;
+import ${BasePackageName}${ServicePackageName}.${ServiceClassName};
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author ${Author}
@@ -17,56 +15,75 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/${EntityName}")
-public class ${ClassName}Controller {
+public class ${ControllerClassName} {
     @Autowired
-    private ${ClassName}Service ${EntityName}Service;
+    private ${ServiceClassName} ${ServiceEntityName};
 
-    @RequestMapping(value = {"/list", ""}, method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public Object list() {
-        List<${ClassName}> ${EntityName}s = ${EntityName}Service.findAllList();
-        return ${EntityName}s;
+        List<${ClassName}> ${EntityName}s = ${ServiceEntityName}.findAllList();
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", ${EntityName}s);
+        result.put("status", 200);
+        result.put("message", "OK");
+        return result;
     }
 
-    @RequestMapping(value = {"/get"}, method = RequestMethod.GET)
-    public Object get(@RequestParam String id) {
-        ${ClassName} ${EntityName} = ${EntityName}Service.get(id);
-        return ${EntityName};
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Object get(@PathVariable("id") String id) {
+        ${ClassName} ${EntityName} = ${ServiceEntityName}.get(id);
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", ${EntityName});
+        result.put("status", 200);
+        result.put("message", "OK");
+        return result;
     }
 
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public String insert(@RequestBody ${ClassName} ${EntityName}) {
-        if (${EntityName}Service.insert(${EntityName}) > 0) {
-            return "success";
-        } else {
-            return "failed";
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public Object post(@RequestBody ${ClassName} ${EntityName}) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            ${ServiceEntityName}.insert(${EntityName});
+            result.put("status", 200);
+            result.put("message", "OK");
+            result.put("data", ${EntityName});
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("status", 500);
+            result.put("message", "ERROR");
         }
+        return result;
     }
 
-    @RequestMapping(value = "/insertBatch", method = RequestMethod.POST)
-    public String insertBatch(@RequestBody List<${ClassName}> ${EntityName}s) {
-        if (${EntityName}Service.insertBatch(${EntityName}s) > 0) {
-            return "success";
-        } else {
-            return "failed";
+    @RequestMapping(value = "", method = RequestMethod.PUT)
+    public Object put(@RequestBody ${ClassName} ${EntityName}) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            ${ServiceEntityName}.update(${EntityName});
+            result.put("status", 200);
+            result.put("message", "OK");
+            result.put("data", ${EntityName});
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("status", 500);
+            result.put("message", "ERROR");
         }
+        return result;
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String update(@RequestBody ${ClassName} ${EntityName}) {
-        if (${EntityName}Service.update(${EntityName}) > 0) {
-            return "success";
-        } else {
-            return "failed";
+    @RequestMapping(value = "", method = RequestMethod.DELETE)
+    public Object delete(@RequestBody ${ClassName} ${EntityName}) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            ${ServiceEntityName}.delete(${EntityName});
+            result.put("status", 200);
+            result.put("message", "OK");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("status", 500);
+            result.put("message", "ERROR");
         }
-    }
-
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String delete(@RequestBody ${ClassName} ${EntityName}) {
-        if (${EntityName}Service.delete(${EntityName}) > 0) {
-            return "success";
-        } else {
-            return "failed";
-        }
+        return result;
     }
 
 }

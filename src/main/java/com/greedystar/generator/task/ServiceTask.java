@@ -33,20 +33,24 @@ public class ServiceTask extends AbstractTask {
         serviceData.put("DaoPackageName", ConfigUtil.getConfiguration().getPath().getDao());
         serviceData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         serviceData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        serviceData.put("ClassName", className);
-        serviceData.put("EntityName", StringUtil.firstToLowerCase(className));
+        serviceData.put("DaoClassName", className + ConfigUtil.getConfiguration().getSuffix().getDao());
+        serviceData.put("DaoEntityName", StringUtil.firstToLowerCase(className) + ConfigUtil.getConfiguration().getSuffix().getDao());
+        serviceData.put("ClassName", className + ConfigUtil.getConfiguration().getSuffix().getEntity());
+        serviceData.put("EntityName", StringUtil.firstToLowerCase(className) + ConfigUtil.getConfiguration().getSuffix().getEntity());
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getService());
         String fileName;
         if (StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getInterf())) { // 表示不生成Service接口文件
-            serviceData.put("Impl", "");
+            serviceData.put("ServiceClassName", className + ConfigUtil.getConfiguration().getSuffix().getService());
+            serviceData.put("Implements", "");
             serviceData.put("Override", "");
             serviceData.put("InterfaceImport", "");
-            fileName = className + "Service.java";
+            fileName = className + ConfigUtil.getConfiguration().getSuffix().getService() + ".java";
         } else {
-            serviceData.put("Impl", "Impl implements " + className + "Service");
+            serviceData.put("ServiceClassName", className + ConfigUtil.getConfiguration().getSuffix().getService() + "Impl");
+            serviceData.put("Implements", "implements " + className + ConfigUtil.getConfiguration().getSuffix().getService());
             serviceData.put("Override", "\n    @Override");
-            serviceData.put("InterfaceImport", "import " + ConfigUtil.getConfiguration().getPackageName() + ConfigUtil.getConfiguration().getPath().getInterf() + "." + className + "Service;");
-            fileName = className + "ServiceImpl.java";
+            serviceData.put("InterfaceImport", "import " + ConfigUtil.getConfiguration().getPackageName() + ConfigUtil.getConfiguration().getPath().getInterf() + "." + className + ConfigUtil.getConfiguration().getSuffix().getService() + ";");
+            fileName = className + ConfigUtil.getConfiguration().getSuffix().getService() + "Impl.java";
         }
         // 生成Service文件
         FileUtil.generateToJava(FreemarketConfigUtil.TYPE_SERVICE, serviceData, filePath, fileName);

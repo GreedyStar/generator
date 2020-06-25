@@ -45,8 +45,9 @@ public class MapperTask extends AbstractTask {
         mapperData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
         mapperData.put("DaoPackageName", ConfigUtil.getConfiguration().getPath().getDao());
         mapperData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
-        mapperData.put("ClassName", className);
-        mapperData.put("EntityName", StringUtil.firstToLowerCase(className));
+        mapperData.put("ClassName", className + ConfigUtil.getConfiguration().getSuffix().getEntity());
+        mapperData.put("EntityName", StringUtil.firstToLowerCase(className) + ConfigUtil.getConfiguration().getSuffix().getEntity());
+        mapperData.put("DaoName", className + ConfigUtil.getConfiguration().getSuffix().getDao());
         mapperData.put("TableName", tableName);
         mapperData.put("InsertProperties", GeneratorUtil.generateMapperInsertProperties(tableInfos));
         mapperData.put("PrimaryKey", getPrimaryKeyColumnInfo(tableInfos).getColumnName());
@@ -81,7 +82,7 @@ public class MapperTask extends AbstractTask {
             mapperData.put("Joins", "");
         }
         String filePath = FileUtil.getResourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getMapper());
-        String fileName = className + "Mapper.xml";
+        String fileName = className + ConfigUtil.getConfiguration().getSuffix().getMapper() + ".xml";
         // 生成Mapper文件
         FileUtil.generateToJava(FreemarketConfigUtil.TYPE_MAPPER, mapperData, filePath, fileName);
     }

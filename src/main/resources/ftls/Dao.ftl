@@ -11,8 +11,7 @@ import java.util.List;
  * Date  ${Date}
  */
 @Mapper
-@Component
-public interface ${ClassName}Dao {
+public interface ${DaoClassName} {
 
     public ${ClassName} get(String id);
 

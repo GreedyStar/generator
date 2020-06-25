@@ -1,6 +1,6 @@
 package ${BasePackageName}${ServicePackageName};
 
-import ${BasePackageName}${DaoPackageName}.${ClassName}Dao;
+import ${BasePackageName}${DaoPackageName}.${DaoClassName};
 import ${BasePackageName}${EntityPackageName}.${ClassName};
 ${InterfaceImport}
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,36 +13,36 @@ import java.util.List;
  * Date  ${Date}
  */
 @Service
-public class ${ClassName}Service${Impl} {
+public class ${ServiceClassName} ${Implements} {
     @Autowired
-    private ${ClassName}Dao ${EntityName}Dao;
+    private ${DaoClassName} ${DaoEntityName};
     ${Override}
     public ${ClassName} get(String id){
-        return ${EntityName}Dao.get(id);
+        return ${DaoEntityName}.get(id);
     }
     ${Override}
     public List<${ClassName}> findList(${ClassName} ${EntityName}) {
-        return ${EntityName}Dao.findList(${EntityName});
+        return ${DaoEntityName}.findList(${EntityName});
     }
     ${Override}
     public List<${ClassName}> findAllList() {
-        return ${EntityName}Dao.findAllList();
+        return ${DaoEntityName}.findAllList();
     }
     ${Override}
     public int insert(${ClassName} ${EntityName}) {
-        return ${EntityName}Dao.insert(${EntityName});
+        return ${DaoEntityName}.insert(${EntityName});
     }
     ${Override}
     public int insertBatch(List<${ClassName}> ${EntityName}s){
-        return ${EntityName}Dao.insertBatch(${EntityName}s);
+        return ${DaoEntityName}.insertBatch(${EntityName}s);
     }
     ${Override}
     public int update(${ClassName} ${EntityName}) {
-        return ${EntityName}Dao.update(${EntityName});
+        return ${DaoEntityName}.update(${EntityName});
     }
     ${Override}
     public int delete(${ClassName} ${EntityName}) {
-        return ${EntityName}Dao.delete(${EntityName});
+        return ${DaoEntityName}.delete(${EntityName});
     }
 
 }

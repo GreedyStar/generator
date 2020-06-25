@@ -37,10 +37,13 @@ public class ControllerTask extends AbstractTask {
         controllerData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
         controllerData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         controllerData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        controllerData.put("ClassName", className);
-        controllerData.put("EntityName", StringUtil.firstToLowerCase(className));
+        controllerData.put("ServiceClassName", className + ConfigUtil.getConfiguration().getSuffix().getService());
+        controllerData.put("ServiceEntityName", StringUtil.firstToLowerCase(className) + ConfigUtil.getConfiguration().getSuffix().getService());
+        controllerData.put("ControllerClassName", className + ConfigUtil.getConfiguration().getSuffix().getController());
+        controllerData.put("ClassName", className + ConfigUtil.getConfiguration().getSuffix().getEntity());
+        controllerData.put("EntityName", StringUtil.firstToLowerCase(className) + ConfigUtil.getConfiguration().getSuffix().getEntity());
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getController());
-        String fileName = className + "Controller.java";
+        String fileName = className + ConfigUtil.getConfiguration().getSuffix().getController() + ".java";
         // 生成Controller文件
         FileUtil.generateToJava(FreemarketConfigUtil.TYPE_CONTROLLER, controllerData, filePath, fileName);
     }

@@ -3,8 +3,9 @@ db:
   username:
   password:
 author: unknown
-packageName:
+package-name:
 convertor:
+lombok-enable: true
 path:
   controller: controller
   service: service.impl
@@ -12,3 +13,9 @@ path:
   dao: dao
   entity: entity
   mapper: mappers
+suffix:
+  controller: Controller
+  service: Service
+  dao: Dao
+  entity:
+  mapper: Mapper

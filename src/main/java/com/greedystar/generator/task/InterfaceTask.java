@@ -32,10 +32,11 @@ public class InterfaceTask extends AbstractTask {
         interfaceData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
         interfaceData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         interfaceData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        interfaceData.put("ClassName", className);
-        interfaceData.put("EntityName", StringUtil.firstToLowerCase(className));
+        interfaceData.put("ClassName", className + ConfigUtil.getConfiguration().getSuffix().getEntity());
+        interfaceData.put("EntityName", StringUtil.firstToLowerCase(className) + ConfigUtil.getConfiguration().getSuffix().getEntity());
+        interfaceData.put("InterfaceClassName", className + ConfigUtil.getConfiguration().getSuffix().getService());
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getInterf());
-        String fileName = className + "Service.java";
+        String fileName = className + ConfigUtil.getConfiguration().getSuffix().getService() + ".java";
         // 生成Service接口文件
         FileUtil.generateToJava(FreemarketConfigUtil.TYPE_INTERFACE, interfaceData, filePath, fileName);
     }

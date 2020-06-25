@@ -21,22 +21,22 @@ public class EntityTask extends AbstractTask {
     /**
      * 1.单表生成  2.多表时生成子表实体
      */
-    public EntityTask(String className, List<ColumnInfo> infos) {
-        this(className, null, null, infos);
+    public EntityTask(String tableName, String className, List<ColumnInfo> infos) {
+        this(tableName, className, null, null, infos);
     }
 
     /**
      * 一对多关系生成主表实体
      */
-    public EntityTask(String className, String parentClassName, String foreignKey, List<ColumnInfo> tableInfos) {
-        this(className, parentClassName, foreignKey, null, tableInfos);
+    public EntityTask(String tableName, String className, String parentClassName, String foreignKey, List<ColumnInfo> tableInfos) {
+        this(tableName, className, parentClassName, null, foreignKey, null, tableInfos);
     }
 
     /**
      * 多对多关系生成主表实体
      */
-    public EntityTask(String className, String parentClassName, String foreignKey, String parentForeignKey, List<ColumnInfo> tableInfos) {
-        super(className, parentClassName, foreignKey, parentForeignKey, tableInfos);
+    public EntityTask(String tableName, String className, String parentClassName, String relationalTableName, String foreignKey, String parentForeignKey, List<ColumnInfo> tableInfos) {
+        super(tableName, className, parentClassName, relationalTableName, foreignKey, parentForeignKey, tableInfos);
     }
 
     @Override
@@ -47,10 +47,18 @@ public class EntityTask extends AbstractTask {
         entityData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
         entityData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         entityData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        entityData.put("ClassName", className);
+        entityData.put("ClassName", className + ConfigUtil.getConfiguration().getSuffix().getEntity());
         entityData.put("Remarks", tableInfos.get(0).getTableRemarks());
+        StringBuilder importStringBuilder = new StringBuilder(); // import相关字段
+        StringBuilder annotationStringBuilder = new StringBuilder(); // 实体类上标注的注解字段
+        if (ConfigUtil.getConfiguration().isLombokEnable()) { // lombok
+            importStringBuilder.append("import lombok.Data;\n");
+            annotationStringBuilder.append("@Data\n");
+        }
+        entityData.put("Import", importStringBuilder.substring(0, importStringBuilder.length() - 1));
+        entityData.put("Annotation", annotationStringBuilder.substring(0, annotationStringBuilder.length() - 1));
         if (!StringUtil.isBlank(parentForeignKey)) { // 多对多：主表实体
-            entityData.put("Properties", GeneratorUtil.generateEntityProperties(parentClassName, tableInfos));
+            entityData.put("Properties", GeneratorUtil.generateEntityProperties(parentClassName, relationalTableName, foreignKey, parentForeignKey, tableInfos));
             entityData.put("Methods", GeneratorUtil.generateEntityMethods(parentClassName, tableInfos));
         } else if (!StringUtil.isBlank(foreignKey)) { // 多对一：主表实体
             entityData.put("Properties", GeneratorUtil.generateEntityProperties(parentClassName, tableInfos, foreignKey));
@@ -60,7 +68,7 @@ public class EntityTask extends AbstractTask {
             entityData.put("Methods", GeneratorUtil.generateEntityMethods(tableInfos));
         }
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getEntity());
-        String fileName = className + ".java";
+        String fileName = className + ConfigUtil.getConfiguration().getSuffix().getEntity() + ".java";
         // 生成Entity文件
         FileUtil.generateToJava(FreemarketConfigUtil.TYPE_ENTITY, entityData, filePath, fileName);
     }

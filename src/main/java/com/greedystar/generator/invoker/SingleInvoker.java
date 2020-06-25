@@ -22,7 +22,7 @@ public class SingleInvoker extends AbstractInvoker {
 
     @Override
     protected void initTasks() {
-        taskQueue.initSingleTasks(className, tableName, tableInfos);
+        taskQueue.initSingleTasks(tableName, className, tableInfos);
     }
 
     public static class Builder extends AbstractBuilder {
