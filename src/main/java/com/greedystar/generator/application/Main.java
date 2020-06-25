@@ -22,8 +22,8 @@ public class Main {
                 .setParentTableName("role")
                 .setParentClassName("Role")
                 .setRelationTableName("user_role")
-                .setForeignKey("userId")
-                .setParentForeignKey("roleId")
+                .setForeignKey("user_id")
+                .setParentForeignKey("role_id")
                 .build();
         invoker.execute();
     }
@@ -34,7 +34,7 @@ public class Main {
                 .setClassName("User")
                 .setParentTableName("office")
                 .setParentClassName("Office")
-                .setForeignKey("officeId")
+                .setForeignKey("office_id")
                 .build();
         invoker.execute();
     }
