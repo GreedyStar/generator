@@ -48,7 +48,7 @@ public class ServiceTask extends AbstractTask {
         } else {
             serviceData.put("ServiceClassName", className + ConfigUtil.getConfiguration().getSuffix().getService() + "Impl");
             serviceData.put("Implements", "implements " + className + ConfigUtil.getConfiguration().getSuffix().getService());
-            serviceData.put("Override", "@Override");
+            serviceData.put("Override", "\n    @Override");
             serviceData.put("InterfaceImport", "import " + ConfigUtil.getConfiguration().getPackageName() + ConfigUtil.getConfiguration().getPath().getInterf() + "." + className + ConfigUtil.getConfiguration().getSuffix().getService() + ";");
             fileName = className + ConfigUtil.getConfiguration().getSuffix().getService() + "Impl.java";
         }
