@@ -2,6 +2,7 @@ package ${BasePackageName}${InterfacePackageName};
 
 import ${BasePackageName}${EntityPackageName}.${ClassName};
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,18 +11,18 @@ import java.util.List;
  */
 public interface ${InterfaceClassName} {
 
-    public ${ClassName} get(String id);
+    ${ClassName} get(Serializable id);
 
-    public List<${ClassName}> findList(${ClassName} ${EntityName});
+    List<${ClassName}> findList(${ClassName} ${EntityName});
 
-    public List<${ClassName}> findAllList();
+    List<${ClassName}> findAllList();
 
-    public int insert(${ClassName} ${EntityName});
+    int insert(${ClassName} ${EntityName});
 
-    public int insertBatch(List<${ClassName}> ${EntityName}s);
+    int insertBatch(List<${ClassName}> ${EntityName}s);
 
-    public int update(${ClassName} ${EntityName});
+    int update(${ClassName} ${EntityName});
 
-    public int delete(${ClassName} ${EntityName});
+    int delete(${ClassName} ${EntityName});
 
 }
