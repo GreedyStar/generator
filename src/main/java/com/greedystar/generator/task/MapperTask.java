@@ -1,6 +1,7 @@
 package com.greedystar.generator.task;
 
 import com.greedystar.generator.entity.ColumnInfo;
+import com.greedystar.generator.entity.Constant;
 import com.greedystar.generator.task.base.AbstractTask;
 import com.greedystar.generator.utils.*;
 import freemarker.template.TemplateException;
@@ -45,9 +46,9 @@ public class MapperTask extends AbstractTask {
         mapperData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
         mapperData.put("DaoPackageName", ConfigUtil.getConfiguration().getPath().getDao());
         mapperData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
-        mapperData.put("ClassName", className + ConfigUtil.getConfiguration().getSuffix().getEntity());
-        mapperData.put("EntityName", StringUtil.firstToLowerCase(className) + ConfigUtil.getConfiguration().getSuffix().getEntity());
-        mapperData.put("DaoName", className + ConfigUtil.getConfiguration().getSuffix().getDao());
+        mapperData.put("ClassName", ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className));
+        mapperData.put("EntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className)));
+        mapperData.put("DaoName", ConfigUtil.getConfiguration().getName().getDao().replace(Constant.PLACEHOLDER, className));
         mapperData.put("TableName", tableName);
         mapperData.put("InsertProperties", GeneratorUtil.generateMapperInsertProperties(tableInfos));
         mapperData.put("PrimaryKey", getPrimaryKeyColumnInfo(tableInfos).getColumnName());
@@ -82,7 +83,7 @@ public class MapperTask extends AbstractTask {
             mapperData.put("Joins", "");
         }
         String filePath = FileUtil.getResourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getMapper());
-        String fileName = className + ConfigUtil.getConfiguration().getSuffix().getMapper() + ".xml";
+        String fileName = ConfigUtil.getConfiguration().getName().getMapper().replace(Constant.PLACEHOLDER, className) + ".xml";
         // 生成Mapper文件
         FileUtil.generateToJava(FreemarketConfigUtil.TYPE_MAPPER, mapperData, filePath, fileName);
     }

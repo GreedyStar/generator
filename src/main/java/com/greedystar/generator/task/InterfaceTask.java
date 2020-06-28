@@ -1,10 +1,8 @@
 package com.greedystar.generator.task;
 
+import com.greedystar.generator.entity.Constant;
 import com.greedystar.generator.task.base.AbstractTask;
-import com.greedystar.generator.utils.ConfigUtil;
-import com.greedystar.generator.utils.FileUtil;
-import com.greedystar.generator.utils.FreemarketConfigUtil;
-import com.greedystar.generator.utils.StringUtil;
+import com.greedystar.generator.utils.*;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;
@@ -32,11 +30,11 @@ public class InterfaceTask extends AbstractTask {
         interfaceData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
         interfaceData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         interfaceData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        interfaceData.put("ClassName", className + ConfigUtil.getConfiguration().getSuffix().getEntity());
-        interfaceData.put("EntityName", StringUtil.firstToLowerCase(className) + ConfigUtil.getConfiguration().getSuffix().getEntity());
-        interfaceData.put("InterfaceClassName", className + ConfigUtil.getConfiguration().getSuffix().getService());
+        interfaceData.put("ClassName", ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className));
+        interfaceData.put("EntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className)));
+        interfaceData.put("InterfaceClassName", ConfigUtil.getConfiguration().getName().getInterf().replace(Constant.PLACEHOLDER, className));
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getInterf());
-        String fileName = className + ConfigUtil.getConfiguration().getSuffix().getService() + ".java";
+        String fileName = ConfigUtil.getConfiguration().getName().getInterf().replace(Constant.PLACEHOLDER, className) + ".java";
         // 生成Service接口文件
         FileUtil.generateToJava(FreemarketConfigUtil.TYPE_INTERFACE, interfaceData, filePath, fileName);
     }

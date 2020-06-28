@@ -1,10 +1,8 @@
 package com.greedystar.generator.task;
 
+import com.greedystar.generator.entity.Constant;
 import com.greedystar.generator.task.base.AbstractTask;
-import com.greedystar.generator.utils.ConfigUtil;
-import com.greedystar.generator.utils.FileUtil;
-import com.greedystar.generator.utils.FreemarketConfigUtil;
-import com.greedystar.generator.utils.StringUtil;
+import com.greedystar.generator.utils.*;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;
@@ -32,11 +30,11 @@ public class DaoTask extends AbstractTask {
         daoData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
         daoData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         daoData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        daoData.put("ClassName", className + ConfigUtil.getConfiguration().getSuffix().getEntity());
-        daoData.put("EntityName", StringUtil.firstToLowerCase(className) + ConfigUtil.getConfiguration().getSuffix().getEntity());
-        daoData.put("DaoClassName", className + ConfigUtil.getConfiguration().getSuffix().getDao());
+        daoData.put("ClassName", ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className));
+        daoData.put("EntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className)));
+        daoData.put("DaoClassName", ConfigUtil.getConfiguration().getName().getDao().replace(Constant.PLACEHOLDER, className));
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getDao());
-        String fileName = className + ConfigUtil.getConfiguration().getSuffix().getDao() + ".java";
+        String fileName = ConfigUtil.getConfiguration().getName().getDao().replace(Constant.PLACEHOLDER, className) + ".java";
         // 生成dao文件
         FileUtil.generateToJava(FreemarketConfigUtil.TYPE_DAO, daoData, filePath, fileName);
     }

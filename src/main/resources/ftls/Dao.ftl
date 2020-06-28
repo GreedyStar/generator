@@ -1,6 +1,6 @@
-package ${BasePackageName}${DaoPackageName};
+package ${BasePackageName}.${DaoPackageName};
 
-import ${BasePackageName}${EntityPackageName}.${ClassName};
+import ${BasePackageName}.${EntityPackageName}.${ClassName};
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 

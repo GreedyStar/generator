@@ -1,6 +1,6 @@
-package ${BasePackageName}${InterfacePackageName};
+package ${BasePackageName}.${InterfacePackageName};
 
-import ${BasePackageName}${EntityPackageName}.${ClassName};
+import ${BasePackageName}.${EntityPackageName}.${ClassName};
 
 import java.io.Serializable;
 import java.util.List;

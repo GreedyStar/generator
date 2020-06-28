@@ -1,7 +1,7 @@
-package ${BasePackageName}${ControllerPackageName};
+package ${BasePackageName}.${ControllerPackageName};
 
-import ${BasePackageName}${EntityPackageName}.${ClassName};
-import ${BasePackageName}${ServicePackageName}.${ServiceClassName};
+import ${BasePackageName}.${EntityPackageName}.${ClassName};
+import ${BasePackageName}.${ServicePackageName}.${ServiceClassName};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

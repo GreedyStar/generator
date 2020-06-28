@@ -1,4 +1,4 @@
-package ${BasePackageName}${EntityPackageName};
+package ${BasePackageName}.${EntityPackageName};
 
 ${Import}
 import java.io.Serializable;

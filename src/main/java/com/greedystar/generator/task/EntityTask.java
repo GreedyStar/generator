@@ -1,6 +1,7 @@
 package com.greedystar.generator.task;
 
 import com.greedystar.generator.entity.ColumnInfo;
+import com.greedystar.generator.entity.Constant;
 import com.greedystar.generator.task.base.AbstractTask;
 import com.greedystar.generator.utils.*;
 import freemarker.template.TemplateException;
@@ -47,7 +48,7 @@ public class EntityTask extends AbstractTask {
         entityData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
         entityData.put("Author", ConfigUtil.getConfiguration().getAuthor());
         entityData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        entityData.put("ClassName", className + ConfigUtil.getConfiguration().getSuffix().getEntity());
+        entityData.put("ClassName", ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className));
         entityData.put("Remarks", tableInfos.get(0).getTableRemarks());
         StringBuilder importStringBuilder = new StringBuilder(); // import相关字段
         StringBuilder annotationStringBuilder = new StringBuilder(); // 实体类上标注的注解字段
@@ -68,7 +69,7 @@ public class EntityTask extends AbstractTask {
             entityData.put("Methods", GeneratorUtil.generateEntityMethods(tableInfos));
         }
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getEntity());
-        String fileName = className + ConfigUtil.getConfiguration().getSuffix().getEntity() + ".java";
+        String fileName = ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className) + ".java";
         // 生成Entity文件
         FileUtil.generateToJava(FreemarketConfigUtil.TYPE_ENTITY, entityData, filePath, fileName);
     }

@@ -77,8 +77,8 @@ public class ConfigUtil {
     private static void checkConfiguration() {
         try {
             // 用户未配置类名后缀，那么添加一个默认的空对象，这里是为了保证在用户不配置suffix节点时，程序能够取得默认值
-            if (ConfigUtil.configuration.getSuffix() == null) {
-                ConfigUtil.configuration.setSuffix(new Configuration.Suffix());
+            if (ConfigUtil.configuration.getName() == null) {
+                ConfigUtil.configuration.setName(new Configuration.Name());
             }
             // 检查db属性
             if (null == ConfigUtil.configuration.getDb()) {

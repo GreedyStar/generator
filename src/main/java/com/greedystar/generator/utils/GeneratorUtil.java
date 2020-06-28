@@ -1,6 +1,7 @@
 package com.greedystar.generator.utils;
 
 import com.greedystar.generator.entity.ColumnInfo;
+import com.greedystar.generator.entity.Constant;
 
 import java.util.List;
 
@@ -10,9 +11,6 @@ import java.util.List;
  * Date   2018/4/19
  */
 public class GeneratorUtil {
-    private final static String SPACE_4 = "    ";
-    private final static String SPACE_8 = "        ";
-    private final static String SPACE_12 = "            ";
 
     /**
      * 为实体属性生成注释
@@ -22,8 +20,8 @@ public class GeneratorUtil {
      */
     private static void generateRemarks(StringBuilder sb, ColumnInfo info) {
         sb.append("/**").append("\n");
-        sb.append(SPACE_4).append(" * ").append(info.getRemarks()).append("\n");
-        sb.append(SPACE_4).append(" */").append("\n");
+        sb.append(Constant.SPACE_4).append(" * ").append(info.getRemarks()).append("\n");
+        sb.append(Constant.SPACE_4).append(" */").append("\n");
     }
 
     /**
@@ -36,10 +34,10 @@ public class GeneratorUtil {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < infos.size(); i++) {
             if (i != 0) {
-                sb.append(SPACE_4);
+                sb.append(Constant.SPACE_4);
             }
             generateRemarks(sb, infos.get(i));
-            sb.append(SPACE_4).append("private ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(";\n");
+            sb.append(Constant.SPACE_4).append("private ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(";\n");
         }
         return sb.toString();
     }
@@ -54,7 +52,7 @@ public class GeneratorUtil {
      */
     public static String generateEntityProperties(String parentClassName, String relationalTableName, String foreignKey, String parentForeignKey, List<ColumnInfo> infos) {
         StringBuilder sb = new StringBuilder(generateEntityProperties(infos));
-        sb.append(SPACE_4).append("private List<").append(parentClassName).append(">").append(" ").append(StringUtil.firstToLowerCase(parentClassName)).append("s; \n");
+        sb.append(Constant.SPACE_4).append("private List<").append(parentClassName).append(">").append(" ").append(StringUtil.firstToLowerCase(parentClassName)).append("s; \n");
         return sb.toString();
     }
 
@@ -71,14 +69,14 @@ public class GeneratorUtil {
         for (int i = 0; i < infos.size(); i++) {
             if (infos.get(i).isPrimaryKey() || !infos.get(i).getColumnName().equals(foreignKey)) {
                 if (i != 0) {
-                    sb.append(SPACE_4);
+                    sb.append(Constant.SPACE_4);
                 }
                 generateRemarks(sb, infos.get(i));
-                sb.append(SPACE_4).append("private ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append("; \n");
+                sb.append(Constant.SPACE_4).append("private ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append("; \n");
             }
         }
         // 外键为父表实体引用
-        sb.append(SPACE_4).append("private ").append(parentClassName).append(" ").append(StringUtil.firstToLowerCase(parentClassName)).append("; \n");
+        sb.append(Constant.SPACE_4).append("private ").append(parentClassName).append(" ").append(StringUtil.firstToLowerCase(parentClassName)).append("; \n");
         return sb.toString();
     }
 
@@ -96,14 +94,14 @@ public class GeneratorUtil {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < infos.size(); i++) {
             if (i != 0) {
-                sb.append(SPACE_4);
+                sb.append(Constant.SPACE_4);
             }
             sb.append("public void set").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append(" (").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(") {this.").append(infos.get(i).getPropertyName()).append(" = ").append(infos.get(i).getPropertyName()).append(";}");
             sb.append("\n\n");
             if (ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType()).equals("boolean") || ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType()).equals("Boolean")) {
-                sb.append(SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";}");
+                sb.append(Constant.SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";}");
             } else {
-                sb.append(SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";}");
+                sb.append(Constant.SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";}");
             }
             sb.append("\n\n");
         }
@@ -122,9 +120,9 @@ public class GeneratorUtil {
             return "";
         }
         StringBuilder sb = new StringBuilder(generateEntityMethods(infos));
-        sb.append(SPACE_4).append("public void set" + parentClassName + "s (List<" + parentClassName + "> " + StringUtil.firstToLowerCase(parentClassName) + "s) { \n this." + StringUtil.firstToLowerCase(parentClassName) + "s = " + StringUtil.firstToLowerCase(parentClassName) + "s;\n} \n");
+        sb.append(Constant.SPACE_4).append("public void set" + parentClassName + "s (List<" + parentClassName + "> " + StringUtil.firstToLowerCase(parentClassName) + "s) { \n this." + StringUtil.firstToLowerCase(parentClassName) + "s = " + StringUtil.firstToLowerCase(parentClassName) + "s;\n} \n");
         sb.append("\n\n");
-        sb.append(SPACE_4).append("public List<" + parentClassName + "> get" + parentClassName + "s(){ return this." + StringUtil.firstToLowerCase(parentClassName) + "s;}");
+        sb.append(Constant.SPACE_4).append("public List<" + parentClassName + "> get" + parentClassName + "s(){ return this." + StringUtil.firstToLowerCase(parentClassName) + "s;}");
         sb.append("\n\n");
         return sb.toString();
     }
@@ -145,21 +143,21 @@ public class GeneratorUtil {
         for (int i = 0; i < infos.size(); i++) {
             if (infos.get(i).isPrimaryKey() || !infos.get(i).getColumnName().equals(foreignKey)) {
                 if (i != 0) {
-                    sb.append(SPACE_4);
+                    sb.append(Constant.SPACE_4);
                 }
                 sb.append("public void set").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append(" (").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(") {this.").append(infos.get(i).getPropertyName()).append(" = ").append(infos.get(i).getPropertyName()).append(";} \n");
                 sb.append("\n\n");
                 if (ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType()).equals("boolean") || ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType()).equals("boolean")) {
-                    sb.append(SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";}");
+                    sb.append(Constant.SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";}");
                 } else {
-                    sb.append(SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";}");
+                    sb.append(Constant.SPACE_4).append("public ").append(ConvertorUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";}");
                 }
                 sb.append("\n\n");
             }
         }
         // 外键为存取父表实体引用
-        sb.append(SPACE_4).append("public void set").append(parentClassName).append(" (").append(parentClassName).append(" ").append(StringUtil.firstToLowerCase(parentClassName)).append(") {this.").append(StringUtil.firstToLowerCase(parentClassName)).append(" = ").append(StringUtil.firstToLowerCase(parentClassName)).append(";} \n");
-        sb.append(SPACE_4).append("public ").append(parentClassName).append(" get").append(parentClassName).append("(){ return this.").append(StringUtil.firstToLowerCase(parentClassName)).append(";} \n");
+        sb.append(Constant.SPACE_4).append("public void set").append(parentClassName).append(" (").append(parentClassName).append(" ").append(StringUtil.firstToLowerCase(parentClassName)).append(") {this.").append(StringUtil.firstToLowerCase(parentClassName)).append(" = ").append(StringUtil.firstToLowerCase(parentClassName)).append(";} \n");
+        sb.append(Constant.SPACE_4).append("public ").append(parentClassName).append(" get").append(parentClassName).append("(){ return this.").append(StringUtil.firstToLowerCase(parentClassName)).append(";} \n");
         return sb.toString();
     }
 
@@ -170,7 +168,7 @@ public class GeneratorUtil {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < infos.size(); i++) {
             if (i != 0) {
-                sb.append(SPACE_8);
+                sb.append(Constant.SPACE_8);
             }
             sb.append(tableName).append(".").append(infos.get(i).getColumnName()).append(" AS ").append("\"").append(infos.get(i).getPropertyName()).append("\",\n");
         }
@@ -185,13 +183,13 @@ public class GeneratorUtil {
         for (int i = 0; i < infos.size(); i++) {
             if (infos.get(i).isPrimaryKey() || !infos.get(i).getColumnName().equals(foreignKey)) {
                 if (i != 0) {
-                    sb.append(SPACE_8);
+                    sb.append(Constant.SPACE_8);
                 }
                 sb.append(tableName).append(".").append(infos.get(i).getColumnName()).append(" AS ").append("\"").append(infos.get(i).getPropertyName()).append("\",\n");
             }
         }
         for (ColumnInfo info : parentInfos) {
-            sb.append(SPACE_8).append(parentTableName).append(".").append(info.getColumnName()).append(" AS ").append("\"").append(parentEntityName).append(".").append(info.getPropertyName()).append("\",\n");
+            sb.append(Constant.SPACE_8).append(parentTableName).append(".").append(info.getColumnName()).append(" AS ").append("\"").append(parentEntityName).append(".").append(info.getPropertyName()).append("\",\n");
         }
         return sb.toString().substring(0, sb.toString().length() - 2);
     }
@@ -203,7 +201,7 @@ public class GeneratorUtil {
         StringBuilder sb = new StringBuilder(generateMapperColumnMap(tableName, infos));
         sb.append(",\n");
         for (ColumnInfo info : parentInfos) {
-            sb.append(SPACE_8).append(parentTableName).append(".").append(info.getColumnName()).append(" AS ").append("\"").append(parentEntityName).append("s.").append(info.getPropertyName()).append("\",\n");
+            sb.append(Constant.SPACE_8).append(parentTableName).append(".").append(info.getColumnName()).append(" AS ").append("\"").append(parentEntityName).append("s.").append(info.getPropertyName()).append("\",\n");
         }
         return sb.toString().substring(0, sb.toString().length() - 2);
     }
@@ -220,7 +218,7 @@ public class GeneratorUtil {
             if (info.isPrimaryKey()) {
                 sb.append("<id column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             } else {
-                sb.append(SPACE_8).append("<result column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
+                sb.append(Constant.SPACE_8).append("<result column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             }
         }
         return sb.toString();
@@ -238,7 +236,7 @@ public class GeneratorUtil {
             if (info.isPrimaryKey()) {
                 sb.append("<id column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             } else if (!info.getColumnName().equals(foreignKey)) { // 外键会映射为<association></association>
-                sb.append(SPACE_8).append("<result column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
+                sb.append(Constant.SPACE_8).append("<result column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             }
         }
         return sb.toString();
@@ -258,12 +256,12 @@ public class GeneratorUtil {
         sb.append("<association property=\"").append(StringUtil.firstToLowerCase(parentClassName)).append("\" javaType=\"").append(parentClassPackage).append(".").append(parentClassName).append("\">\n");
         for (ColumnInfo info : parentInfos) {
             if (info.isPrimaryKey()) {
-                sb.append(SPACE_12).append("<id column=\"").append(StringUtil.firstToLowerCase(parentClassName)).append(".").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
+                sb.append(Constant.SPACE_12).append("<id column=\"").append(StringUtil.firstToLowerCase(parentClassName)).append(".").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             } else {
-                sb.append(SPACE_12).append("<result column=\"").append(StringUtil.firstToLowerCase(parentClassName)).append(".").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
+                sb.append(Constant.SPACE_12).append("<result column=\"").append(StringUtil.firstToLowerCase(parentClassName)).append(".").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             }
         }
-        sb.append(SPACE_8).append("</association>");
+        sb.append(Constant.SPACE_8).append("</association>");
         return sb.toString();
     }
 
@@ -282,12 +280,12 @@ public class GeneratorUtil {
         sb.append("<collection property=\"").append(StringUtil.firstToLowerCase(parentClassName)).append("s\" ofType=\"").append(parentClassPackage).append(".").append(parentClassName).append("\">\n");
         for (ColumnInfo info : parentInfos) {
             if (info.isPrimaryKey()) {
-                sb.append(SPACE_12).append("<id column=\"").append(StringUtil.firstToLowerCase(parentClassName)).append("s").append(".").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
+                sb.append(Constant.SPACE_12).append("<id column=\"").append(StringUtil.firstToLowerCase(parentClassName)).append("s").append(".").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             } else {
-                sb.append(SPACE_12).append("<result column=\"").append(StringUtil.firstToLowerCase(parentClassName)).append("s").append(".").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
+                sb.append(Constant.SPACE_12).append("<result column=\"").append(StringUtil.firstToLowerCase(parentClassName)).append("s").append(".").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             }
         }
-        sb.append(SPACE_8).append("</collection>");
+        sb.append(Constant.SPACE_8).append("</collection>");
         return sb.toString();
     }
 
@@ -323,7 +321,7 @@ public class GeneratorUtil {
     public static String generateMapperJoins(String tableName, String parentTableName, String relationTableName, String foreignKey, String parentForeignKey, String primaryKey, String parentPrimaryKey) {
         StringBuilder sb = new StringBuilder();
         sb.append("LEFT JOIN ").append(relationTableName).append(" on ").append(relationTableName).append(".").append(foreignKey).append(" = ").append(tableName).append(".").append(primaryKey).append(" \n")
-                .append(SPACE_8).append("LEFT JOIN ").append(parentTableName).append(" on ").append(parentTableName).append(".").append(parentPrimaryKey).append(" = ").append(relationTableName).append(".").append(parentForeignKey);
+                .append(Constant.SPACE_8).append("LEFT JOIN ").append(parentTableName).append(" on ").append(parentTableName).append(".").append(parentPrimaryKey).append(" = ").append(relationTableName).append(".").append(parentForeignKey);
         return sb.toString();
     }
 
@@ -338,7 +336,7 @@ public class GeneratorUtil {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < infos.size(); i++) {
             if (i != 0) {
-                sb.append(SPACE_12);
+                sb.append(Constant.SPACE_12);
             }
             sb.append(infos.get(i).getColumnName() + ",\n");
         }
@@ -352,7 +350,7 @@ public class GeneratorUtil {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < infos.size(); i++) {
             if (i != 0) {
-                sb.append(SPACE_12);
+                sb.append(Constant.SPACE_12);
             }
             sb.append("#{").append(infos.get(i).getPropertyName()).append("},\n");
         }
@@ -366,7 +364,7 @@ public class GeneratorUtil {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < infos.size(); i++) {
             if (i != 0) {
-                sb.append(SPACE_12);
+                sb.append(Constant.SPACE_12);
             }
             sb.append("#{").append(entityName).append(".").append(infos.get(i).getPropertyName()).append("},\n");
         }
@@ -381,12 +379,12 @@ public class GeneratorUtil {
         for (int i = 0; i < infos.size(); i++) {
             if (infos.get(i).getColumnName().equals(foreignKey)) {
                 if (i != 0) {
-                    sb.append(SPACE_12);
+                    sb.append(Constant.SPACE_12);
                 }
                 sb.append("#{").append(parentEntityName).append(".").append(primaryKey).append("},\n"); // 此处id需要修改为primarykey
             } else {
                 if (i != 0) {
-                    sb.append(SPACE_12);
+                    sb.append(Constant.SPACE_12);
                 }
                 sb.append("#{").append(infos.get(i).getPropertyName()).append("},\n");
             }
@@ -402,12 +400,12 @@ public class GeneratorUtil {
         for (int i = 0; i < infos.size(); i++) {
             if (infos.get(i).getColumnName().equals(foreignKey)) {
                 if (i != 0) {
-                    sb.append(SPACE_12);
+                    sb.append(Constant.SPACE_12);
                 }
                 sb.append("#{").append(entityName).append(".").append(parentEntityName).append(".").append(primaryKey).append("},\n"); // 此处id需要修改为primarykey
             } else {
                 if (i != 0) {
-                    sb.append(SPACE_12);
+                    sb.append(Constant.SPACE_12);
                 }
                 sb.append("#{").append(entityName).append(".").append(infos.get(i).getPropertyName()).append("},\n");
             }
@@ -422,7 +420,7 @@ public class GeneratorUtil {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < infos.size(); i++) {
             if (i != 0) {
-                sb.append(SPACE_8);
+                sb.append(Constant.SPACE_8);
             }
             sb.append(infos.get(i).getColumnName()).append(" = #{").append(infos.get(i).getPropertyName()).append("},\n");
         }
@@ -437,12 +435,12 @@ public class GeneratorUtil {
         for (int i = 0; i < infos.size(); i++) {
             if (infos.get(i).getColumnName().equals(foreignKey)) {
                 if (i != 0) {
-                    sb.append(SPACE_8);
+                    sb.append(Constant.SPACE_8);
                 }
                 sb.append(infos.get(i).getColumnName()).append(" = #{").append(parentEntityName).append(".").append(primaryKey).append("},\n");
             } else {
                 if (i != 0) {
-                    sb.append(SPACE_8);
+                    sb.append(Constant.SPACE_8);
                 }
                 sb.append(infos.get(i).getColumnName()).append(" = #{").append(infos.get(i).getPropertyName()).append("},\n");
             }

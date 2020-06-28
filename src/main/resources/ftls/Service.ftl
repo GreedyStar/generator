@@ -1,7 +1,7 @@
-package ${BasePackageName}${ServicePackageName};
+package ${BasePackageName}.${ServicePackageName};
 
-import ${BasePackageName}${DaoPackageName}.${DaoClassName};
-import ${BasePackageName}${EntityPackageName}.${ClassName};
+import ${BasePackageName}.${DaoPackageName}.${DaoClassName};
+import ${BasePackageName}.${EntityPackageName}.${ClassName};
 ${InterfaceImport}
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

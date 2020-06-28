@@ -3,6 +3,8 @@ package com.greedystar.generator.entity;
 import java.io.Serializable;
 
 /**
+ * Generator 配置类
+ * <p>
  * Author GreedyStar
  * Date   2018/9/7
  */
@@ -34,7 +36,7 @@ public class Configuration implements Serializable {
     /**
      * 代码文件后缀
      */
-    private Suffix suffix;
+    private Name name;
 
     public String getAuthor() {
         return author;
@@ -45,7 +47,7 @@ public class Configuration implements Serializable {
     }
 
     public String getPackageName() {
-        return packageName == null ? "" : packageName + ".";
+        return packageName;
     }
 
     public void setPackageName(String packageName) {
@@ -84,14 +86,17 @@ public class Configuration implements Serializable {
         this.db = db;
     }
 
-    public Suffix getSuffix() {
-        return suffix;
+    public Name getName() {
+        return name;
     }
 
-    public void setSuffix(Suffix suffix) {
-        this.suffix = suffix;
+    public void setName(Name name) {
+        this.name = name;
     }
 
+    /**
+     * 数据库配置
+     */
     public static class Db {
         /**
          * 数据库URL
@@ -140,31 +145,34 @@ public class Configuration implements Serializable {
         }
     }
 
+    /**
+     * 代码路径配置
+     */
     public static class Path {
         /**
          * Controller代码包路径
          */
-        private String controller;
+        private String controller = "";
         /**
          * Service或ServiceImpl代码包路径
          */
-        private String service;
+        private String service = "";
         /**
          * Service接口代码包路径
          */
-        private String interf;
+        private String interf = "";
         /**
          * Dao代码包路径
          */
-        private String dao;
+        private String dao = "";
         /**
          * Entity代码包路径
          */
-        private String entity;
+        private String entity = "";
         /**
          * Mapper映射文件路径
          */
-        private String mapper;
+        private String mapper = "";
 
         public Path() {
         }
@@ -179,7 +187,7 @@ public class Configuration implements Serializable {
         }
 
         public String getController() {
-            return controller == null ? "" : controller;
+            return controller;
         }
 
         public void setController(String controller) {
@@ -187,7 +195,7 @@ public class Configuration implements Serializable {
         }
 
         public String getService() {
-            return service == null ? "" : service;
+            return service;
         }
 
         public void setService(String service) {
@@ -203,7 +211,7 @@ public class Configuration implements Serializable {
         }
 
         public String getDao() {
-            return dao == null ? "" : dao;
+            return dao;
         }
 
         public void setDao(String dao) {
@@ -211,7 +219,7 @@ public class Configuration implements Serializable {
         }
 
         public String getEntity() {
-            return entity == null ? "" : entity;
+            return entity;
         }
 
         public void setEntity(String entity) {
@@ -219,7 +227,7 @@ public class Configuration implements Serializable {
         }
 
         public String getMapper() {
-            return mapper == null ? "" : mapper;
+            return mapper;
         }
 
         public void setMapper(String mapper) {
@@ -228,32 +236,39 @@ public class Configuration implements Serializable {
 
     }
 
-    public static class Suffix {
+    /**
+     * 类名配置
+     */
+    public static class Name {
         /**
-         * Controller类的后缀，默认为Controller，即XXController
+         * Controller类的类名，默认为 %sController
          */
-        private String controller;
+        private String controller = Constant.PLACEHOLDER + "Controller";
         /**
-         * Service类或ServiceImpl类的后缀，默认为Service或ServiceImpl，即XXService或XXServiceImpl
+         * Service类或ServiceImpl类的类名，默认为%sService或%sServiceImpl
          */
-        private String service;
+        private String service = Constant.PLACEHOLDER + "Service";
         /**
-         * Dao类的后缀，默认为Dao，即XXDao
+         * Service接口类的类名，默认为%sService
          */
-        private String dao;
+        private String interf = Constant.PLACEHOLDER + "Service";
         /**
-         * Entity类的后缀，默认为空，即XX
+         * Dao类的类名，默认为%sDao
          */
-        private String entity;
+        private String dao = Constant.PLACEHOLDER + "Dao";
         /**
-         * Mapper映射文件的后缀，默认为Mapper，即XXMapper
+         * Entity类的类名，默认为%s
          */
-        private String mapper;
+        private String entity = Constant.PLACEHOLDER;
+        /**
+         * Mapper映射文件的文件名，默认%sMapper
+         */
+        private String mapper = Constant.PLACEHOLDER + "Mapper";
 
-        public Suffix() {
+        public Name() {
         }
 
-        public Suffix(String controller, String service, String dao, String entity, String mapper) {
+        public Name(String controller, String service, String dao, String entity, String mapper) {
             this.controller = controller;
             this.service = service;
             this.dao = dao;
@@ -262,7 +277,7 @@ public class Configuration implements Serializable {
         }
 
         public String getController() {
-            return controller == null ? "Controller" : controller;
+            return controller;
         }
 
         public void setController(String controller) {
@@ -270,15 +285,23 @@ public class Configuration implements Serializable {
         }
 
         public String getService() {
-            return service == null ? "Service" : service;
+            return service;
         }
 
         public void setService(String service) {
             this.service = service;
         }
 
+        public String getInterf() {
+            return interf;
+        }
+
+        public void setInterf(String interf) {
+            this.interf = interf;
+        }
+
         public String getDao() {
-            return dao == null ? "Dao" : dao;
+            return dao;
         }
 
         public void setDao(String dao) {
@@ -286,7 +309,7 @@ public class Configuration implements Serializable {
         }
 
         public String getEntity() {
-            return entity == null ? "" : entity;
+            return entity;
         }
 
         public void setEntity(String entity) {
@@ -294,7 +317,7 @@ public class Configuration implements Serializable {
         }
 
         public String getMapper() {
-            return mapper == null ? "Mapper" : mapper;
+            return mapper;
         }
 
         public void setMapper(String mapper) {
