@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Author GreedyStar
- * Date   2018/4/20
+ * @author GreedyStar
+ * @since 2018/4/20
  */
 public class MapperTask extends AbstractTask {
 
@@ -40,7 +40,7 @@ public class MapperTask extends AbstractTask {
 
     @Override
     public void run() throws IOException, TemplateException {
-        // 生成Mapper填充数据
+        // 构造Mapper填充数据
         Map<String, String> mapperData = new HashMap<>();
         mapperData.put("PackageName", ConfigUtil.getConfiguration().getPackageName() + "." + ConfigUtil.getConfiguration().getPath().getDao());
         mapperData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());

@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 /**
  * Generator 配置类
- * <p>
- * Author GreedyStar
- * Date   2018/9/7
+ *
+ * @author GreedyStar
+ * @since 2018/9/7
  */
 public class Configuration implements Serializable {
     /**

@@ -10,10 +10,14 @@ import com.greedystar.generator.utils.StringUtil;
 import java.sql.SQLException;
 
 /**
- * Author GreedyStar
- * Date   2018/9/5
+ * @author GreedyStar
+ * @since 2018/9/5
  */
 public class One2ManyInvoker extends AbstractInvoker {
+
+    private One2ManyInvoker() {
+
+    }
 
     @Override
     protected void getTableInfos() throws Exception {
@@ -27,7 +31,10 @@ public class One2ManyInvoker extends AbstractInvoker {
     }
 
     public static class Builder extends AbstractBuilder {
-        private One2ManyInvoker invoker = new One2ManyInvoker();
+
+        public Builder() {
+            invoker = new One2ManyInvoker();
+        }
 
         public Builder setTableName(String tableName) {
             invoker.setTableName(tableName);
@@ -52,14 +59,6 @@ public class One2ManyInvoker extends AbstractInvoker {
         public Builder setForeignKey(String foreignKey) {
             invoker.setForeignKey(foreignKey);
             return this;
-        }
-
-        @Override
-        public Invoker build() {
-            if (!isParamtersValid()) {
-                return null;
-            }
-            return invoker;
         }
 
         @Override

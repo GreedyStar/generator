@@ -6,8 +6,10 @@ import java.io.Serializable;
 import java.sql.JDBCType;
 
 /**
- * Author GreedyStar
- * Date   2018/4/19
+ * 数据列实体
+ *
+ * @author GreedyStar
+ * @since 2018/4/19
  */
 public class ColumnInfo implements Serializable {
     /**

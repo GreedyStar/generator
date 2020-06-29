@@ -6,8 +6,8 @@ import freemarker.template.TemplateException;
 import java.io.*;
 
 /**
- * Author GreedyStar
- * Date   2018/4/19
+ * @author GreedyStar
+ * @since 2018/4/19
  */
 public class FileUtil {
 
@@ -72,6 +72,11 @@ public class FileUtil {
         }
     }
 
+    /**
+     * 获取项目主目录
+     *
+     * @return
+     */
     private static String getBasicProjectPath() {
         String path = new File(FileUtil.class.getClassLoader().getResource("").getFile()).getPath() + File.separator;
         StringBuilder sb = new StringBuilder();

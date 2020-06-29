@@ -10,10 +10,14 @@ import com.greedystar.generator.utils.StringUtil;
 import java.sql.SQLException;
 
 /**
- * Author GreedyStar
- * Date   2018/9/5
+ * @author GreedyStar
+ * @since 2018/9/5
  */
 public class SingleInvoker extends AbstractInvoker {
+
+    private SingleInvoker() {
+
+    }
 
     @Override
     protected void getTableInfos() throws Exception {
@@ -26,7 +30,10 @@ public class SingleInvoker extends AbstractInvoker {
     }
 
     public static class Builder extends AbstractBuilder {
-        private SingleInvoker invoker = new SingleInvoker();
+
+        public Builder() {
+            invoker = new SingleInvoker();
+        }
 
         public Builder setTableName(String tableName) {
             invoker.setTableName(tableName);
@@ -36,14 +43,6 @@ public class SingleInvoker extends AbstractInvoker {
         public Builder setClassName(String className) {
             invoker.setClassName(className);
             return this;
-        }
-
-        @Override
-        public Invoker build() {
-            if (!isParamtersValid()) {
-                return null;
-            }
-            return invoker;
         }
 
         @Override

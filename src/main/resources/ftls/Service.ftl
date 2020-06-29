@@ -10,8 +10,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Author ${Author}
- * Date  ${Date}
+ * @author ${Author}
+ * @since ${Date}
  */
 @Service
 public class ${ServiceClassName} ${Implements} {

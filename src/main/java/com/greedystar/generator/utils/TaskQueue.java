@@ -8,11 +8,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Author GreedyStar
- * Date   2018-11-27
+ * @author GreedyStar
+ * @since 2018-11-27
  */
 public class TaskQueue {
 
+    /**
+     * 任务队列
+     */
     private LinkedList<AbstractTask> taskQueue = new LinkedList<>();
 
     /**
@@ -98,10 +101,20 @@ public class TaskQueue {
         }
     }
 
+    /**
+     * 任务队列是否为空
+     *
+     * @return
+     */
     public boolean isEmpty() {
         return taskQueue.isEmpty();
     }
 
+    /**
+     * 取出一个任务
+     *
+     * @return
+     */
     public AbstractTask poll() {
         return taskQueue.poll();
     }

@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Author GreedyStar
- * Date   2019/1/24
+ * @author GreedyStar
+ * @since 2019/1/24
  */
 public class InterfaceTask extends AbstractTask {
 
@@ -23,7 +23,7 @@ public class InterfaceTask extends AbstractTask {
 
     @Override
     public void run() throws IOException, TemplateException {
-        // 生成Service接口填充数据
+        // 构造Service接口填充数据
         Map<String, String> interfaceData = new HashMap<>();
         interfaceData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
         interfaceData.put("InterfacePackageName", ConfigUtil.getConfiguration().getPath().getInterf());

@@ -3,11 +3,17 @@ package com.greedystar.generator.utils;
 import java.io.File;
 
 /**
- * Author GreedyStar
- * Date   2018-09-10
+ * @author GreedyStar
+ * @since 2018-09-10
  */
 public class StringUtil {
 
+    /**
+     * 判断字符串是否为空
+     *
+     * @param string
+     * @return
+     */
     public static boolean isBlank(String string) {
         if (string == null || string.trim().equals("")) {
             return true;
@@ -18,6 +24,9 @@ public class StringUtil {
 
     /**
      * 首字母大写
+     *
+     * @param string
+     * @return
      */
     public static String firstToUpperCase(String string) {
         StringBuilder sb = new StringBuilder();
@@ -25,8 +34,12 @@ public class StringUtil {
         return sb.toString();
     }
 
+
     /**
      * 首字母小写
+     *
+     * @param string
+     * @return
      */
     public static String firstToLowerCase(String string) {
         StringBuilder sb = new StringBuilder();

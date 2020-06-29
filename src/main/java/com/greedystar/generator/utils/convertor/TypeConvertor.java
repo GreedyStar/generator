@@ -3,8 +3,8 @@ package com.greedystar.generator.utils.convertor;
 import java.sql.JDBCType;
 
 /**
- * Author GreedyStar
- * Date   2019/6/2
+ * @author GreedyStar
+ * @since 2019/6/2
  */
 public interface TypeConvertor {
 

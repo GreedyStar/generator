@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Author GreedyStar
- * Date   2018/4/20
+ * @author GreedyStar
+ * @since 2018/4/20
  */
 public class ControllerTask extends AbstractTask {
 
@@ -23,7 +23,7 @@ public class ControllerTask extends AbstractTask {
 
     @Override
     public void run() throws IOException, TemplateException {
-        // 生成Controller填充数据
+        // 构造Controller填充数据
         Map<String, String> controllerData = new HashMap<>();
         controllerData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
         controllerData.put("ControllerPackageName", ConfigUtil.getConfiguration().getPath().getController());

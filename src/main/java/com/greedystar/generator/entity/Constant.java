@@ -1,8 +1,10 @@
 package com.greedystar.generator.entity;
 
 /**
- * Author GreedyStar
- * Date   2020/6/28
+ * 常量
+ *
+ * @author GreedyStar
+ * @since 2020/6/28
  */
 public class Constant {
     /**

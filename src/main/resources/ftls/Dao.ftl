@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Author ${Author}
- * Date  ${Date}
+ * @author ${Author}
+ * @since ${Date}
  */
 @Mapper
 public interface ${DaoClassName} {

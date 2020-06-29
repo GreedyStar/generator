@@ -7,8 +7,8 @@ import java.util.List;
 /**
  * ${Remarks}
  *
- * Author ${Author}
- * Date  ${Date}
+ * @author ${Author}
+ * @since ${Date}
  */
 ${Annotation}
 public class ${ClassName} implements Serializable {

@@ -11,15 +11,15 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * 代码生成器的配置工具
- * <p>
- * Author GreedyStar
- * Date   2018/9/7
+ *
+ * @author GreedyStar
+ * @since 2018/9/7
  */
 public class ConfigUtil {
     /**
      * 代码生成器的配置信息
      */
-    private static Configuration configuration;
+    private static volatile Configuration configuration;
 
     /**
      * 获取配置信息

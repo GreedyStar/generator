@@ -6,8 +6,8 @@ import java.sql.SQLType;
 import static java.sql.JDBCType.*;
 
 /**
- * Author GreedyStar
- * Date   2019/6/2
+ * @author GreedyStar
+ * @since 2019/6/2
  */
 public class DefaultConvertor implements TypeConvertor {
 

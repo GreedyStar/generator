@@ -6,17 +6,23 @@ import com.greedystar.generator.utils.convertor.TypeConvertor;
 import java.sql.JDBCType;
 
 /**
- * Author GreedyStar
- * Date   2018/4/19
+ * 类型转换器工具类
+ *
+ * @author GreedyStar
+ * @since 2018/4/19
  */
 public class ConvertorUtil {
+    /**
+     * 类型转换器
+     */
     private volatile static TypeConvertor convertor;
 
     static {
         String convertorClass = ConfigUtil.getConfiguration().getConvertor();
         if (StringUtil.isBlank(convertorClass)) { // 用户未配置类型转换器，使用默认转换器
             convertor = new DefaultConvertor();
-        } else { // 加载用户定义的类型转换器
+        } else {
+            // 加载用户定义的类型转换器
             try {
                 Class clazz = Class.forName(ConfigUtil.getConfiguration().getConvertor());
                 convertor = (TypeConvertor) clazz.newInstance();

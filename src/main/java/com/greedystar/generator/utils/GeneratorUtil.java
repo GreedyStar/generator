@@ -7,8 +7,8 @@ import java.util.List;
 
 
 /**
- * Author GreedyStar
- * Date   2018/4/19
+ * @author GreedyStar
+ * @since 2018/4/19
  */
 public class GeneratorUtil {
 

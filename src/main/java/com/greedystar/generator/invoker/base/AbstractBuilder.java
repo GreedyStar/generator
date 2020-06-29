@@ -1,14 +1,20 @@
 package com.greedystar.generator.invoker.base;
 
 /**
- * Author GreedyStar
- * Date   2018/9/5
+ * @author GreedyStar
+ * @since 2018/9/5
  */
 public abstract class AbstractBuilder {
+    protected AbstractInvoker invoker;
 
-    public abstract Invoker build();
+    public Invoker build() {
+        if (!isParamtersValid()) {
+            return null;
+        }
+        return invoker;
+    }
 
-    public boolean isParamtersValid() {
+    private boolean isParamtersValid() {
         try {
             checkBeforeBuild();
         } catch (Exception e) {
@@ -18,6 +24,11 @@ public abstract class AbstractBuilder {
         return true;
     }
 
-    public abstract void checkBeforeBuild() throws Exception;
+    /**
+     * 在创建invoker对象前进行一些检查，由子类去实现
+     *
+     * @throws Exception
+     */
+    protected abstract void checkBeforeBuild() throws Exception;
 
 }

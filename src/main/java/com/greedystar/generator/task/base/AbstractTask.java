@@ -11,8 +11,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Author GreedyStar
- * Date   2018/4/20
+ * @author GreedyStar
+ * @since 2018/4/20
  */
 public abstract class AbstractTask implements Serializable {
     /**
@@ -53,7 +53,7 @@ public abstract class AbstractTask implements Serializable {
     protected List<ColumnInfo> parentTableInfos;
 
     /**
-     * Controller、Service、Dao
+     * 用于构造生成 Controller类、Service类、Dao类的 Task
      *
      * @param className
      */
@@ -62,7 +62,7 @@ public abstract class AbstractTask implements Serializable {
     }
 
     /**
-     * Entity
+     * 用于构造生成 Entity 类的 Task
      *
      * @param className
      * @param parentClassName
@@ -81,7 +81,7 @@ public abstract class AbstractTask implements Serializable {
 
 
     /**
-     * Mapper
+     * 用于构造生成 Mapper 文件的 Task
      *
      * @param tableName
      * @param className
@@ -104,6 +104,12 @@ public abstract class AbstractTask implements Serializable {
         this.parentTableInfos = parentTableInfos;
     }
 
+    /**
+     * 执行任务
+     *
+     * @throws IOException
+     * @throws TemplateException
+     */
     public abstract void run() throws IOException, TemplateException;
 
     @Deprecated

@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Author GreedyStar
- * Date   2018/4/20
+ * @author GreedyStar
+ * @since 2018/4/20
  */
 public class DaoTask extends AbstractTask {
 
@@ -23,7 +23,7 @@ public class DaoTask extends AbstractTask {
 
     @Override
     public void run() throws IOException, TemplateException {
-        // 生成Dao填充数据
+        // 构造Dao填充数据
         Map<String, String> daoData = new HashMap<>();
         daoData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
         daoData.put("DaoPackageName", ConfigUtil.getConfiguration().getPath().getDao());

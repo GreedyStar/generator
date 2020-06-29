@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Author GreedyStar
- * Date   2018/4/20
+ * @author GreedyStar
+ * @since 2018/4/20
  */
 public class ServiceTask extends AbstractTask {
 
@@ -23,7 +23,7 @@ public class ServiceTask extends AbstractTask {
 
     @Override
     public void run() throws IOException, TemplateException {
-        // 生成Service填充数据
+        // 构造Service填充数据
         Map<String, String> serviceData = new HashMap<>();
         serviceData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
         serviceData.put("ServicePackageName", ConfigUtil.getConfiguration().getPath().getService());

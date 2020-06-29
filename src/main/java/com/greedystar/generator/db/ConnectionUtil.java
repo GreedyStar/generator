@@ -13,14 +13,16 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * Author GreedyStar
- * Date   2018/4/19
+ * 数据库连接工具类
+ *
+ * @author GreedyStar
+ * @since 2018/4/19
  */
 public class ConnectionUtil {
+    /**
+     * 数据库连接
+     */
     private Connection connection;
-
-    public ConnectionUtil() {
-    }
 
     /**
      * 初始化数据库连接
@@ -91,7 +93,8 @@ public class ConnectionUtil {
         if (columnInfos.size() == 0) {
             throw new Exception("Can not find column information from table:" + tableName);
         }
-        if (connection.getMetaData().getURL().contains("sqlserver")) { // SQLServer需要单独处理列REMARKS
+        // SQLServer需要单独处理列REMARKS
+        if (connection.getMetaData().getURL().contains("sqlserver")) {
             parseSqlServerColumnRemarks(tableName, columnInfos);
         }
         return columnInfos;
@@ -151,6 +154,9 @@ public class ConnectionUtil {
         return schema;
     }
 
+    /**
+     * 关闭数据库连接
+     */
     public void closeConnection() {
         try {
             if (!connection.isClosed()) {

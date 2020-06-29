@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Author GreedyStar
- * Date   2018/4/20
+ * @author GreedyStar
+ * @since 2018/4/20
  */
 public class EntityTask extends AbstractTask {
 
@@ -42,7 +42,7 @@ public class EntityTask extends AbstractTask {
 
     @Override
     public void run() throws IOException, TemplateException {
-        // 生成Entity填充数据
+        // 构造Entity填充数据
         Map<String, String> entityData = new HashMap<>();
         entityData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
         entityData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
@@ -56,8 +56,8 @@ public class EntityTask extends AbstractTask {
             importStringBuilder.append("import lombok.Data;\n");
             annotationStringBuilder.append("@Data\n");
         }
-        entityData.put("Import", importStringBuilder.substring(0, importStringBuilder.length() - 1));
-        entityData.put("Annotation", annotationStringBuilder.substring(0, annotationStringBuilder.length() - 1));
+        entityData.put("Import", importStringBuilder.length() == 0 ? "" : importStringBuilder.substring(0, importStringBuilder.length() - 1));
+        entityData.put("Annotation", annotationStringBuilder.length() == 0 ? "" : annotationStringBuilder.substring(0, annotationStringBuilder.length() - 1));
         if (!StringUtil.isBlank(parentForeignKey)) { // 多对多：主表实体
             entityData.put("Properties", GeneratorUtil.generateEntityProperties(parentClassName, relationalTableName, foreignKey, parentForeignKey, tableInfos));
             entityData.put("Methods", GeneratorUtil.generateEntityMethods(parentClassName, tableInfos));

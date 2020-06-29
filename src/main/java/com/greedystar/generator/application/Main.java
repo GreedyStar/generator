@@ -6,13 +6,13 @@ import com.greedystar.generator.invoker.SingleInvoker;
 import com.greedystar.generator.invoker.base.Invoker;
 
 /**
- * Author GreedyStar
- * Date   2018/9/5
+ * @author GreedyStar
+ * @since 2018/9/5
  */
 public class Main {
 
     public static void main(String[] args) {
-        single();
+        
     }
 
     public static void many2many() {

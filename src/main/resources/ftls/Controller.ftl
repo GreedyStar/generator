@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Author ${Author}
- * Date  ${Date}
+ * @author ${Author}
+ * @since ${Date}
  */
 @RestController
 @RequestMapping(value = "/${EntityName}")
