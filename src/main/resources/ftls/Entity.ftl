@@ -1,21 +1,25 @@
-package ${BasePackageName}.${EntityPackageName};
+package ${configuration.packageName}.${configuration.path.entity};
 
-${Import}
+<#if configuration.lombokEnable>
+import lombok.Data;
+</#if>
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * ${Remarks}
  *
- * @author ${Author}
- * @since ${Date}
+ * @author ${configuration.author}
+ * @date ${.now?date}
  */
-${Annotation}
+<#if configuration.lombokEnable>
+@Data
+</#if>
 public class ${ClassName} implements Serializable {
     private static final long serialVersionUID = 1L;
     ${Properties}
 
-    public ${ClassName}(){
+    public ${ClassName}() {
     }
 
     ${Methods}

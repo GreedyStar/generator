@@ -41,19 +41,17 @@ public class MapperTask extends AbstractTask {
     @Override
     public void run() throws IOException, TemplateException {
         // 构造Mapper填充数据
-        Map<String, String> mapperData = new HashMap<>();
-        mapperData.put("PackageName", ConfigUtil.getConfiguration().getPackageName() + "." + ConfigUtil.getConfiguration().getPath().getDao());
-        mapperData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
-        mapperData.put("DaoPackageName", ConfigUtil.getConfiguration().getPath().getDao());
-        mapperData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
+        Map<String, Object> mapperData = new HashMap<>();
+        mapperData.put("configuration", ConfigUtil.getConfiguration());
         mapperData.put("ClassName", ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className));
         mapperData.put("EntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className)));
-        mapperData.put("DaoName", ConfigUtil.getConfiguration().getName().getDao().replace(Constant.PLACEHOLDER, className));
+        mapperData.put("DaoClassName", ConfigUtil.getConfiguration().getName().getDao().replace(Constant.PLACEHOLDER, className));
         mapperData.put("TableName", tableName);
-        mapperData.put("InsertProperties", GeneratorUtil.generateMapperInsertProperties(tableInfos));
         mapperData.put("PrimaryKey", getPrimaryKeyColumnInfo(tableInfos).getColumnName());
         mapperData.put("WhereId", "#{" + getPrimaryKeyColumnInfo(tableInfos).getPropertyName() + "}");
         mapperData.put("Id", "#{id}");
+        mapperData.put("PrimaryColumn", getPrimaryKeyColumnInfo(tableInfos));
+        mapperData.put("InsertProperties", GeneratorUtil.generateMapperInsertProperties(tableInfos));
         if (!StringUtil.isBlank(parentForeignKey)) { // 多对多
             mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, parentTableName, tableInfos, parentTableInfos, StringUtil.firstToLowerCase(parentClassName)));
             mapperData.put("ResultMap", GeneratorUtil.generateMapperResultMap(tableInfos));

@@ -24,12 +24,8 @@ public class DaoTask extends AbstractTask {
     @Override
     public void run() throws IOException, TemplateException {
         // 构造Dao填充数据
-        Map<String, String> daoData = new HashMap<>();
-        daoData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
-        daoData.put("DaoPackageName", ConfigUtil.getConfiguration().getPath().getDao());
-        daoData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
-        daoData.put("Author", ConfigUtil.getConfiguration().getAuthor());
-        daoData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        Map<String, Object> daoData = new HashMap<>();
+        daoData.put("configuration", ConfigUtil.getConfiguration());
         daoData.put("ClassName", ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className));
         daoData.put("EntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className)));
         daoData.put("DaoClassName", ConfigUtil.getConfiguration().getName().getDao().replace(Constant.PLACEHOLDER, className));

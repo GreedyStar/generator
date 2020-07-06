@@ -1,7 +1,7 @@
-package ${BasePackageName}.${ControllerPackageName};
+package ${configuration.packageName}.${configuration.path.controller};
 
-import ${BasePackageName}.${EntityPackageName}.${ClassName};
-import ${BasePackageName}.${ServicePackageName}.${ServiceClassName};
+import ${configuration.packageName}.${configuration.path.entity}.${ClassName};
+${ServiceImport}
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author ${Author}
- * @since ${Date}
+ * @author ${configuration.author}
+ * @date ${.now?date}
  */
 @RestController
 @RequestMapping(value = "/${EntityName}")

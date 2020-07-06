@@ -1,7 +1,7 @@
-package ${BasePackageName}.${ServicePackageName};
+package ${configuration.packageName}.${configuration.path.service};
 
-import ${BasePackageName}.${DaoPackageName}.${DaoClassName};
-import ${BasePackageName}.${EntityPackageName}.${ClassName};
+import ${configuration.packageName}.${configuration.path.dao}.${DaoClassName};
+import ${configuration.packageName}.${configuration.path.entity}.${ClassName};
 ${InterfaceImport}
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,15 +10,15 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author ${Author}
- * @since ${Date}
+ * @author ${configuration.author}
+ * @date ${.now?date}
  */
 @Service
 public class ${ServiceClassName} ${Implements} {
     @Autowired
     private ${DaoClassName} ${DaoEntityName};
     ${Override}
-    public ${ClassName} get(Serializable id){
+    public ${ClassName} get(Serializable id) {
         return ${DaoEntityName}.get(id);
     }
     ${Override}
@@ -34,7 +34,7 @@ public class ${ServiceClassName} ${Implements} {
         return ${DaoEntityName}.insert(${EntityName});
     }
     ${Override}
-    public int insertBatch(List<${ClassName}> ${EntityName}s){
+    public int insertBatch(List<${ClassName}> ${EntityName}s) {
         return ${DaoEntityName}.insertBatch(${EntityName}s);
     }
     ${Override}

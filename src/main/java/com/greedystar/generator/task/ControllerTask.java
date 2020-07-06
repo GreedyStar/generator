@@ -24,20 +24,20 @@ public class ControllerTask extends AbstractTask {
     @Override
     public void run() throws IOException, TemplateException {
         // 构造Controller填充数据
-        Map<String, String> controllerData = new HashMap<>();
-        controllerData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
-        controllerData.put("ControllerPackageName", ConfigUtil.getConfiguration().getPath().getController());
+        Map<String, Object> controllerData = new HashMap<>();
+        controllerData.put("configuration", ConfigUtil.getConfiguration());
         String serviceClassName;
+        String serviceImport;
         if (StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getInterf())) {
-            controllerData.put("ServicePackageName", ConfigUtil.getConfiguration().getPath().getService());
             serviceClassName = ConfigUtil.getConfiguration().getName().getService().replace(Constant.PLACEHOLDER, className);
+            serviceImport = "import " + ConfigUtil.getConfiguration().getPackageName() + "."
+                    + ConfigUtil.getConfiguration().getPath().getService() + "." + serviceClassName + ";";
         } else {
-            controllerData.put("ServicePackageName", ConfigUtil.getConfiguration().getPath().getInterf());
             serviceClassName = ConfigUtil.getConfiguration().getName().getInterf().replace(Constant.PLACEHOLDER, className);
+            serviceImport = "import " + ConfigUtil.getConfiguration().getPackageName() + "."
+                    + ConfigUtil.getConfiguration().getPath().getInterf() + "." + serviceClassName + ";";
         }
-        controllerData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
-        controllerData.put("Author", ConfigUtil.getConfiguration().getAuthor());
-        controllerData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        controllerData.put("ServiceImport", serviceImport);
         controllerData.put("ServiceClassName", serviceClassName);
         controllerData.put("ServiceEntityName", StringUtil.firstToLowerCase(serviceClassName));
         controllerData.put("ControllerClassName", ConfigUtil.getConfiguration().getName().getController().replace(Constant.PLACEHOLDER, className));

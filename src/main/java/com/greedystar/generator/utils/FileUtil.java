@@ -78,9 +78,8 @@ public class FileUtil {
      * @return
      */
     private static String getBasicProjectPath() {
-        String path = new File(FileUtil.class.getClassLoader().getResource("").getFile()).getPath() + File.separator;
         StringBuilder sb = new StringBuilder();
-        sb.append(path.substring(0, path.indexOf("target"))).append("src").append(File.separator).append("main").append(File.separator);
+        sb.append(System.getProperty("user.dir")).append(File.separator).append("src").append(File.separator).append("main").append(File.separator);
         return sb.toString();
     }
 
@@ -104,6 +103,11 @@ public class FileUtil {
         StringBuilder sb = new StringBuilder();
         sb.append(getBasicProjectPath()).append("resources").append(File.separator);
         return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getResourcePath());
+        System.out.println(getSourcePath());
     }
 
 }

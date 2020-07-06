@@ -24,32 +24,35 @@ public class ServiceTask extends AbstractTask {
     @Override
     public void run() throws IOException, TemplateException {
         // 构造Service填充数据
-        Map<String, String> serviceData = new HashMap<>();
-        serviceData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
-        serviceData.put("ServicePackageName", ConfigUtil.getConfiguration().getPath().getService());
-        serviceData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
-        serviceData.put("DaoPackageName", ConfigUtil.getConfiguration().getPath().getDao());
-        serviceData.put("Author", ConfigUtil.getConfiguration().getAuthor());
-        serviceData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        serviceData.put("DaoClassName", ConfigUtil.getConfiguration().getName().getDao().replace(Constant.PLACEHOLDER, className));
-        serviceData.put("DaoEntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getDao().replace(Constant.PLACEHOLDER, className)));
+        Map<String, Object> serviceData = new HashMap<>();
+        serviceData.put("configuration", ConfigUtil.getConfiguration());
         serviceData.put("ClassName", ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className));
-        serviceData.put("EntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className)));
-        String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getService());
+        serviceData.put("EntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getEntity()
+                .replace(Constant.PLACEHOLDER, className)));
+        serviceData.put("DaoClassName", ConfigUtil.getConfiguration().getName().getDao().replace(Constant.PLACEHOLDER, className));
+        serviceData.put("DaoEntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getDao()
+                .replace(Constant.PLACEHOLDER, className)));
+        String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName())
+                + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getService());
         String fileName;
-        if (StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getInterf())) { // 表示不生成Service接口文件
-            serviceData.put("ServiceClassName", ConfigUtil.getConfiguration().getName().getService().replace(Constant.PLACEHOLDER, className));
+        /*
+         * 根据用户是否配置了path节点下的interf属性来判断是否采用接口+实现类的方式
+         */
+        String serviceClassName = ConfigUtil.getConfiguration().getName().getService().replace(Constant.PLACEHOLDER, className);
+        if (StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getInterf())) {
+            serviceData.put("ServiceClassName", serviceClassName);
             serviceData.put("Implements", "");
-            serviceData.put("Override", "");
             serviceData.put("InterfaceImport", "");
+            serviceData.put("Override", "");
             fileName = ConfigUtil.getConfiguration().getName().getService().replace(Constant.PLACEHOLDER, className) + ".java";
         } else {
-            String serviceClassName = ConfigUtil.getConfiguration().getName().getService().contains("Impl") ?
-                    ConfigUtil.getConfiguration().getName().getService().replace(Constant.PLACEHOLDER, className) : ConfigUtil.getConfiguration().getName().getService().replace(Constant.PLACEHOLDER, className) + "Impl";
+            // Service接口实现类默认由Impl结尾
+            serviceClassName = serviceClassName.contains("Impl") ? serviceClassName : serviceClassName + "Impl";
             serviceData.put("ServiceClassName", serviceClassName);
             serviceData.put("Implements", "implements " + ConfigUtil.getConfiguration().getName().getInterf().replace(Constant.PLACEHOLDER, className));
+            serviceData.put("InterfaceImport", "import " + ConfigUtil.getConfiguration().getPackageName() + "." + ConfigUtil.getConfiguration().getPath().getInterf() + "."
+                    + ConfigUtil.getConfiguration().getName().getInterf().replace(Constant.PLACEHOLDER, className) + ";");
             serviceData.put("Override", "\n    @Override");
-            serviceData.put("InterfaceImport", "import " + ConfigUtil.getConfiguration().getPackageName() + "." + ConfigUtil.getConfiguration().getPath().getInterf() + "." + ConfigUtil.getConfiguration().getName().getInterf().replace(Constant.PLACEHOLDER, className) + ";");
             fileName = serviceClassName + ".java";
         }
         // 生成Service文件

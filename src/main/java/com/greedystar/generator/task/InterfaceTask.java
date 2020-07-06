@@ -24,12 +24,8 @@ public class InterfaceTask extends AbstractTask {
     @Override
     public void run() throws IOException, TemplateException {
         // 构造Service接口填充数据
-        Map<String, String> interfaceData = new HashMap<>();
-        interfaceData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
-        interfaceData.put("InterfacePackageName", ConfigUtil.getConfiguration().getPath().getInterf());
-        interfaceData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
-        interfaceData.put("Author", ConfigUtil.getConfiguration().getAuthor());
-        interfaceData.put("Date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        Map<String, Object> interfaceData = new HashMap<>();
+        interfaceData.put("configuration", ConfigUtil.getConfiguration());
         interfaceData.put("ClassName", ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className));
         interfaceData.put("EntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className)));
         interfaceData.put("InterfaceClassName", ConfigUtil.getConfiguration().getName().getInterf().replace(Constant.PLACEHOLDER, className));

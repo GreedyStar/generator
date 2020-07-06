@@ -1,5 +1,6 @@
 package com.greedystar.generator.entity;
 
+import com.greedystar.generator.utils.ConvertorUtil;
 import com.greedystar.generator.utils.StringUtil;
 
 import java.io.Serializable;
@@ -17,9 +18,17 @@ public class ColumnInfo implements Serializable {
      */
     private String columnName;
     /**
-     * 类型代码
+     * 列名 -> 属性名
      */
-    private JDBCType type;
+    private String propertyName;
+    /**
+     * 数据列类型
+     */
+    private JDBCType columnType;
+    /**
+     * 数据列类型 -> Java类型
+     */
+    private String propertyType;
     /**
      * 列备注
      */
@@ -29,20 +38,23 @@ public class ColumnInfo implements Serializable {
      */
     private String tableRemarks;
     /**
-     * 属性名
-     */
-    private String propertyName;
-    /**
      * 是否主键
      */
     private boolean isPrimaryKey;
 
-    public ColumnInfo(String columnName, int type, String remarks, String tableRemarks, boolean isPrimaryKey) {
+    public ColumnInfo(String propertyType, String propertyName, String remarks) {
+        this.propertyType = propertyType;
+        this.propertyName = propertyName;
+        this.remarks = remarks;
+    }
+
+    public ColumnInfo(String columnName, int columnType, String remarks, String tableRemarks, boolean isPrimaryKey) {
         this.columnName = columnName;
-        this.type = JDBCType.valueOf(type);
+        this.propertyName = StringUtil.columnName2PropertyName(columnName);
+        this.columnType = JDBCType.valueOf(columnType);
+        this.propertyType = ConvertorUtil.parseTypeFormSqlType(JDBCType.valueOf(columnType));
         this.remarks = remarks;
         this.tableRemarks = tableRemarks;
-        this.propertyName = StringUtil.columnName2PropertyName(columnName);
         this.isPrimaryKey = isPrimaryKey;
     }
 
@@ -54,12 +66,28 @@ public class ColumnInfo implements Serializable {
         this.columnName = columnName;
     }
 
-    public JDBCType getType() {
-        return type;
+    public String getPropertyName() {
+        return propertyName;
     }
 
-    public void setType(JDBCType type) {
-        this.type = type;
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName;
+    }
+
+    public JDBCType getColumnType() {
+        return columnType;
+    }
+
+    public void setColumnType(JDBCType columnType) {
+        this.columnType = columnType;
+    }
+
+    public String getPropertyType() {
+        return propertyType;
+    }
+
+    public void setPropertyType(String propertyType) {
+        this.propertyType = propertyType;
     }
 
     public String getRemarks() {
@@ -76,14 +104,6 @@ public class ColumnInfo implements Serializable {
 
     public void setTableRemarks(String tableRemarks) {
         this.tableRemarks = tableRemarks;
-    }
-
-    public String getPropertyName() {
-        return propertyName;
-    }
-
-    public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
     }
 
     public boolean isPrimaryKey() {

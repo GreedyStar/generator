@@ -52,22 +52,20 @@ public class ConfigUtil {
      * 通过generator.yaml读取配置
      */
     private static void readConfigurationFromFile() {
-        if (null == ConfigUtil.configuration) {
-            try {
-                URL url = ConfigUtil.class.getClassLoader().getResource("generator.yaml");
-                if (null == url || url.getPath().contains("jar")) {
-                    System.err.println("Can not find file named 'generator.yaml' at resources path, please make sure that you have defined that file.");
-                    System.exit(0);
-                } else {
-                    String configStr = StringUtil.line2Camel(IOUtils.toString((InputStream) url.getContent()));
-                    InputStream inputStream = IOUtils.toInputStream(configStr, StandardCharsets.UTF_8.name());
-                    Yaml yaml = new Yaml();
-                    ConfigUtil.setConfiguration(yaml.loadAs(inputStream, Configuration.class));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            URL url = ConfigUtil.class.getClassLoader().getResource("generator.yaml");
+            if (null == url || url.getPath().contains("jar")) {
+                System.err.println("Can not find file named 'generator.yaml' at resources path, please make sure that you have defined that file.");
                 System.exit(0);
+            } else {
+                String configStr = StringUtil.line2Camel(IOUtils.toString((InputStream) url.getContent()));
+                InputStream inputStream = IOUtils.toInputStream(configStr, StandardCharsets.UTF_8.name());
+                Yaml yaml = new Yaml();
+                ConfigUtil.setConfiguration(yaml.loadAs(inputStream, Configuration.class));
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(0);
         }
     }
 
@@ -77,7 +75,7 @@ public class ConfigUtil {
     private static void checkConfiguration() {
         try {
             // 用户未配置类名后缀，那么添加一个默认的空对象，这里是为了保证在用户不配置suffix节点时，程序能够取得默认值
-            if (ConfigUtil.configuration.getName() == null) {
+            if (null == ConfigUtil.configuration.getName()) {
                 ConfigUtil.configuration.setName(new Configuration.Name());
             }
             // 检查db属性
