@@ -115,6 +115,8 @@ public class StringUtil {
     public static String line2Camel(String str) {
         return str.replace("package-name", "packageName")
                 .replace("lombok-enable", "lombokEnable")
+                .replace("mapper-under-source", "mapperUnderSource")
+                .replace("swagger-enable", "swaggerEnable")
                 .replace("mybatis-plus-enable", "mybatisPlusEnable")
                 .replace("spring-data-jpa-enable", "springDataJpaEnable");
     }

@@ -26,6 +26,14 @@ public class Configuration implements Serializable {
      */
     private boolean lombokEnable;
     /**
+     * 是否将mybatis的xml映射文件放在源文件目录下
+     */
+    private boolean mapperUnderSource;
+    /**
+     * 启用swagger
+     */
+    private boolean swaggerEnable;
+    /**
      * 代码生成路径
      */
     private Path path;
@@ -68,6 +76,22 @@ public class Configuration implements Serializable {
 
     public void setLombokEnable(boolean lombokEnable) {
         this.lombokEnable = lombokEnable;
+    }
+
+    public boolean isMapperUnderSource() {
+        return mapperUnderSource;
+    }
+
+    public void setMapperUnderSource(boolean mapperUnderSource) {
+        this.mapperUnderSource = mapperUnderSource;
+    }
+
+    public boolean isSwaggerEnable() {
+        return swaggerEnable;
+    }
+
+    public void setSwaggerEnable(boolean swaggerEnable) {
+        this.swaggerEnable = swaggerEnable;
     }
 
     public Path getPath() {

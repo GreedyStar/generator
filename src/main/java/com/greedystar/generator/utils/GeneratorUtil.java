@@ -25,6 +25,17 @@ public class GeneratorUtil {
     }
 
     /**
+     * 为实体属性生成swagger注解
+     *
+     * @param sb   StringBuilder对象
+     * @param info 列属性
+     */
+    private static void generateSwaggerAnnotation(StringBuilder sb, ColumnInfo info) {
+        sb.append(Constant.SPACE_4).append("@ApiModelProperty(value = \"").append(info.getRemarks()).append("\", dataType = \"").append(info.getPropertyType()).append("\")");
+        sb.append("\n");
+    }
+
+    /**
      * 生成实体类属性字段（基本数据类型，用于单表关系）
      *
      * @param infos 表结构
@@ -37,6 +48,7 @@ public class GeneratorUtil {
                 sb.append(Constant.SPACE_4);
             }
             generateRemarks(sb, infos.get(i));
+            generateSwaggerAnnotation(sb, infos.get(i));
             sb.append(Constant.SPACE_4).append("private ").append(infos.get(i).getPropertyType()).append(" ").append(infos.get(i).getPropertyName()).append(";\n");
         }
         return sb.toString();
@@ -72,6 +84,7 @@ public class GeneratorUtil {
                     sb.append(Constant.SPACE_4);
                 }
                 generateRemarks(sb, infos.get(i));
+                generateSwaggerAnnotation(sb, infos.get(i));
                 sb.append(Constant.SPACE_4).append("private ").append(infos.get(i).getPropertyType()).append(" ").append(infos.get(i).getPropertyName()).append("; \n");
             }
         }

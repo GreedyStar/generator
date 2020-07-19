@@ -2,6 +2,10 @@ package ${configuration.packageName}.${configuration.path.controller};
 
 import ${configuration.packageName}.${configuration.path.entity}.${ClassName};
 ${ServiceImport}
+<#if configuration.swaggerEnable>
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+</#if>
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,12 +17,18 @@ import java.util.Map;
  * @author ${configuration.author}
  * @date ${.now?date}
  */
+<#if configuration.swaggerEnable>
+@Api(value = "/${EntityName}", tags = "${ClassName}管理接口")
+</#if>
 @RestController
 @RequestMapping(value = "/${EntityName}")
 public class ${ControllerClassName} {
     @Autowired
     private ${ServiceClassName} ${ServiceEntityName};
 
+    <#if configuration.swaggerEnable>
+    @ApiOperation(value = "查询${ClassName}列表", httpMethod = "GET")
+    </#if>
     @RequestMapping(value = "", method = RequestMethod.GET)
     public Object list() {
         List<${ClassName}> ${EntityName}s = ${ServiceEntityName}.findAllList();
@@ -29,6 +39,9 @@ public class ${ControllerClassName} {
         return result;
     }
 
+    <#if configuration.swaggerEnable>
+    @ApiOperation(value = "查看${ClassName}详情", httpMethod = "GET")
+    </#if>
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Object get(@PathVariable("id") String id) {
         ${ClassName} ${EntityName} = ${ServiceEntityName}.get(id);
@@ -39,6 +52,9 @@ public class ${ControllerClassName} {
         return result;
     }
 
+    <#if configuration.swaggerEnable>
+    @ApiOperation(value = "创建${ClassName}", httpMethod = "POST")
+    </#if>
     @RequestMapping(value = "", method = RequestMethod.POST)
     public Object post(@RequestBody ${ClassName} ${EntityName}) {
         Map<String, Object> result = new HashMap<>();
@@ -55,6 +71,9 @@ public class ${ControllerClassName} {
         return result;
     }
 
+    <#if configuration.swaggerEnable>
+    @ApiOperation(value = "修改${ClassName}信息", httpMethod = "PUT")
+    </#if>
     @RequestMapping(value = "", method = RequestMethod.PUT)
     public Object put(@RequestBody ${ClassName} ${EntityName}) {
         Map<String, Object> result = new HashMap<>();
@@ -71,6 +90,10 @@ public class ${ControllerClassName} {
         return result;
     }
 
+
+    <#if configuration.swaggerEnable>
+    @ApiOperation(value = "删除${ClassName}", httpMethod = "DELETE")
+    </#if>
     @RequestMapping(value = "", method = RequestMethod.DELETE)
     public Object delete(@RequestBody ${ClassName} ${EntityName}) {
         Map<String, Object> result = new HashMap<>();
