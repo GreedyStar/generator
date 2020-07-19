@@ -15,7 +15,7 @@ Generator 是一款基于数据库表生成相应Java代码的工具，代码模
 * v1.2.0 添加列名到属性名的映射规则；代码生成任务多线程；可配置生成策略等
 * v1.2.1 Service层添加接口和实现类的支持
 * v1.3.0 添加实体的类注释和属性注释，自动创建代码生成目录，可自定义类型转换器，解决生成文件冲突
-* v1.3.1 可自定义类名和文件名，支持Lombok，添加通过代码进行配置的方式
+* v1.3.1 可自定义类名和文件名，支持Lombok和Swagger，添加通过代码进行配置的方式，支持将MyBatis映射文件放于source目录下
 
 详细 Release note ：[GreedyStar/generator/Releases](https://github.com/GreedyStar/generator/releases)
 
