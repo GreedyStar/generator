@@ -7,7 +7,6 @@ import com.greedystar.generator.utils.*;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -57,6 +56,6 @@ public class EntityTask extends AbstractTask {
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getEntity());
         String fileName = ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className) + ".java";
         // 生成Entity文件
-        FileUtil.generateToJava(FreemarketConfigUtil.TYPE_ENTITY, entityData, filePath, fileName);
+        FileUtil.generateToJava(FreemarkerConfigUtil.TYPE_ENTITY, entityData, filePath, fileName);
     }
 }

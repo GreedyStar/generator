@@ -55,18 +55,18 @@ public class FileUtil {
      */
     private static Template getTemplate(int type) throws IOException {
         switch (type) {
-            case FreemarketConfigUtil.TYPE_ENTITY:
-                return FreemarketConfigUtil.getInstance().getTemplate("Entity.ftl");
-            case FreemarketConfigUtil.TYPE_DAO:
-                return FreemarketConfigUtil.getInstance().getTemplate("Dao.ftl");
-            case FreemarketConfigUtil.TYPE_SERVICE:
-                return FreemarketConfigUtil.getInstance().getTemplate("Service.ftl");
-            case FreemarketConfigUtil.TYPE_CONTROLLER:
-                return FreemarketConfigUtil.getInstance().getTemplate("Controller.ftl");
-            case FreemarketConfigUtil.TYPE_MAPPER:
-                return FreemarketConfigUtil.getInstance().getTemplate("Mapper.ftl");
-            case FreemarketConfigUtil.TYPE_INTERFACE:
-                return FreemarketConfigUtil.getInstance().getTemplate("Interface.ftl");
+            case FreemarkerConfigUtil.TYPE_ENTITY:
+                return FreemarkerConfigUtil.getInstance().getTemplate("Entity.ftl");
+            case FreemarkerConfigUtil.TYPE_DAO:
+                return FreemarkerConfigUtil.getInstance().getTemplate("Dao.ftl");
+            case FreemarkerConfigUtil.TYPE_SERVICE:
+                return FreemarkerConfigUtil.getInstance().getTemplate("Service.ftl");
+            case FreemarkerConfigUtil.TYPE_CONTROLLER:
+                return FreemarkerConfigUtil.getInstance().getTemplate("Controller.ftl");
+            case FreemarkerConfigUtil.TYPE_MAPPER:
+                return FreemarkerConfigUtil.getInstance().getTemplate("Mapper.ftl");
+            case FreemarkerConfigUtil.TYPE_INTERFACE:
+                return FreemarkerConfigUtil.getInstance().getTemplate("Interface.ftl");
             default:
                 return null;
         }

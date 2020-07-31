@@ -91,7 +91,7 @@ public class MapperTask extends AbstractTask {
         }
         String fileName = ConfigUtil.getConfiguration().getName().getMapper().replace(Constant.PLACEHOLDER, className) + ".xml";
         // 生成Mapper文件
-        FileUtil.generateToJava(FreemarketConfigUtil.TYPE_MAPPER, mapperData, filePath, fileName);
+        FileUtil.generateToJava(FreemarkerConfigUtil.TYPE_MAPPER, mapperData, filePath, fileName);
     }
 
     private ColumnInfo getPrimaryKeyColumnInfo(List<ColumnInfo> list) {

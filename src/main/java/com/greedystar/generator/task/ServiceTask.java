@@ -6,8 +6,6 @@ import com.greedystar.generator.utils.*;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +54,6 @@ public class ServiceTask extends AbstractTask {
             fileName = serviceClassName + ".java";
         }
         // 生成Service文件
-        FileUtil.generateToJava(FreemarketConfigUtil.TYPE_SERVICE, serviceData, filePath, fileName);
+        FileUtil.generateToJava(FreemarkerConfigUtil.TYPE_SERVICE, serviceData, filePath, fileName);
     }
 }
