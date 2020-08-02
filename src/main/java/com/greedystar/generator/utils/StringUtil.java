@@ -14,7 +14,7 @@ public class StringUtil {
      * @param string
      * @return
      */
-    public static boolean isBlank(String string) {
+    public static boolean isEmpty(String string) {
         if (string == null || string.trim().equals("")) {
             return true;
         } else {
@@ -54,7 +54,7 @@ public class StringUtil {
      * @return 转换后的实体属性名
      */
     public static String columnName2PropertyName(String columnName) {
-        if (isBlank(columnName)) {
+        if (isEmpty(columnName)) {
             return "";
         }
         if (!columnName.contains("_")) { // 列名中不包含 “_”
@@ -95,7 +95,7 @@ public class StringUtil {
      * @return
      */
     public static String package2Path(String packageName) {
-        if (StringUtil.isBlank(packageName)) {
+        if (StringUtil.isEmpty(packageName)) {
             return "";
         }
         StringBuilder sb = new StringBuilder();

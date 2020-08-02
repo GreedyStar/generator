@@ -2,60 +2,149 @@ package com.greedystar.generator.task;
 
 import com.greedystar.generator.entity.ColumnInfo;
 import com.greedystar.generator.entity.Constant;
+import com.greedystar.generator.entity.Mode;
+import com.greedystar.generator.invoker.base.AbstractInvoker;
 import com.greedystar.generator.task.base.AbstractTask;
 import com.greedystar.generator.utils.*;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author GreedyStar
  * @since 2018/4/20
  */
 public class EntityTask extends AbstractTask {
-
     /**
-     * 1.单表生成  2.多表时生成子表实体
+     * 业务表元数据
      */
-    public EntityTask(String tableName, String className, List<ColumnInfo> infos) {
-        this(tableName, className, null, null, infos);
-    }
-
+    private List<ColumnInfo> tableInfos;
     /**
-     * 一对多关系生成主表实体
+     * 任务模式
      */
-    public EntityTask(String tableName, String className, String parentClassName, String foreignKey, List<ColumnInfo> tableInfos) {
-        this(tableName, className, parentClassName, null, foreignKey, null, tableInfos);
-    }
+    private Mode mode;
 
-    /**
-     * 多对多关系生成主表实体
-     */
-    public EntityTask(String tableName, String className, String parentClassName, String relationalTableName, String foreignKey, String parentForeignKey, List<ColumnInfo> tableInfos) {
-        super(tableName, className, parentClassName, relationalTableName, foreignKey, parentForeignKey, tableInfos);
+    public EntityTask(Mode mode, AbstractInvoker invoker) {
+        this.mode = mode;
+        this.invoker = invoker;
+        if (Mode.ENTITY_MAIN.equals(mode)) {
+            this.tableInfos = invoker.getTableInfos();
+        } else if (Mode.ENTITY_PARENT.equals(mode)) {
+            this.tableInfos = invoker.getParentTableInfos();
+        }
     }
 
     @Override
     public void run() throws IOException, TemplateException {
         // 构造Entity填充数据
-        Map<String, Object> entityData = new HashMap<>();
-        entityData.put("configuration", ConfigUtil.getConfiguration());
-        entityData.put("ClassName", ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className));
-        entityData.put("Remarks", tableInfos.get(0).getTableRemarks());
-        if (!StringUtil.isBlank(parentForeignKey)) { // 多对多：主表实体
-            entityData.put("Properties", GeneratorUtil.generateEntityProperties(tableInfos, parentClassName, relationalTableName, foreignKey, parentForeignKey));
-            entityData.put("Methods", GeneratorUtil.generateEntityMethods(tableInfos, parentClassName));
-        } else if (!StringUtil.isBlank(foreignKey)) { // 多对一：主表实体
-            entityData.put("Properties", GeneratorUtil.generateEntityProperties(tableInfos, parentClassName, foreignKey));
-            entityData.put("Methods", GeneratorUtil.generateEntityMethods(tableInfos, parentClassName, foreignKey));
-        } else { // 单表关系
-            entityData.put("Properties", GeneratorUtil.generateEntityProperties(tableInfos));
-            entityData.put("Methods", GeneratorUtil.generateEntityMethods(tableInfos));
+        String className = null;
+        String remarks = null;
+        if (Mode.ENTITY_MAIN.equals(mode)) {
+            className = ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, invoker.getClassName());
+            remarks = invoker.getTableInfos().get(0).getTableRemarks();
+        } else if (Mode.ENTITY_PARENT.equals(mode)) {
+            className = ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, invoker.getParentClassName());
+            remarks = invoker.getParentTableInfos().get(0).getTableRemarks();
         }
-        String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getEntity());
+        Map<String, Object> entityData = new HashMap<>();
+        entityData.put("Configuration", ConfigUtil.getConfiguration());
+        entityData.put("ClassName", className);
+        entityData.put("Remarks", remarks);
+        entityData.put("Properties", entityProperties(invoker));
+        entityData.put("Methods", entityMethods(invoker));
+        String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName())
+                + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getEntity());
         String fileName = ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className) + ".java";
         // 生成Entity文件
         FileUtil.generateToJava(FreemarkerConfigUtil.TYPE_ENTITY, entityData, filePath, fileName);
     }
+
+    /**
+     * 生成实体类属性字段
+     *
+     * @return
+     */
+    public String entityProperties(AbstractInvoker invoker) {
+        StringBuilder sb = new StringBuilder();
+        tableInfos.forEach(ForEachUtil.withIndex((info, index) -> {
+            if (info.getColumnName().equals(invoker.getForeignKey())) {
+                return;
+            }
+            sb.append(index == 0 ? "" : Constant.SPACE_4);
+            GeneratorUtil.generateRemarks(sb, info);
+            GeneratorUtil.generateSwaggerAnnotation(sb, info);
+            sb.append(Constant.SPACE_4).append(String.format("private %s %s;\n", info.getPropertyType(), info.getPropertyName()));
+        }));
+        // 生成父表实体类时，直接截断后续生成依赖关系的代码
+        if (Mode.ENTITY_PARENT.equals(mode)) {
+            return sb.toString();
+        }
+        if (!StringUtil.isEmpty(invoker.getRelationalTableName()) || !StringUtil.isEmpty(invoker.getParentForeignKey())) {
+            // 多对多 or 一对多
+            sb.append(Constant.SPACE_4).append(String.format("private List<%s> %ss;\n", invoker.getParentClassName(),
+                    StringUtil.firstToLowerCase(invoker.getParentClassName())));
+        } else if (!StringUtil.isEmpty(invoker.getForeignKey())) {
+            // 多对一
+            sb.append(Constant.SPACE_4).append(String.format("private %s %s;\n", invoker.getParentClassName(),
+                    StringUtil.firstToLowerCase(invoker.getParentClassName())));
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 生成实体类存取方法
+     *
+     * @return
+     */
+    public String entityMethods(AbstractInvoker invoker) {
+        if (ConfigUtil.getConfiguration().isLombokEnable()) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        tableInfos.forEach(ForEachUtil.withIndex((info, index) -> {
+            if (info.getColumnName().equals(invoker.getForeignKey())) {
+                return;
+            }
+            String setter = String.format("public void set%s (%s %s) { this.%s = %s; } \n\n", StringUtil.firstToUpperCase(info.getPropertyName()),
+                    info.getPropertyType(), info.getPropertyName(), info.getPropertyName(), info.getPropertyName());
+            sb.append(index == 0 ? "" : Constant.SPACE_4).append(setter);
+            String getter = null;
+            if (info.getPropertyType().equals("boolean") || info.getPropertyType().equals("Boolean")) {
+                getter = String.format("public %s is%s () { return this.%s; } \n\n", info.getPropertyType(),
+                        StringUtil.firstToUpperCase(info.getPropertyName()), info.getPropertyName());
+            } else {
+                getter = String.format("public %s get%s () { return this.%s; } \n\n", info.getPropertyType(),
+                        StringUtil.firstToUpperCase(info.getPropertyName()), info.getPropertyName());
+            }
+            sb.append(Constant.SPACE_4).append(getter);
+        }));
+        // 生成父表实体类时，直接截断后续生成依赖关系的代码
+        if (Mode.ENTITY_PARENT.equals(mode)) {
+            return sb.toString();
+        }
+        if (!StringUtil.isEmpty(invoker.getRelationalTableName()) || !StringUtil.isEmpty(invoker.getParentForeignKey())) {
+            // 多对多
+            String setter = String.format("public void set%ss (List<%s> %ss) { this.%ss = %ss; }\n\n", invoker.getParentClassName(),
+                    invoker.getParentClassName(), StringUtil.firstToLowerCase(invoker.getParentClassName()),
+                    StringUtil.firstToLowerCase(invoker.getParentClassName()), StringUtil.firstToLowerCase(invoker.getParentClassName()));
+            sb.append(Constant.SPACE_4).append(setter);
+            String getter = String.format("public List<%s> get%ss () { return this.%ss; }\n\n", invoker.getParentClassName(),
+                    invoker.getParentClassName(), StringUtil.firstToLowerCase(invoker.getParentClassName()));
+            sb.append(Constant.SPACE_4).append(getter);
+        } else if (!StringUtil.isEmpty(invoker.getForeignKey())) {
+            // 多对一
+            String setter = String.format("public void set%s (%s %s) { this.%s = %s; }\n\n", invoker.getParentClassName(),
+                    invoker.getParentClassName(), StringUtil.firstToLowerCase(invoker.getParentClassName()),
+                    StringUtil.firstToLowerCase(invoker.getParentClassName()), StringUtil.firstToLowerCase(invoker.getParentClassName()));
+            sb.append(Constant.SPACE_4).append(setter);
+            String getter = String.format("public %s get%s () { return this.%s; }\n\n", invoker.getParentClassName(), invoker.getParentClassName(),
+                    StringUtil.firstToLowerCase(invoker.getParentClassName()));
+            sb.append(Constant.SPACE_4).append(getter);
+        }
+        return sb.toString();
+    }
+
 }

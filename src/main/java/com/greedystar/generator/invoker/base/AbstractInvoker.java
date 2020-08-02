@@ -8,7 +8,6 @@ import com.greedystar.generator.utils.TaskQueue;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -76,7 +75,7 @@ public abstract class AbstractInvoker implements Invoker {
         if (!this.connectionUtil.initConnection()) {
             throw new Exception("Failed to connect to database at url:" + ConfigUtil.getConfiguration().getDb().getUrl());
         }
-        getTableInfos();
+        queryTableMeta();
         connectionUtil.closeConnection();
     }
 
@@ -85,7 +84,7 @@ public abstract class AbstractInvoker implements Invoker {
      *
      * @throws Exception
      */
-    protected abstract void getTableInfos() throws Exception;
+    protected abstract void queryTableMeta() throws Exception;
 
     /**
      * 初始化代码生成任务，模板方法，由子类实现
@@ -172,5 +171,21 @@ public abstract class AbstractInvoker implements Invoker {
 
     public String getParentForeignKey() {
         return parentForeignKey;
+    }
+
+    public List<ColumnInfo> getTableInfos() {
+        return tableInfos;
+    }
+
+    public void setTableInfos(List<ColumnInfo> tableInfos) {
+        this.tableInfos = tableInfos;
+    }
+
+    public List<ColumnInfo> getParentTableInfos() {
+        return parentTableInfos;
+    }
+
+    public void setParentTableInfos(List<ColumnInfo> parentTableInfos) {
+        this.parentTableInfos = parentTableInfos;
     }
 }

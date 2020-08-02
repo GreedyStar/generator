@@ -1,4 +1,4 @@
-package com.greedystar.generator.utils.convertor;
+package com.greedystar.generator.convertor;
 
 import java.sql.JDBCType;
 

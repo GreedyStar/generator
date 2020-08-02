@@ -55,7 +55,7 @@ public class ConfigUtil {
         try {
             URL url = ConfigUtil.class.getClassLoader().getResource("generator.yaml");
             if (null == url || url.getPath().contains("jar")) {
-                System.err.println("Can not find file named 'generator.yaml' at resources path, please make sure that you have defined that file.");
+                System.err.println("Can not find file named 'generator.yaml' under resources path, please make sure that you have defined that file.");
                 System.exit(0);
             } else {
                 String configStr = StringUtil.line2Camel(IOUtils.toString((InputStream) url.getContent()));
@@ -87,12 +87,12 @@ public class ConfigUtil {
                 throw new Exception("Can not find configuration attribute named 'path', please make sure that you have configured that attribute.");
             }
             // 检查db属性是否配置
-            if (StringUtil.isBlank(ConfigUtil.configuration.getDb().getUrl()) || StringUtil.isBlank(ConfigUtil.configuration.getDb().getUsername())) {
+            if (StringUtil.isEmpty(ConfigUtil.configuration.getDb().getUrl()) || StringUtil.isEmpty(ConfigUtil.configuration.getDb().getUsername())) {
                 throw new Exception("Please configure the correct db connection parameters, i.e. url, username and password.");
             }
             // 检查顶级包名是否配置
-            if (StringUtil.isBlank(ConfigUtil.configuration.getPackageName())) {
-                throw new Exception("Please configure the correct package-name(or packageName).");
+            if (StringUtil.isEmpty(ConfigUtil.configuration.getPackageName())) {
+                throw new Exception("Please configure the correct attribute named 'package-name' or 'packageName'.");
             }
         } catch (Exception e) {
             e.printStackTrace();

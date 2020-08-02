@@ -2,12 +2,8 @@ package com.greedystar.generator.invoker;
 
 import com.greedystar.generator.invoker.base.AbstractBuilder;
 import com.greedystar.generator.invoker.base.AbstractInvoker;
-import com.greedystar.generator.invoker.base.Invoker;
-import com.greedystar.generator.task.*;
 import com.greedystar.generator.utils.GeneratorUtil;
 import com.greedystar.generator.utils.StringUtil;
-
-import java.sql.SQLException;
 
 /**
  * @author GreedyStar
@@ -20,14 +16,14 @@ public class One2ManyInvoker extends AbstractInvoker {
     }
 
     @Override
-    protected void getTableInfos() throws Exception {
+    protected void queryTableMeta() throws Exception {
         tableInfos = connectionUtil.getMetaData(tableName);
         parentTableInfos = connectionUtil.getMetaData(parentTableName);
     }
 
     @Override
     protected void initTasks() {
-        taskQueue.initOne2ManyTasks(tableName, className, parentTableName, parentClassName, foreignKey, tableInfos, parentTableInfos);
+        taskQueue.initOne2ManyTasks(this);
     }
 
     public static class Builder extends AbstractBuilder {
@@ -56,26 +52,26 @@ public class One2ManyInvoker extends AbstractInvoker {
             return this;
         }
 
-        public Builder setForeignKey(String foreignKey) {
-            invoker.setForeignKey(foreignKey);
+        public Builder setParentForeignKey(String parentForeignKey) {
+            invoker.setParentForeignKey(parentForeignKey);
             return this;
         }
 
         @Override
         public void checkBeforeBuild() throws Exception {
-            if (StringUtil.isBlank(invoker.getTableName())) {
-                throw new Exception("Expect table's name, but get a blank String.");
+            if (StringUtil.isEmpty(invoker.getTableName())) {
+                throw new Exception("Expect table's name, but get an empty String.");
             }
-            if (StringUtil.isBlank(invoker.getParentTableName())) {
-                throw new Exception("Expect parent table's name, but get a blank String.");
+            if (StringUtil.isEmpty(invoker.getParentTableName())) {
+                throw new Exception("Expect parent table's name, but get an empty String.");
             }
-            if (StringUtil.isBlank(invoker.getForeignKey())) {
-                throw new Exception("Expect foreign key, but get a blank String.");
+            if (StringUtil.isEmpty(invoker.getParentForeignKey())) {
+                throw new Exception("Expect parent table's foreign key, but get an empty String.");
             }
-            if (StringUtil.isBlank(invoker.getClassName())) {
+            if (StringUtil.isEmpty(invoker.getClassName())) {
                 invoker.setClassName(GeneratorUtil.generateClassName(invoker.getTableName()));
             }
-            if (StringUtil.isBlank(invoker.getParentClassName())) {
+            if (StringUtil.isEmpty(invoker.getParentClassName())) {
                 invoker.setParentClassName(GeneratorUtil.generateClassName(invoker.getParentTableName()));
             }
         }

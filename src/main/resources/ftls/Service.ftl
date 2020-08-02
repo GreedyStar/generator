@@ -1,7 +1,7 @@
-package ${configuration.packageName}.${configuration.path.service};
+package ${Configuration.packageName}.${Configuration.path.service};
 
-import ${configuration.packageName}.${configuration.path.dao}.${DaoClassName};
-import ${configuration.packageName}.${configuration.path.entity}.${ClassName};
+import ${Configuration.packageName}.${Configuration.path.dao}.${DaoClassName};
+import ${Configuration.packageName}.${Configuration.path.entity}.${ClassName};
 ${InterfaceImport}
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author ${configuration.author}
+ * @author ${Configuration.author}
  * @date ${.now?date}
  */
 @Service

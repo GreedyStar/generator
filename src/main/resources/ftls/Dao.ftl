@@ -1,6 +1,6 @@
-package ${configuration.packageName}.${configuration.path.dao};
+package ${Configuration.packageName}.${Configuration.path.dao};
 
-import ${configuration.packageName}.${configuration.path.entity}.${ClassName};
+import ${Configuration.packageName}.${Configuration.path.entity}.${ClassName};
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author ${configuration.author}
+ * @author ${Configuration.author}
  * @date ${.now?date}
  */
 @Mapper

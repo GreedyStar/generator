@@ -7,11 +7,11 @@ import com.greedystar.generator.utils.StringUtil;
 
 /**
  * @author GreedyStar
- * @since 2018/9/5
+ * @date 2020/7/31
  */
-public class Many2ManyInvoker extends AbstractInvoker {
+public class Many2OneInvoker extends AbstractInvoker {
 
-    private Many2ManyInvoker() {
+    private Many2OneInvoker() {
 
     }
 
@@ -23,47 +23,37 @@ public class Many2ManyInvoker extends AbstractInvoker {
 
     @Override
     protected void initTasks() {
-        taskQueue.initMany2ManyTasks(this);
+        taskQueue.initMany2OneTasks(this);
     }
 
     public static class Builder extends AbstractBuilder {
 
         public Builder() {
-            invoker = new Many2ManyInvoker();
+            invoker = new Many2OneInvoker();
         }
 
-        public Builder setTableName(String tableName) {
+        public Many2OneInvoker.Builder setTableName(String tableName) {
             invoker.setTableName(tableName);
             return this;
         }
 
-        public Builder setClassName(String className) {
+        public Many2OneInvoker.Builder setClassName(String className) {
             invoker.setClassName(className);
             return this;
         }
 
-        public Builder setParentTableName(String parentTableName) {
+        public Many2OneInvoker.Builder setParentTableName(String parentTableName) {
             invoker.setParentTableName(parentTableName);
             return this;
         }
 
-        public Builder setParentClassName(String parentClassName) {
+        public Many2OneInvoker.Builder setParentClassName(String parentClassName) {
             invoker.setParentClassName(parentClassName);
             return this;
         }
 
-        public Builder setForeignKey(String foreignKey) {
+        public Many2OneInvoker.Builder setForeignKey(String foreignKey) {
             invoker.setForeignKey(foreignKey);
-            return this;
-        }
-
-        public Builder setRelationTableName(String relationTableName) {
-            invoker.setRelationalTableName(relationTableName);
-            return this;
-        }
-
-        public Builder setParentForeignKey(String parentForeignKey) {
-            invoker.setParentForeignKey(parentForeignKey);
             return this;
         }
 
@@ -75,14 +65,8 @@ public class Many2ManyInvoker extends AbstractInvoker {
             if (StringUtil.isEmpty(invoker.getParentTableName())) {
                 throw new Exception("Expect parent table's name, but get an empty String.");
             }
-            if (StringUtil.isEmpty(invoker.getRelationalTableName())) {
-                throw new Exception("Expect relational table's name, but get an empty String.");
-            }
             if (StringUtil.isEmpty(invoker.getForeignKey())) {
                 throw new Exception("Expect foreign key, but get an empty String.");
-            }
-            if (StringUtil.isEmpty(invoker.getParentForeignKey())) {
-                throw new Exception("Expect parent foreign key, but get an empty String.");
             }
             if (StringUtil.isEmpty(invoker.getClassName())) {
                 invoker.setClassName(GeneratorUtil.generateClassName(invoker.getTableName()));

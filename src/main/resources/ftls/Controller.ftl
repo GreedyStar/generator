@@ -1,8 +1,8 @@
-package ${configuration.packageName}.${configuration.path.controller};
+package ${Configuration.packageName}.${Configuration.path.controller};
 
-import ${configuration.packageName}.${configuration.path.entity}.${ClassName};
+import ${Configuration.packageName}.${Configuration.path.entity}.${ClassName};
 ${ServiceImport}
-<#if configuration.swaggerEnable>
+<#if Configuration.swaggerEnable>
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 </#if>
@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author ${configuration.author}
+ * @author ${Configuration.author}
  * @date ${.now?date}
  */
-<#if configuration.swaggerEnable>
+<#if Configuration.swaggerEnable>
 @Api(value = "/${EntityName}", tags = "${ClassName}管理接口")
 </#if>
 @RestController
@@ -26,7 +26,7 @@ public class ${ControllerClassName} {
     @Autowired
     private ${ServiceClassName} ${ServiceEntityName};
 
-    <#if configuration.swaggerEnable>
+    <#if Configuration.swaggerEnable>
     @ApiOperation(value = "查询${ClassName}列表", httpMethod = "GET")
     </#if>
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -39,7 +39,7 @@ public class ${ControllerClassName} {
         return result;
     }
 
-    <#if configuration.swaggerEnable>
+    <#if Configuration.swaggerEnable>
     @ApiOperation(value = "查看${ClassName}详情", httpMethod = "GET")
     </#if>
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -52,7 +52,7 @@ public class ${ControllerClassName} {
         return result;
     }
 
-    <#if configuration.swaggerEnable>
+    <#if Configuration.swaggerEnable>
     @ApiOperation(value = "创建${ClassName}", httpMethod = "POST")
     </#if>
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -71,7 +71,7 @@ public class ${ControllerClassName} {
         return result;
     }
 
-    <#if configuration.swaggerEnable>
+    <#if Configuration.swaggerEnable>
     @ApiOperation(value = "修改${ClassName}信息", httpMethod = "PUT")
     </#if>
     @RequestMapping(value = "", method = RequestMethod.PUT)
@@ -91,7 +91,7 @@ public class ${ControllerClassName} {
     }
 
 
-    <#if configuration.swaggerEnable>
+    <#if Configuration.swaggerEnable>
     @ApiOperation(value = "删除${ClassName}", httpMethod = "DELETE")
     </#if>
     @RequestMapping(value = "", method = RequestMethod.DELETE)

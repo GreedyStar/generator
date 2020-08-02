@@ -2,7 +2,6 @@ package com.greedystar.generator.db;
 
 
 import com.greedystar.generator.entity.ColumnInfo;
-import com.greedystar.generator.entity.Configuration;
 import com.greedystar.generator.utils.ConfigUtil;
 import com.greedystar.generator.utils.StringUtil;
 
@@ -58,7 +57,8 @@ public class ConnectionUtil {
      */
     public List<ColumnInfo> getMetaData(String tableName) throws Exception {
         // 获取主键
-        ResultSet keyResultSet = connection.getMetaData().getPrimaryKeys(null, getSchema(connection), tableName.toUpperCase());
+        ResultSet keyResultSet = connection.getMetaData().getPrimaryKeys(null, getSchema(connection)
+                , tableName.toUpperCase());
         String primaryKey = null;
         if (keyResultSet.next()) {
             primaryKey = keyResultSet.getObject(4).toString();
@@ -69,15 +69,18 @@ public class ConnectionUtil {
         if (connection.getMetaData().getURL().contains("sqlserver")) { // SQLServer
             tableRemarks = parseSqlServerTableRemarks(tableName);
         } else { // Oracle & MySQL
-            ResultSet tableResultSet = connection.getMetaData().getTables(null, getSchema(connection), tableName.toUpperCase(), new String[]{"TABLE"});
+            ResultSet tableResultSet = connection.getMetaData().getTables(null, getSchema(connection)
+                    , tableName.toUpperCase(), new String[]{"TABLE"});
             if (tableResultSet.next()) {
-                tableRemarks = StringUtil.isBlank(tableResultSet.getString("REMARKS")) ? "Unknown Table" : tableResultSet.getString("REMARKS");
+                tableRemarks = StringUtil.isEmpty(tableResultSet.getString("REMARKS")) ?
+                        "Unknown Table" : tableResultSet.getString("REMARKS");
             }
             tableResultSet.close();
         }
         // 获取列信息
         List<ColumnInfo> columnInfos = new ArrayList<>();
-        ResultSet columnResultSet = connection.getMetaData().getColumns(null, getSchema(connection), tableName.toUpperCase(), "%");
+        ResultSet columnResultSet = connection.getMetaData().getColumns(null, getSchema(connection),
+                tableName.toUpperCase(), "%");
         while (columnResultSet.next()) {
             boolean isPrimaryKey;
             if (columnResultSet.getString("COLUMN_NAME").equals(primaryKey)) {
@@ -86,7 +89,8 @@ public class ConnectionUtil {
                 isPrimaryKey = false;
             }
             ColumnInfo info = new ColumnInfo(columnResultSet.getString("COLUMN_NAME"), columnResultSet.getInt("DATA_TYPE"),
-                    StringUtil.isBlank(columnResultSet.getString("REMARKS")) ? "Unknown" : columnResultSet.getString("REMARKS"), tableRemarks, isPrimaryKey);
+                    StringUtil.isEmpty(columnResultSet.getString("REMARKS")) ? "Unknown" : columnResultSet.getString("REMARKS"),
+                    tableRemarks, isPrimaryKey);
             columnInfos.add(info);
         }
         columnResultSet.close();
@@ -109,12 +113,14 @@ public class ConnectionUtil {
      */
     private String parseSqlServerTableRemarks(String tableName) throws SQLException {
         String tableRemarks = null;
-        String sql = "SELECT CAST(ISNULL(p.value, '') AS nvarchar(25)) AS REMARKS FROM sys.tables t LEFT JOIN sys.extended_properties p ON p.major_id=t.object_id AND p.minor_id=0 AND p.class=1 WHERE t.name = ?";
+        String sql = "SELECT CAST(ISNULL(p.value, '') AS nvarchar(25)) AS REMARKS FROM sys.tables t " +
+                "LEFT JOIN sys.extended_properties p ON p.major_id=t.object_id AND p.minor_id=0 AND p.class=1 " +
+                "WHERE t.name = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, tableName);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
-            tableRemarks = StringUtil.isBlank(resultSet.getString("REMARKS")) ? "Unknown Table" : resultSet.getString("REMARKS");
+            tableRemarks = StringUtil.isEmpty(resultSet.getString("REMARKS")) ? "Unknown Table" : resultSet.getString("REMARKS");
         }
         resultSet.close();
         preparedStatement.close();
@@ -130,12 +136,17 @@ public class ConnectionUtil {
      */
     private void parseSqlServerColumnRemarks(String tableName, List<ColumnInfo> columnInfos) throws SQLException {
         HashMap<String, String> map = new HashMap<>();
-        String sql = "SELECT c.name AS COLUMN_NAME, CAST(ISNULL(p.value, '') AS nvarchar(25)) AS REMARKS FROM sys.tables t INNER JOIN sys.columns c ON c.object_id = t.object_id LEFT JOIN sys.extended_properties p ON p.major_id = c.object_id AND p.minor_id = c.column_id WHERE t.name = ?";
+        String sql = "SELECT c.name AS COLUMN_NAME, CAST(ISNULL(p.value, '') AS nvarchar(25)) AS REMARKS " +
+                "FROM sys.tables t " +
+                "INNER JOIN sys.columns c ON c.object_id = t.object_id " +
+                "LEFT JOIN sys.extended_properties p ON p.major_id = c.object_id AND p.minor_id = c.column_id " +
+                "WHERE t.name = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, tableName);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
-            map.put(resultSet.getString("COLUMN_NAME"), StringUtil.isBlank(resultSet.getString("REMARKS")) ? "Unknown" : resultSet.getString("REMARKS"));
+            map.put(resultSet.getString("COLUMN_NAME"), StringUtil.isEmpty(resultSet.getString("REMARKS")) ?
+                    "Unknown" : resultSet.getString("REMARKS"));
         }
         for (ColumnInfo columnInfo : columnInfos) {
             columnInfo.setRemarks(map.get(columnInfo.getColumnName()));

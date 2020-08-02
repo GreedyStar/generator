@@ -79,7 +79,8 @@ public class FileUtil {
      */
     private static String getBasicProjectPath() {
         StringBuilder sb = new StringBuilder();
-        sb.append(System.getProperty("user.dir")).append(File.separator).append("src").append(File.separator).append("main").append(File.separator);
+        sb.append(System.getProperty("user.dir")).append(File.separator).append("src")
+                .append(File.separator).append("main").append(File.separator);
         return sb.toString();
     }
 

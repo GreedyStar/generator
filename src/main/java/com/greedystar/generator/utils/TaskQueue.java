@@ -1,11 +1,11 @@
 package com.greedystar.generator.utils;
 
-import com.greedystar.generator.entity.ColumnInfo;
+import com.greedystar.generator.entity.Mode;
+import com.greedystar.generator.invoker.base.AbstractInvoker;
 import com.greedystar.generator.task.*;
 import com.greedystar.generator.task.base.AbstractTask;
 
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author GreedyStar
@@ -19,85 +19,76 @@ public class TaskQueue {
     private LinkedList<AbstractTask> taskQueue = new LinkedList<>();
 
     /**
-     * 初始化共性任务，包括Controller、ServiceImpl、Service、Dao任务
+     * 初始化共性任务，包括Controller、ServiceImpl、Service、Dao、Mapper任务
      *
-     * @param className 类名
+     * @param invoker 执行器
      */
-    private void initCommonTasks(String className) {
-        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getController())) {
-            taskQueue.add(new ControllerTask(className));
+    private void initCommonTasks(AbstractInvoker invoker) {
+        if (!StringUtil.isEmpty(ConfigUtil.getConfiguration().getPath().getController())) {
+            taskQueue.add(new ControllerTask(invoker));
         }
-        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getService())) {
-            taskQueue.add(new ServiceTask(className));
+        if (!StringUtil.isEmpty(ConfigUtil.getConfiguration().getPath().getService())) {
+            taskQueue.add(new ServiceTask(invoker));
         }
-        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getInterf())) {
-            taskQueue.add(new InterfaceTask(className));
+        if (!StringUtil.isEmpty(ConfigUtil.getConfiguration().getPath().getInterf())) {
+            taskQueue.add(new InterfaceTask(invoker));
         }
-        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getDao())) {
-            taskQueue.add(new DaoTask(className));
+        if (!StringUtil.isEmpty(ConfigUtil.getConfiguration().getPath().getDao())) {
+            taskQueue.add(new DaoTask(invoker));
+        }
+        if (!StringUtil.isEmpty(ConfigUtil.getConfiguration().getPath().getMapper())) {
+            taskQueue.add(new MapperTask(invoker));
         }
     }
 
     /**
      * 初始化单表生成任务，包括Entity、Mapper任务
      *
-     * @param tableName  表名
-     * @param className  类名
-     * @param tableInfos 表元数据
+     * @param invoker 执行器
      */
-    public void initSingleTasks(String tableName, String className, List<ColumnInfo> tableInfos) {
-        initCommonTasks(className);
-        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getEntity())) {
-            taskQueue.add(new EntityTask(tableName, className, tableInfos));
-        }
-        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getMapper())) {
-            taskQueue.add(new MapperTask(className, tableName, tableInfos));
+    public void initSingleTasks(AbstractInvoker invoker) {
+        initCommonTasks(invoker);
+        if (!StringUtil.isEmpty(ConfigUtil.getConfiguration().getPath().getEntity())) {
+            taskQueue.add(new EntityTask(Mode.ENTITY_MAIN, invoker));
         }
     }
 
     /**
      * 初始化单表生成任务，包括Entity、Mapper任务
      *
-     * @param tableName        主表名
-     * @param className        主类名
-     * @param parentTableName  父表名
-     * @param parentClassName  父类名
-     * @param foreignKey       外键列
-     * @param tableInfos       主表元数据
-     * @param parentTableInfos 父表元数据
+     * @param invoker 执行器
      */
-    public void initOne2ManyTasks(String tableName, String className, String parentTableName, String parentClassName, String foreignKey, List<ColumnInfo> tableInfos, List<ColumnInfo> parentTableInfos) {
-        initCommonTasks(className);
-        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getEntity())) {
-            taskQueue.add(new EntityTask(tableName, className, parentClassName, foreignKey, tableInfos));
-            taskQueue.add(new EntityTask(tableName, parentClassName, parentTableInfos));
-        }
-        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getMapper())) {
-            taskQueue.add(new MapperTask(tableName, className, parentTableName, parentClassName, foreignKey, tableInfos, parentTableInfos));
+    public void initMany2OneTasks(AbstractInvoker invoker) {
+        initCommonTasks(invoker);
+        if (!StringUtil.isEmpty(ConfigUtil.getConfiguration().getPath().getEntity())) {
+            taskQueue.add(new EntityTask(Mode.ENTITY_MAIN, invoker));
+            taskQueue.add(new EntityTask(Mode.ENTITY_PARENT, invoker));
         }
     }
 
     /**
      * 初始化单表生成任务，包括Entity、Mapper任务
      *
-     * @param tableName           主表名
-     * @param className           主类名
-     * @param parentTableName     父表名
-     * @param parentClassName     父类名
-     * @param foreignKey          主表外键列
-     * @param parentForeignKey    父表外键列
-     * @param relationalTableName 关系表名
-     * @param tableInfos          主表元数据
-     * @param parentTableInfos    父表元数据
+     * @param invoker 执行器
      */
-    public void initMany2ManyTasks(String tableName, String className, String parentTableName, String parentClassName, String foreignKey, String parentForeignKey, String relationalTableName, List<ColumnInfo> tableInfos, List<ColumnInfo> parentTableInfos) {
-        initCommonTasks(className);
-        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getEntity())) {
-            taskQueue.add(new EntityTask(tableName, className, parentClassName, relationalTableName, foreignKey, parentForeignKey, tableInfos));
-            taskQueue.add(new EntityTask(tableName, parentClassName, parentTableInfos));
+    public void initOne2ManyTasks(AbstractInvoker invoker) {
+        initCommonTasks(invoker);
+        if (!StringUtil.isEmpty(ConfigUtil.getConfiguration().getPath().getEntity())) {
+            taskQueue.add(new EntityTask(Mode.ENTITY_MAIN, invoker));
+            taskQueue.add(new EntityTask(Mode.ENTITY_PARENT, invoker));
         }
-        if (!StringUtil.isBlank(ConfigUtil.getConfiguration().getPath().getMapper())) {
-            taskQueue.add(new MapperTask(tableName, className, parentTableName, parentClassName, foreignKey, parentForeignKey, relationalTableName, tableInfos, parentTableInfos));
+    }
+
+    /**
+     * 初始化单表生成任务，包括Entity、Mapper任务
+     *
+     * @param invoker 执行器
+     */
+    public void initMany2ManyTasks(AbstractInvoker invoker) {
+        initCommonTasks(invoker);
+        if (!StringUtil.isEmpty(ConfigUtil.getConfiguration().getPath().getEntity())) {
+            taskQueue.add(new EntityTask(Mode.ENTITY_MAIN, invoker));
+            taskQueue.add(new EntityTask(Mode.ENTITY_PARENT, invoker));
         }
     }
 

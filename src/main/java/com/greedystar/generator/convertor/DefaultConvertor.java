@@ -1,9 +1,6 @@
-package com.greedystar.generator.utils.convertor;
+package com.greedystar.generator.convertor;
 
 import java.sql.JDBCType;
-import java.sql.SQLType;
-
-import static java.sql.JDBCType.*;
 
 /**
  * @author GreedyStar
@@ -22,26 +19,22 @@ public class DefaultConvertor implements TypeConvertor {
         switch (type) {
             case BIT:
             case BOOLEAN:
-                sb.append("boolean");
+                sb.append("Boolean");
                 break;
             case TINYINT:
-                sb.append("byte");
-                break;
             case SMALLINT:
-                sb.append("short");
-                break;
             case INTEGER:
-                sb.append("int");
+                sb.append("Integer");
                 break;
             case BIGINT:
-                sb.append("long");
+                sb.append("Long");
                 break;
             case REAL:
-                sb.append("float");
+                sb.append("Float");
                 break;
             case FLOAT:
             case DOUBLE:
-                sb.append("double");
+                sb.append("Double");
                 break;
             case DECIMAL:
             case NUMERIC:
@@ -56,13 +49,9 @@ public class DefaultConvertor implements TypeConvertor {
                 sb.append("String");
                 break;
             case DATE:
-                sb.append("Date");
-                break;
             case TIME:
-                sb.append("Time");
-                break;
             case TIMESTAMP:
-                sb.append("Timestamp");
+                sb.append("Date");
                 break;
             case CLOB:
             case NCLOB:
@@ -71,11 +60,6 @@ public class DefaultConvertor implements TypeConvertor {
             case VARBINARY:
             case LONGVARBINARY:
                 sb.append("byte[]");
-                break;
-            case NULL:
-            case OTHER:
-            case JAVA_OBJECT:
-                sb.append("Object");
                 break;
             default:
                 sb.append("Object");

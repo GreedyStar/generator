@@ -1,12 +1,12 @@
-package ${configuration.packageName}.${configuration.path.interf};
+package ${Configuration.packageName}.${Configuration.path.interf};
 
-import ${configuration.packageName}.${configuration.path.entity}.${ClassName};
+import ${Configuration.packageName}.${Configuration.path.entity}.${ClassName};
 
 import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author ${configuration.author}
+ * @author ${Configuration.author}
  * @date ${.now?date}
  */
 public interface ${InterfaceClassName} {

@@ -1,25 +1,27 @@
-package ${configuration.packageName}.${configuration.path.entity};
+package ${Configuration.packageName}.${Configuration.path.entity};
 
-<#if configuration.lombokEnable>
+<#if Configuration.lombokEnable>
 import lombok.Data;
 </#if>
-<#if configuration.swaggerEnable>
+<#if Configuration.swaggerEnable>
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 </#if>
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
  * ${Remarks}
  *
- * @author ${configuration.author}
+ * @author ${Configuration.author}
  * @date ${.now?date}
  */
-<#if configuration.lombokEnable>
+<#if Configuration.lombokEnable>
 @Data
 </#if>
-<#if configuration.swaggerEnable>
+<#if Configuration.swaggerEnable>
 @ApiModel(value = "${Remarks}")
 </#if>
 public class ${ClassName} implements Serializable {

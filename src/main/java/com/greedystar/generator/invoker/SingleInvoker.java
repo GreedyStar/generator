@@ -2,12 +2,8 @@ package com.greedystar.generator.invoker;
 
 import com.greedystar.generator.invoker.base.AbstractBuilder;
 import com.greedystar.generator.invoker.base.AbstractInvoker;
-import com.greedystar.generator.invoker.base.Invoker;
-import com.greedystar.generator.task.*;
 import com.greedystar.generator.utils.GeneratorUtil;
 import com.greedystar.generator.utils.StringUtil;
-
-import java.sql.SQLException;
 
 /**
  * @author GreedyStar
@@ -20,13 +16,13 @@ public class SingleInvoker extends AbstractInvoker {
     }
 
     @Override
-    protected void getTableInfos() throws Exception {
+    protected void queryTableMeta() throws Exception {
         tableInfos = connectionUtil.getMetaData(tableName);
     }
 
     @Override
     protected void initTasks() {
-        taskQueue.initSingleTasks(tableName, className, tableInfos);
+        taskQueue.initSingleTasks(this);
     }
 
     public static class Builder extends AbstractBuilder {
@@ -47,10 +43,10 @@ public class SingleInvoker extends AbstractInvoker {
 
         @Override
         public void checkBeforeBuild() throws Exception {
-            if (StringUtil.isBlank(invoker.getTableName())) {
-                throw new Exception("Expect table's name, but get a blank String.");
+            if (StringUtil.isEmpty(invoker.getTableName())) {
+                throw new Exception("Expect table's name, but get an empty String.");
             }
-            if (StringUtil.isBlank(invoker.getClassName())) {
+            if (StringUtil.isEmpty(invoker.getClassName())) {
                 invoker.setClassName(GeneratorUtil.generateClassName(invoker.getTableName()));
             }
         }
