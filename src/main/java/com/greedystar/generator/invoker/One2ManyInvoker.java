@@ -2,7 +2,6 @@ package com.greedystar.generator.invoker;
 
 import com.greedystar.generator.invoker.base.AbstractBuilder;
 import com.greedystar.generator.invoker.base.AbstractInvoker;
-import com.greedystar.generator.utils.GeneratorUtil;
 import com.greedystar.generator.utils.StringUtil;
 
 /**
@@ -69,10 +68,10 @@ public class One2ManyInvoker extends AbstractInvoker {
                 throw new Exception("Expect parent table's foreign key, but get an empty String.");
             }
             if (StringUtil.isEmpty(invoker.getClassName())) {
-                invoker.setClassName(GeneratorUtil.generateClassName(invoker.getTableName()));
+                invoker.setClassName(StringUtil.tableName2ClassName(invoker.getTableName()));
             }
             if (StringUtil.isEmpty(invoker.getParentClassName())) {
-                invoker.setParentClassName(GeneratorUtil.generateClassName(invoker.getParentTableName()));
+                invoker.setParentClassName(StringUtil.tableName2ClassName(invoker.getParentTableName()));
             }
         }
     }

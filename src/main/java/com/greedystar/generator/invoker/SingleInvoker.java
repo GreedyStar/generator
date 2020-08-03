@@ -2,7 +2,6 @@ package com.greedystar.generator.invoker;
 
 import com.greedystar.generator.invoker.base.AbstractBuilder;
 import com.greedystar.generator.invoker.base.AbstractInvoker;
-import com.greedystar.generator.utils.GeneratorUtil;
 import com.greedystar.generator.utils.StringUtil;
 
 /**
@@ -44,10 +43,10 @@ public class SingleInvoker extends AbstractInvoker {
         @Override
         public void checkBeforeBuild() throws Exception {
             if (StringUtil.isEmpty(invoker.getTableName())) {
-                throw new Exception("Expect table's name, but get an empty String.");
+                throw new Exception("Expect table's name, but get StringUtil.tableName2ClassName String.");
             }
             if (StringUtil.isEmpty(invoker.getClassName())) {
-                invoker.setClassName(GeneratorUtil.generateClassName(invoker.getTableName()));
+                invoker.setClassName(StringUtil.tableName2ClassName(invoker.getTableName()));
             }
         }
     }

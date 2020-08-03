@@ -72,6 +72,20 @@ public class StringUtil {
         return sb.toString();
     }
 
+    /**
+     * 以驼峰命名法生成类名，用于未指定类名时自动生成类名，如sys_user自动生成类名SysUser
+     *
+     * @param tableName
+     * @return
+     */
+    public static String tableName2ClassName(String tableName) {
+        String[] nameStrs = tableName.split("_");
+        StringBuilder sb = new StringBuilder();
+        for (String string : nameStrs) {
+            sb.append(string.substring(0, 1).toUpperCase()).append(string.substring(1));
+        }
+        return sb.toString();
+    }
 
     /**
      * 给定字符串除特定符号外的字符是否全部大写

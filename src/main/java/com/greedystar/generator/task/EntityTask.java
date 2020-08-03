@@ -74,8 +74,8 @@ public class EntityTask extends AbstractTask {
                 return;
             }
             sb.append(index == 0 ? "" : Constant.SPACE_4);
-            GeneratorUtil.generateRemarks(sb, info);
-            GeneratorUtil.generateSwaggerAnnotation(sb, info);
+            generateRemarks(sb, info);
+            generateSwaggerAnnotation(sb, info);
             sb.append(Constant.SPACE_4).append(String.format("private %s %s;\n", info.getPropertyType(), info.getPropertyName()));
         }));
         // 生成父表实体类时，直接截断后续生成依赖关系的代码
@@ -145,6 +145,33 @@ public class EntityTask extends AbstractTask {
             sb.append(Constant.SPACE_4).append(getter);
         }
         return sb.toString();
+    }
+
+    /**
+     * 为实体属性生成注释
+     *
+     * @param sb   StringBuilder对象
+     * @param info 列属性
+     */
+    public void generateRemarks(StringBuilder sb, ColumnInfo info) {
+        sb.append("/**").append("\n");
+        sb.append(Constant.SPACE_4).append(" * ").append(info.getRemarks()).append("\n");
+        sb.append(Constant.SPACE_4).append(" */").append("\n");
+    }
+
+    /**
+     * 为实体属性生成swagger注解
+     *
+     * @param sb   StringBuilder对象
+     * @param info 列属性
+     */
+    public void generateSwaggerAnnotation(StringBuilder sb, ColumnInfo info) {
+        if (!ConfigUtil.getConfiguration().isSwaggerEnable()) {
+            return;
+        }
+        sb.append(Constant.SPACE_4).append(String.format("@ApiModelProperty(value = \"%s\", dataType = \"%s\")",
+                info.getRemarks(), info.getPropertyType()));
+        sb.append("\n");
     }
 
 }
