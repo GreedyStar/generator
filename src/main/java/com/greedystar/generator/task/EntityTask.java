@@ -51,6 +51,7 @@ public class EntityTask extends AbstractTask {
         }
         Map<String, Object> entityData = new HashMap<>();
         entityData.put("Configuration", ConfigUtil.getConfiguration());
+        entityData.put("TableName", invoker.getTableName());
         entityData.put("ClassName", className);
         entityData.put("Remarks", remarks);
         entityData.put("Properties", entityProperties(invoker));
@@ -154,6 +155,10 @@ public class EntityTask extends AbstractTask {
      * @param info 列属性
      */
     public void generateRemarks(StringBuilder sb, ColumnInfo info) {
+        if (ConfigUtil.getConfiguration().isSwaggerEnable()) {
+            // 开启swagger后不再生成注释
+            return;
+        }
         sb.append("/**").append("\n");
         sb.append(Constant.SPACE_4).append(" * ").append(info.getRemarks()).append("\n");
         sb.append(Constant.SPACE_4).append(" */").append("\n");
@@ -169,7 +174,7 @@ public class EntityTask extends AbstractTask {
         if (!ConfigUtil.getConfiguration().isSwaggerEnable()) {
             return;
         }
-        sb.append(Constant.SPACE_4).append(String.format("@ApiModelProperty(value = \"%s\", dataType = \"%s\")",
+        sb.append(String.format("@ApiModelProperty(value = \"%s\", dataType = \"%s\")",
                 info.getRemarks(), info.getPropertyType()));
         sb.append("\n");
     }

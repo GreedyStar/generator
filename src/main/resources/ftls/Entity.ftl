@@ -7,6 +7,11 @@ import lombok.Data;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 </#if>
+<#if Configuration.mybatisPlusEnable>
+import com.baomidou.mybatisplus.annotation.TableName;
+<#elseif Configuration.jpaEnable>
+import javax.persistence.Table;
+</#if>
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -24,8 +29,12 @@ import java.util.List;
 <#if Configuration.swaggerEnable>
 @ApiModel(value = "${Remarks}")
 </#if>
+<#if Configuration.mybatisPlusEnable>
+@TableName(value = "${TableName}")
+<#elseif Configuration.jpaEnable>
+@Table(name = "${TableName}")
+</#if>
 public class ${ClassName} implements Serializable {
-    private static final long serialVersionUID = 1L;
     ${Properties}
 
     public ${ClassName}() {

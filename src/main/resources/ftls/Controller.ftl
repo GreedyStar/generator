@@ -29,9 +29,13 @@ public class ${ControllerClassName} {
     <#if Configuration.swaggerEnable>
     @ApiOperation(value = "查询${ClassName}列表", httpMethod = "GET")
     </#if>
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @GetMapping(value = "")
     public Object list() {
+        <#if Configuration.mybatisPlusEnable><#-- mybatis-plus模式 -->
+        List<${ClassName}> ${EntityName}s = ${ServiceEntityName}.list();
+        <#else><#-- mybatis或jpa模式 -->
         List<${ClassName}> ${EntityName}s = ${ServiceEntityName}.findAllList();
+        </#if>
         Map<String, Object> result = new HashMap<>();
         result.put("data", ${EntityName}s);
         result.put("status", 200);
@@ -42,9 +46,13 @@ public class ${ControllerClassName} {
     <#if Configuration.swaggerEnable>
     @ApiOperation(value = "查看${ClassName}详情", httpMethod = "GET")
     </#if>
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     public Object get(@PathVariable("id") String id) {
+        <#if Configuration.mybatisPlusEnable><#-- mybatis-plus模式 -->
+        ${ClassName} ${EntityName} = ${ServiceEntityName}.getById(id);
+        <#else><#-- mybatis或jpa模式 -->
         ${ClassName} ${EntityName} = ${ServiceEntityName}.get(id);
+        </#if>
         Map<String, Object> result = new HashMap<>();
         result.put("data", ${EntityName});
         result.put("status", 200);
@@ -55,11 +63,15 @@ public class ${ControllerClassName} {
     <#if Configuration.swaggerEnable>
     @ApiOperation(value = "创建${ClassName}", httpMethod = "POST")
     </#if>
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @PostMapping(value = "")
     public Object post(@RequestBody ${ClassName} ${EntityName}) {
         Map<String, Object> result = new HashMap<>();
         try {
+            <#if Configuration.mybatisPlusEnable><#-- mybatis-plus模式 -->
+            ${ServiceEntityName}.save(${EntityName});
+            <#else><#-- mybatis或jpa模式 -->
             ${ServiceEntityName}.insert(${EntityName});
+            </#if>
             result.put("status", 200);
             result.put("message", "OK");
             result.put("data", ${EntityName});
@@ -74,11 +86,15 @@ public class ${ControllerClassName} {
     <#if Configuration.swaggerEnable>
     @ApiOperation(value = "修改${ClassName}信息", httpMethod = "PUT")
     </#if>
-    @RequestMapping(value = "", method = RequestMethod.PUT)
+    @PutMapping(value = "")
     public Object put(@RequestBody ${ClassName} ${EntityName}) {
         Map<String, Object> result = new HashMap<>();
         try {
+            <#if Configuration.mybatisPlusEnable><#-- mybatis-plus模式 -->
+            ${ServiceEntityName}.updateById(${EntityName});
+            <#else><#-- mybatis或jpa模式 -->
             ${ServiceEntityName}.update(${EntityName});
+            </#if>
             result.put("status", 200);
             result.put("message", "OK");
             result.put("data", ${EntityName});
@@ -94,11 +110,15 @@ public class ${ControllerClassName} {
     <#if Configuration.swaggerEnable>
     @ApiOperation(value = "删除${ClassName}", httpMethod = "DELETE")
     </#if>
-    @RequestMapping(value = "", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "")
     public Object delete(@RequestBody ${ClassName} ${EntityName}) {
         Map<String, Object> result = new HashMap<>();
         try {
+            <#if Configuration.mybatisPlusEnable><#-- mybatis-plus模式 -->
+            ${ServiceEntityName}.removeById(${EntityName}.getId());
+            <#else><#-- mybatis或jpa模式 -->
             ${ServiceEntityName}.delete(${EntityName});
+            </#if>
             result.put("status", 200);
             result.put("message", "OK");
         } catch (Exception e) {

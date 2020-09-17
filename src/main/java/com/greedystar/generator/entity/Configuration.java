@@ -34,6 +34,14 @@ public class Configuration implements Serializable {
      */
     private boolean swaggerEnable;
     /**
+     * mybatis-plus模式
+     */
+    private boolean mybatisPlusEnable;
+    /**
+     * jpa模式
+     */
+    private boolean jpaEnable;
+    /**
      * 代码生成路径
      */
     private Path path;
@@ -92,6 +100,22 @@ public class Configuration implements Serializable {
 
     public void setSwaggerEnable(boolean swaggerEnable) {
         this.swaggerEnable = swaggerEnable;
+    }
+
+    public boolean isMybatisPlusEnable() {
+        return mybatisPlusEnable;
+    }
+
+    public void setMybatisPlusEnable(boolean mybatisPlusEnable) {
+        this.mybatisPlusEnable = mybatisPlusEnable;
+    }
+
+    public boolean isJpaEnable() {
+        return jpaEnable;
+    }
+
+    public void setJpaEnable(boolean jpaEnable) {
+        this.jpaEnable = jpaEnable;
     }
 
     public Path getPath() {
