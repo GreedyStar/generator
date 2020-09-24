@@ -75,9 +75,10 @@ public class EntityTask extends AbstractTask {
                 return;
             }
             sb.append(index == 0 ? "" : Constant.SPACE_4);
-            generateRemarks(sb, info);
-            generateSwaggerAnnotation(sb, info);
+            generateRemarksOrSwagger(sb, info);
+            generateORMAnnotation(sb, info);
             sb.append(Constant.SPACE_4).append(String.format("private %s %s;\n", info.getPropertyType(), info.getPropertyName()));
+            sb.append("\n");
         }));
         // 生成父表实体类时，直接截断后续生成依赖关系的代码
         if (Mode.ENTITY_PARENT.equals(mode)) {
@@ -87,10 +88,12 @@ public class EntityTask extends AbstractTask {
             // 多对多 or 一对多
             sb.append(Constant.SPACE_4).append(String.format("private List<%s> %ss;\n", invoker.getParentClassName(),
                     StringUtil.firstToLowerCase(invoker.getParentClassName())));
+            sb.append("\n");
         } else if (!StringUtil.isEmpty(invoker.getForeignKey())) {
             // 多对一
             sb.append(Constant.SPACE_4).append(String.format("private %s %s;\n", invoker.getParentClassName(),
                     StringUtil.firstToLowerCase(invoker.getParentClassName())));
+            sb.append("\n");
         }
         return sb.toString();
     }
@@ -154,14 +157,16 @@ public class EntityTask extends AbstractTask {
      * @param sb   StringBuilder对象
      * @param info 列属性
      */
-    public void generateRemarks(StringBuilder sb, ColumnInfo info) {
+    public void generateRemarksOrSwagger(StringBuilder sb, ColumnInfo info) {
         if (ConfigUtil.getConfiguration().isSwaggerEnable()) {
-            // 开启swagger后不再生成注释
-            return;
+            sb.append(String.format("@ApiModelProperty(value = \"%s\", dataType = \"%s\")",
+                    info.getRemarks(), info.getPropertyType()));
+            sb.append("\n");
+        } else {
+            sb.append("/**").append("\n");
+            sb.append(Constant.SPACE_4).append(" * ").append(info.getRemarks()).append("\n");
+            sb.append(Constant.SPACE_4).append(" */").append("\n");
         }
-        sb.append("/**").append("\n");
-        sb.append(Constant.SPACE_4).append(" * ").append(info.getRemarks()).append("\n");
-        sb.append(Constant.SPACE_4).append(" */").append("\n");
     }
 
     /**
@@ -177,6 +182,28 @@ public class EntityTask extends AbstractTask {
         sb.append(String.format("@ApiModelProperty(value = \"%s\", dataType = \"%s\")",
                 info.getRemarks(), info.getPropertyType()));
         sb.append("\n");
+    }
+
+    /**
+     * 为实体属性生成Orm框架（jpa/mybatis-plus）注解
+     *
+     * @param sb
+     * @param info
+     */
+    public void generateORMAnnotation(StringBuilder sb, ColumnInfo info) {
+        if (ConfigUtil.getConfiguration().isMybatisPlusEnable()) {
+            if (info.isPrimaryKey()) {
+                sb.append(Constant.SPACE_4).append(String.format("@TableId(value = \"%s\", type = IdType.ASSIGN_UUID)\n", info.getColumnName()));
+            } else {
+                sb.append(Constant.SPACE_4).append(String.format("@TableField(value = \"%s\")\n", info.getColumnName()));
+            }
+        } else if (ConfigUtil.getConfiguration().isJpaEnable()) {
+            if (info.isPrimaryKey()) {
+                sb.append(Constant.SPACE_4).append("@Id\n");
+            } else {
+                sb.append(Constant.SPACE_4).append(String.format("@Column(name = \"%s\")\n", info.getColumnName()));
+            }
+        }
     }
 
 }

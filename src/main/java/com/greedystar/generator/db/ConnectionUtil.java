@@ -30,7 +30,7 @@ public class ConnectionUtil {
      */
     public boolean initConnection() {
         try {
-            Class.forName(DriverFactory.getDriver(ConfigUtil.getConfiguration().getDb().getUrl()));
+            Class.forName(DataBaseFactory.getDriver(ConfigUtil.getConfiguration().getDb().getUrl()));
             String url = ConfigUtil.getConfiguration().getDb().getUrl();
             String username = ConfigUtil.getConfiguration().getDb().getUsername();
             String password = ConfigUtil.getConfiguration().getDb().getPassword();
@@ -39,6 +39,7 @@ public class ConnectionUtil {
             properties.put("password", password == null ? "" : password);
             properties.setProperty("remarks", "true");
             properties.setProperty("useInformationSchema", "true");
+            properties.setProperty("nullCatalogMeansCurrent", "true");
             connection = DriverManager.getConnection(url, properties);
             return true;
         } catch (ClassNotFoundException e) {
@@ -57,8 +58,8 @@ public class ConnectionUtil {
      */
     public List<ColumnInfo> getMetaData(String tableName) throws Exception {
         // 获取主键
-        ResultSet keyResultSet = connection.getMetaData().getPrimaryKeys(null, getSchema(connection)
-                , tableName.toUpperCase());
+        ResultSet keyResultSet = connection.getMetaData().getPrimaryKeys(DataBaseFactory.getCatalog(connection),
+                DataBaseFactory.getSchema(connection), tableName.toUpperCase());
         String primaryKey = null;
         if (keyResultSet.next()) {
             primaryKey = keyResultSet.getObject(4).toString();
@@ -69,8 +70,8 @@ public class ConnectionUtil {
         if (connection.getMetaData().getURL().contains("sqlserver")) { // SQLServer
             tableRemarks = parseSqlServerTableRemarks(tableName);
         } else { // Oracle & MySQL
-            ResultSet tableResultSet = connection.getMetaData().getTables(null, getSchema(connection)
-                    , tableName.toUpperCase(), new String[]{"TABLE"});
+            ResultSet tableResultSet = connection.getMetaData().getTables(DataBaseFactory.getCatalog(connection),
+                    DataBaseFactory.getSchema(connection), tableName.toUpperCase(), new String[]{"TABLE"});
             if (tableResultSet.next()) {
                 tableRemarks = StringUtil.isEmpty(tableResultSet.getString("REMARKS")) ?
                         "Unknown Table" : tableResultSet.getString("REMARKS");
@@ -79,8 +80,8 @@ public class ConnectionUtil {
         }
         // 获取列信息
         List<ColumnInfo> columnInfos = new ArrayList<>();
-        ResultSet columnResultSet = connection.getMetaData().getColumns(null, getSchema(connection),
-                tableName.toUpperCase(), "%");
+        ResultSet columnResultSet = connection.getMetaData().getColumns(DataBaseFactory.getCatalog(connection),
+                DataBaseFactory.getSchema(connection), tableName.toUpperCase(), "%");
         while (columnResultSet.next()) {
             boolean isPrimaryKey;
             if (columnResultSet.getString("COLUMN_NAME").equals(primaryKey)) {
@@ -159,8 +160,10 @@ public class ConnectionUtil {
         String schema;
         if (connection.getMetaData().getURL().contains("sqlserver")) {
             schema = connection.getSchema();
-        } else {
+        } else if (connection.getMetaData().getURL().contains("oracle")) {
             schema = connection.getMetaData().getUserName();
+        } else {
+            schema = connection.getSchema();
         }
         return schema;
     }

@@ -43,7 +43,7 @@ public class SingleInvoker extends AbstractInvoker {
         @Override
         public void checkBeforeBuild() throws Exception {
             if (StringUtil.isEmpty(invoker.getTableName())) {
-                throw new Exception("Expect table's name, but get StringUtil.tableName2ClassName String.");
+                throw new Exception("Table name can't be null.");
             }
             if (StringUtil.isEmpty(invoker.getClassName())) {
                 invoker.setClassName(StringUtil.tableName2ClassName(invoker.getTableName()));

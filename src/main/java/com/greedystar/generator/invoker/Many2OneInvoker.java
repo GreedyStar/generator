@@ -2,6 +2,7 @@ package com.greedystar.generator.invoker;
 
 import com.greedystar.generator.invoker.base.AbstractBuilder;
 import com.greedystar.generator.invoker.base.AbstractInvoker;
+import com.greedystar.generator.utils.ConfigUtil;
 import com.greedystar.generator.utils.StringUtil;
 
 /**
@@ -31,41 +32,44 @@ public class Many2OneInvoker extends AbstractInvoker {
             invoker = new Many2OneInvoker();
         }
 
-        public Many2OneInvoker.Builder setTableName(String tableName) {
+        public Builder setTableName(String tableName) {
             invoker.setTableName(tableName);
             return this;
         }
 
-        public Many2OneInvoker.Builder setClassName(String className) {
+        public Builder setClassName(String className) {
             invoker.setClassName(className);
             return this;
         }
 
-        public Many2OneInvoker.Builder setParentTableName(String parentTableName) {
+        public Builder setParentTableName(String parentTableName) {
             invoker.setParentTableName(parentTableName);
             return this;
         }
 
-        public Many2OneInvoker.Builder setParentClassName(String parentClassName) {
+        public Builder setParentClassName(String parentClassName) {
             invoker.setParentClassName(parentClassName);
             return this;
         }
 
-        public Many2OneInvoker.Builder setForeignKey(String foreignKey) {
+        public Builder setForeignKey(String foreignKey) {
             invoker.setForeignKey(foreignKey);
             return this;
         }
 
         @Override
         public void checkBeforeBuild() throws Exception {
+            if (ConfigUtil.getConfiguration().isMybatisPlusEnable() || ConfigUtil.getConfiguration().isJpaEnable()) {
+                throw new Exception("JPA mode and Mybatis-Plus mode only supported in SingleInvoker.");
+            }
             if (StringUtil.isEmpty(invoker.getTableName())) {
-                throw new Exception("Expect table's name, but get an empty String.");
+                throw new Exception("Table name can't be null.");
             }
             if (StringUtil.isEmpty(invoker.getParentTableName())) {
-                throw new Exception("Expect parent table's name, but get an empty String.");
+                throw new Exception("Parent table name can't be null.");
             }
             if (StringUtil.isEmpty(invoker.getForeignKey())) {
-                throw new Exception("Expect foreign key, but get an empty String.");
+                throw new Exception("Foreign key can't be null.");
             }
             if (StringUtil.isEmpty(invoker.getClassName())) {
                 invoker.setClassName(StringUtil.tableName2ClassName(invoker.getTableName()));

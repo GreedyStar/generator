@@ -8,9 +8,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 </#if>
 <#if Configuration.mybatisPlusEnable>
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 <#elseif Configuration.jpaEnable>
-import javax.persistence.Table;
+import javax.persistence.*;
 </#if>
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -32,6 +32,7 @@ import java.util.List;
 <#if Configuration.mybatisPlusEnable>
 @TableName(value = "${TableName}")
 <#elseif Configuration.jpaEnable>
+@Entity
 @Table(name = "${TableName}")
 </#if>
 public class ${ClassName} implements Serializable {

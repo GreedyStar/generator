@@ -102,17 +102,17 @@ public class MapperTask extends AbstractTask {
                 return;
             }
             sb.append(index == 0 ? "" : Constant.SPACE_8);
-            sb.append(String.format("`%s`.`%s` AS `%s`,\n", invoker.getTableName(), info.getColumnName(), info.getPropertyName()));
+            sb.append(String.format("`%s`.`%s`,\n", invoker.getTableName(), info.getColumnName()));
         }));
         if (invoker.getParentTableInfos() != null) {
             invoker.getParentTableInfos().forEach(ForEachUtil.withIndex((info, index) -> {
                 sb.append(Constant.SPACE_8);
                 if (!StringUtil.isEmpty(invoker.getRelationalTableName()) || !StringUtil.isEmpty(invoker.getParentForeignKey())) {
                     sb.append(String.format("`%s`.`%s` AS `%ss.%s`,\n", invoker.getParentTableName(), info.getColumnName(),
-                            StringUtil.firstToLowerCase(invoker.getParentClassName()), info.getPropertyName()));
+                            StringUtil.firstToLowerCase(invoker.getParentClassName()), info.getColumnName()));
                 } else {
                     sb.append(String.format("`%s`.`%s` AS `%s.%s`,\n", invoker.getParentTableName(), info.getColumnName(),
-                            StringUtil.firstToLowerCase(invoker.getParentClassName()), info.getPropertyName()));
+                            StringUtil.firstToLowerCase(invoker.getParentClassName()), info.getColumnName()));
                 }
             }));
         }
@@ -132,9 +132,9 @@ public class MapperTask extends AbstractTask {
             }
             sb.append(index == 0 ? "" : Constant.SPACE_8);
             if (info.isPrimaryKey()) {
-                sb.append(String.format("<id column=\"%s\" property=\"%s\" />\n", info.getPropertyName(), info.getPropertyName()));
+                sb.append(String.format("<id column=\"%s\" property=\"%s\" />\n", info.getColumnName(), info.getPropertyName()));
             } else {
-                sb.append(String.format("<result column=\"%s\" property=\"%s\" />\n", info.getPropertyName(), info.getPropertyName()));
+                sb.append(String.format("<result column=\"%s\" property=\"%s\" />\n", info.getColumnName(), info.getPropertyName()));
             }
         }));
         return sb.toString();
@@ -153,10 +153,10 @@ public class MapperTask extends AbstractTask {
         invoker.getParentTableInfos().forEach(ForEachUtil.withIndex((info, index) -> {
             if (info.isPrimaryKey()) {
                 sb.append(Constant.SPACE_12).append(String.format("<id column=\"%s.%s\" property=\"%s\" />\n",
-                        StringUtil.firstToLowerCase(invoker.getParentClassName()), info.getPropertyName(), info.getPropertyName()));
+                        StringUtil.firstToLowerCase(invoker.getParentClassName()), info.getColumnName(), info.getPropertyName()));
             } else {
                 sb.append(Constant.SPACE_12).append(String.format("<result column=\"%s.%s\" property=\"%s\" />\n",
-                        StringUtil.firstToLowerCase(invoker.getParentClassName()), info.getPropertyName(), info.getPropertyName()));
+                        StringUtil.firstToLowerCase(invoker.getParentClassName()), info.getColumnName(), info.getPropertyName()));
             }
         }));
         sb.append(Constant.SPACE_8).append("</association>");
@@ -176,10 +176,10 @@ public class MapperTask extends AbstractTask {
         invoker.getParentTableInfos().forEach(ForEachUtil.withIndex((info, index) -> {
             if (info.isPrimaryKey()) {
                 sb.append(Constant.SPACE_12).append(String.format("<id column=\"%ss.%s\" property=\"%s\" />\n",
-                        StringUtil.firstToLowerCase(invoker.getParentClassName()), info.getPropertyName(), info.getPropertyName()));
+                        StringUtil.firstToLowerCase(invoker.getParentClassName()), info.getColumnName(), info.getPropertyName()));
             } else {
                 sb.append(Constant.SPACE_12).append(String.format("<result column=\"%ss.%s\" property=\"%s\" />\n",
-                        StringUtil.firstToLowerCase(invoker.getParentClassName()), info.getPropertyName(), info.getPropertyName()));
+                        StringUtil.firstToLowerCase(invoker.getParentClassName()), info.getColumnName(), info.getPropertyName()));
             }
         }));
         sb.append(Constant.SPACE_8).append("</collection>");

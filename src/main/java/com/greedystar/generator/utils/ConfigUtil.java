@@ -97,8 +97,8 @@ public class ConfigUtil {
             // 检查是否同时启用了jpa和mybatis-plus模式
             if (ConfigUtil.configuration.isMybatisPlusEnable() && ConfigUtil.configuration.isJpaEnable()) {
                 throw new Exception("Can not enable JPA mode and MyBatis-Plus mode at the same time.");
-            } else {
-                // 不论启用了jpa模式还是mybatis-plus模式，都直接禁用掉mapper.xml的生成
+            } else if (ConfigUtil.configuration.isMybatisPlusEnable() || ConfigUtil.configuration.isJpaEnable()) {
+                // 禁止生成mapper.xml
                 ConfigUtil.configuration.getPath().setMapper(null);
             }
         } catch (Exception e) {
