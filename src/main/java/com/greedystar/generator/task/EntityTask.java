@@ -75,7 +75,7 @@ public class EntityTask extends AbstractTask {
                 return;
             }
             sb.append(index == 0 ? "" : Constant.SPACE_4);
-            generateRemarksOrSwagger(sb, info);
+            generateRemarks(sb, info);
             generateORMAnnotation(sb, info);
             sb.append(Constant.SPACE_4).append(String.format("private %s %s;\n", info.getPropertyType(), info.getPropertyName()));
             sb.append("\n");
@@ -157,20 +157,15 @@ public class EntityTask extends AbstractTask {
      * @param sb   StringBuilder对象
      * @param info 列属性
      */
-    public void generateRemarksOrSwagger(StringBuilder sb, ColumnInfo info) {
-        if (ConfigUtil.getConfiguration().isSwaggerEnable()) {
-            sb.append(String.format("@ApiModelProperty(value = \"%s\", dataType = \"%s\")",
-                    info.getRemarks(), info.getPropertyType()));
-            sb.append("\n");
-        } else {
-            sb.append("/**").append("\n");
-            sb.append(Constant.SPACE_4).append(" * ").append(info.getRemarks()).append("\n");
-            sb.append(Constant.SPACE_4).append(" */").append("\n");
-        }
+    public void generateRemarks(StringBuilder sb, ColumnInfo info) {
+        sb.append("/**").append("\n");
+        sb.append(Constant.SPACE_4).append(" * ").append(info.getRemarks()).append("\n");
+        sb.append(Constant.SPACE_4).append(" */").append("\n");
     }
 
     /**
      * 为实体属性生成swagger注解
+     * 我们不建议在entity（vo）中使用swagger注解，在dto和vo中使用swagger注解更为优雅
      *
      * @param sb   StringBuilder对象
      * @param info 列属性

@@ -3,10 +3,6 @@ package ${Configuration.packageName}.${Configuration.path.entity};
 <#if Configuration.lombokEnable>
 import lombok.Data;
 </#if>
-<#if Configuration.swaggerEnable>
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-</#if>
 <#if Configuration.mybatisPlusEnable>
 import com.baomidou.mybatisplus.annotation.*;
 <#elseif Configuration.jpaEnable>
@@ -25,9 +21,6 @@ import java.util.List;
  */
 <#if Configuration.lombokEnable>
 @Data
-</#if>
-<#if Configuration.swaggerEnable>
-@ApiModel(value = "${Remarks}")
 </#if>
 <#if Configuration.mybatisPlusEnable>
 @TableName(value = "${TableName}")
