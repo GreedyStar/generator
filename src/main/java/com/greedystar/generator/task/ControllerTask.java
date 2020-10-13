@@ -1,5 +1,6 @@
 package com.greedystar.generator.task;
 
+import com.greedystar.generator.entity.ColumnInfo;
 import com.greedystar.generator.entity.Constant;
 import com.greedystar.generator.invoker.base.AbstractInvoker;
 import com.greedystar.generator.task.base.AbstractTask;
@@ -8,6 +9,7 @@ import freemarker.template.TemplateException;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,10 +47,30 @@ public class ControllerTask extends AbstractTask {
                 .replace(Constant.PLACEHOLDER, invoker.getClassName()));
         controllerData.put("EntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getEntity()
                 .replace(Constant.PLACEHOLDER, invoker.getClassName())));
+        controllerData.put("pkType", getPrimaryKeyType(invoker.getTableInfos()));
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) +
                 StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getController());
         String fileName = ConfigUtil.getConfiguration().getName().getController().replace(Constant.PLACEHOLDER, invoker.getClassName()) + ".java";
         // 生成Controller文件
         FileUtil.generateToJava(FreemarkerConfigUtil.TYPE_CONTROLLER, controllerData, filePath, fileName);
     }
+
+    /**
+     * 获取主键列对应的属性类型
+     *
+     * @param columnInfos
+     * @return
+     */
+    private String getPrimaryKeyType(List<ColumnInfo> columnInfos) {
+        if (!ConfigUtil.getConfiguration().isJpaEnable()) {
+            return "Serializable";
+        }
+        for (ColumnInfo info : columnInfos) {
+            if (info.isPrimaryKey()) {
+                return info.getPropertyType();
+            }
+        }
+        return "Serializable";
+    }
+
 }

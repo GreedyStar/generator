@@ -47,7 +47,7 @@ public class ${ControllerClassName} {
     @ApiOperation(value = "查看${ClassName}详情", httpMethod = "GET")
     </#if>
     @GetMapping(value = "/{id}")
-    public Object get(@PathVariable("id") String id) {
+    public Object get(@PathVariable("id") ${pkType} id) {
         <#if Configuration.mybatisPlusEnable><#-- mybatis-plus模式 -->
         ${ClassName} ${EntityName} = ${ServiceEntityName}.getById(id);
         <#else><#-- mybatis或jpa模式 -->
