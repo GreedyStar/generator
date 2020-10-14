@@ -289,27 +289,27 @@ public class Configuration implements Serializable {
      */
     public static class Name {
         /**
-         * Controller类的类名，默认为 %sController
+         * Controller类的类名，默认为 $sController
          */
         private String controller = Constant.PLACEHOLDER + "Controller";
         /**
-         * Service类或ServiceImpl类的类名，默认为%sService或%sServiceImpl
+         * Service类或ServiceImpl类的类名，默认为$sService或$sServiceImpl
          */
         private String service = Constant.PLACEHOLDER + "Service";
         /**
-         * Service接口类的类名，默认为%sService
+         * Service接口类的类名，默认为$sService
          */
         private String interf = Constant.PLACEHOLDER + "Service";
         /**
-         * Dao类的类名，默认为%sDao
+         * Dao类的类名，默认为$sDao
          */
         private String dao = Constant.PLACEHOLDER + "Dao";
         /**
-         * Entity类的类名，默认为%s
+         * Entity类的类名，默认为$s
          */
         private String entity = Constant.PLACEHOLDER;
         /**
-         * Mapper映射文件的文件名，默认%sMapper
+         * Mapper映射文件的文件名，默认$sMapper
          */
         private String mapper = Constant.PLACEHOLDER + "Mapper";
 

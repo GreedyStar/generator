@@ -132,7 +132,7 @@ public class StringUtil {
                 .replace("mapper-under-source", "mapperUnderSource")
                 .replace("swagger-enable", "swaggerEnable")
                 .replace("mybatis-plus-enable", "mybatisPlusEnable")
-                .replace("spring-data-jpa-enable", "springDataJpaEnable");
+                .replace("jpa-enable", "jpaEnable");
     }
 
 }
