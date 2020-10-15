@@ -2,6 +2,7 @@ package com.greedystar.generator.task;
 
 import com.greedystar.generator.entity.ColumnInfo;
 import com.greedystar.generator.entity.Constant;
+import com.greedystar.generator.entity.IdStrategy;
 import com.greedystar.generator.entity.Mode;
 import com.greedystar.generator.invoker.base.AbstractInvoker;
 import com.greedystar.generator.task.base.AbstractTask;
@@ -188,16 +189,30 @@ public class EntityTask extends AbstractTask {
     public void generateORMAnnotation(StringBuilder sb, ColumnInfo info) {
         if (ConfigUtil.getConfiguration().isMybatisPlusEnable()) {
             if (info.isPrimaryKey()) {
-                sb.append(Constant.SPACE_4).append(String.format("@TableId(value = \"%s\", type = IdType.ASSIGN_UUID)\n", info.getColumnName()));
+                if (StringUtil.isEmpty(ConfigUtil.getConfiguration().getIdStrategy())
+                        || IdStrategy.AUTO.getValue().equals(ConfigUtil.getConfiguration().getIdStrategy())) {
+                    sb.append(Constant.SPACE_4).append(String.format("@TableId(value = \"%s\", type = IdType.AUTO)\n",
+                            info.getColumnName()));
+                } else if (IdStrategy.UUID.getValue().equals(ConfigUtil.getConfiguration().getIdStrategy())) {
+                    sb.append(Constant.SPACE_4).append(String.format("@TableId(value = \"%s\", type = IdType.ASSIGN_UUID)\n",
+                            info.getColumnName()));
+                }
             } else {
                 sb.append(Constant.SPACE_4).append(String.format("@TableField(value = \"%s\")\n", info.getColumnName()));
             }
         } else if (ConfigUtil.getConfiguration().isJpaEnable()) {
             if (info.isPrimaryKey()) {
-                sb.append(Constant.SPACE_4).append("@Id\n");
-            } else {
-                sb.append(Constant.SPACE_4).append(String.format("@Column(name = \"%s\")\n", info.getColumnName()));
+                if (StringUtil.isEmpty(ConfigUtil.getConfiguration().getIdStrategy())
+                        || IdStrategy.AUTO.equals(ConfigUtil.getConfiguration().getIdStrategy())) {
+                    sb.append(Constant.SPACE_4).append("@Id\n");
+                    sb.append(Constant.SPACE_4).append("@GeneratedValue(strategy=GenerationType.IDENTITY)\n");
+                } else if (IdStrategy.UUID.equals(ConfigUtil.getConfiguration().getIdStrategy())) {
+                    sb.append(Constant.SPACE_4).append("@Id\n");
+                    sb.append(Constant.SPACE_4).append("@GeneratedValue(generator=\"uuidGenerator\")\n");
+                    sb.append(Constant.SPACE_4).append("@GenericGenerator(name=\"uuidGenerator\", strategy=\"uuid\")\n");
+                }
             }
+            sb.append(Constant.SPACE_4).append(String.format("@Column(name = \"%s\")\n", info.getColumnName()));
         }
     }
 

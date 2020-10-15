@@ -72,11 +72,7 @@ public abstract class AbstractInvoker implements Invoker {
      * @throws Exception
      */
     private void initDataSource() throws Exception {
-        if (!this.connectionUtil.initConnection()) {
-            throw new Exception("Failed to connect to database at url:" + ConfigUtil.getConfiguration().getDb().getUrl());
-        }
         queryTableMeta();
-        connectionUtil.closeConnection();
     }
 
     /**

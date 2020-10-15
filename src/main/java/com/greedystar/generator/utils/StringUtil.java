@@ -132,7 +132,8 @@ public class StringUtil {
                 .replace("mapper-under-source", "mapperUnderSource")
                 .replace("swagger-enable", "swaggerEnable")
                 .replace("mybatis-plus-enable", "mybatisPlusEnable")
-                .replace("jpa-enable", "jpaEnable");
+                .replace("jpa-enable", "jpaEnable")
+                .replace("id-strategy", "idStrategy");
     }
 
 }

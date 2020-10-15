@@ -57,6 +57,9 @@ public class ConnectionUtil {
      * @return 包含表结构数据的列表
      */
     public List<ColumnInfo> getMetaData(String tableName) throws Exception {
+        if (!initConnection()) {
+            throw new Exception("Failed to connect to database at url:" + ConfigUtil.getConfiguration().getDb().getUrl());
+        }
         // 获取主键
         ResultSet keyResultSet = connection.getMetaData().getPrimaryKeys(DataBaseFactory.getCatalog(connection),
                 DataBaseFactory.getSchema(connection), tableName.toUpperCase());
@@ -96,12 +99,14 @@ public class ConnectionUtil {
         }
         columnResultSet.close();
         if (columnInfos.size() == 0) {
+            closeConnection();
             throw new Exception("Can not find column information from table:" + tableName);
         }
         // SQLServer需要单独处理列REMARKS
         if (connection.getMetaData().getURL().contains("sqlserver")) {
             parseSqlServerColumnRemarks(tableName, columnInfos);
         }
+        closeConnection();
         return columnInfos;
     }
 

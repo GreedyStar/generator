@@ -42,6 +42,10 @@ public class Configuration implements Serializable {
      */
     private boolean jpaEnable;
     /**
+     * id策略（auto：数据库自增，uuid：生成uuid）
+     */
+    private String idStrategy;
+    /**
      * 代码生成路径
      */
     private Path path;
@@ -116,6 +120,14 @@ public class Configuration implements Serializable {
 
     public void setJpaEnable(boolean jpaEnable) {
         this.jpaEnable = jpaEnable;
+    }
+
+    public String getIdStrategy() {
+        return idStrategy;
+    }
+
+    public void setIdStrategy(String idStrategy) {
+        this.idStrategy = idStrategy;
     }
 
     public Path getPath() {
