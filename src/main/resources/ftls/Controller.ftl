@@ -75,7 +75,6 @@ public class ${ControllerClassName} {
             </#if>
             result.put("status", 200);
             result.put("message", "OK");
-            result.put("data", ${EntityName});
         } catch (Exception e) {
             e.printStackTrace();
             result.put("status", 500);
@@ -98,7 +97,6 @@ public class ${ControllerClassName} {
             </#if>
             result.put("status", 200);
             result.put("message", "OK");
-            result.put("data", ${EntityName});
         } catch (Exception e) {
             e.printStackTrace();
             result.put("status", 500);

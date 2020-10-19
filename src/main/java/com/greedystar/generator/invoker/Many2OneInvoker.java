@@ -16,7 +16,7 @@ public class Many2OneInvoker extends AbstractInvoker {
     }
 
     @Override
-    protected void queryTableMeta() throws Exception {
+    protected void queryMetaData() throws Exception {
         tableInfos = connectionUtil.getMetaData(tableName);
         parentTableInfos = connectionUtil.getMetaData(parentTableName);
     }

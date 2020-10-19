@@ -3,7 +3,6 @@ package com.greedystar.generator.invoker.base;
 import com.greedystar.generator.db.ConnectionUtil;
 import com.greedystar.generator.entity.ColumnInfo;
 import com.greedystar.generator.task.base.AbstractTask;
-import com.greedystar.generator.utils.ConfigUtil;
 import com.greedystar.generator.utils.TaskQueue;
 import freemarker.template.TemplateException;
 
@@ -67,20 +66,11 @@ public abstract class AbstractInvoker implements Invoker {
     private ExecutorService executorPool = Executors.newFixedThreadPool(6);
 
     /**
-     * 初始化数据源
-     *
-     * @throws Exception
-     */
-    private void initDataSource() throws Exception {
-        queryTableMeta();
-    }
-
-    /**
      * 获取表元数据，模板方法，由子类实现
      *
      * @throws Exception
      */
-    protected abstract void queryTableMeta() throws Exception;
+    protected abstract void queryMetaData() throws Exception;
 
     /**
      * 初始化代码生成任务，模板方法，由子类实现
@@ -93,7 +83,7 @@ public abstract class AbstractInvoker implements Invoker {
     @Override
     public void execute() {
         try {
-            initDataSource();
+            queryMetaData();
             initTasks();
             while (!taskQueue.isEmpty()) {
                 AbstractTask task = taskQueue.poll();

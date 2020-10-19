@@ -15,7 +15,7 @@ public class SingleInvoker extends AbstractInvoker {
     }
 
     @Override
-    protected void queryTableMeta() throws Exception {
+    protected void queryMetaData() throws Exception {
         tableInfos = connectionUtil.getMetaData(tableName);
     }
 

@@ -61,6 +61,23 @@ public class ConnectionUtil {
             throw new Exception("Failed to connect to database at url:" + ConfigUtil.getConfiguration().getDb().getUrl());
         }
         // 获取主键
+        String primaryKey = getPrimaryKey(tableName);
+        // 获取表注释
+        String tableRemark = getTableRemark(tableName);
+        // 获取列信息
+        List<ColumnInfo> columnInfos = getColumnInfos(tableName, primaryKey, tableRemark);
+        closeConnection();
+        return columnInfos;
+    }
+
+    /**
+     * 获取主键
+     *
+     * @param tableName
+     * @return
+     */
+    private String getPrimaryKey(String tableName) throws SQLException {
+        // 获取主键
         ResultSet keyResultSet = connection.getMetaData().getPrimaryKeys(DataBaseFactory.getCatalog(connection),
                 DataBaseFactory.getSchema(connection), tableName.toUpperCase());
         String primaryKey = null;
@@ -68,19 +85,43 @@ public class ConnectionUtil {
             primaryKey = keyResultSet.getObject(4).toString();
         }
         keyResultSet.close();
+        return primaryKey;
+    }
+
+    /**
+     * 获取表注释
+     *
+     * @param tableName
+     * @return
+     * @throws SQLException
+     */
+    private String getTableRemark(String tableName) throws SQLException {
         // 获取表注释
-        String tableRemarks = null;
+        String tableRemark = null;
         if (connection.getMetaData().getURL().contains("sqlserver")) { // SQLServer
-            tableRemarks = parseSqlServerTableRemarks(tableName);
+            tableRemark = parseSqlServerTableRemarks(tableName);
         } else { // Oracle & MySQL
             ResultSet tableResultSet = connection.getMetaData().getTables(DataBaseFactory.getCatalog(connection),
                     DataBaseFactory.getSchema(connection), tableName.toUpperCase(), new String[]{"TABLE"});
             if (tableResultSet.next()) {
-                tableRemarks = StringUtil.isEmpty(tableResultSet.getString("REMARKS")) ?
+                tableRemark = StringUtil.isEmpty(tableResultSet.getString("REMARKS")) ?
                         "Unknown Table" : tableResultSet.getString("REMARKS");
             }
             tableResultSet.close();
         }
+        return tableRemark;
+    }
+
+    /**
+     * 获取列信息
+     *
+     * @param tableName
+     * @param primaryKey
+     * @param tableRemark
+     * @return
+     * @throws Exception
+     */
+    private List<ColumnInfo> getColumnInfos(String tableName, String primaryKey, String tableRemark) throws Exception {
         // 获取列信息
         List<ColumnInfo> columnInfos = new ArrayList<>();
         ResultSet columnResultSet = connection.getMetaData().getColumns(DataBaseFactory.getCatalog(connection),
@@ -94,7 +135,7 @@ public class ConnectionUtil {
             }
             ColumnInfo info = new ColumnInfo(columnResultSet.getString("COLUMN_NAME"), columnResultSet.getInt("DATA_TYPE"),
                     StringUtil.isEmpty(columnResultSet.getString("REMARKS")) ? "Unknown" : columnResultSet.getString("REMARKS"),
-                    tableRemarks, isPrimaryKey);
+                    tableRemark, isPrimaryKey);
             columnInfos.add(info);
         }
         columnResultSet.close();
@@ -106,7 +147,6 @@ public class ConnectionUtil {
         if (connection.getMetaData().getURL().contains("sqlserver")) {
             parseSqlServerColumnRemarks(tableName, columnInfos);
         }
-        closeConnection();
         return columnInfos;
     }
 
@@ -161,28 +201,12 @@ public class ConnectionUtil {
         preparedStatement.close();
     }
 
-    public String getSchema(Connection connection) throws SQLException {
-        String schema;
-        if (connection.getMetaData().getURL().contains("sqlserver")) {
-            schema = connection.getSchema();
-        } else if (connection.getMetaData().getURL().contains("oracle")) {
-            schema = connection.getMetaData().getUserName();
-        } else {
-            schema = connection.getSchema();
-        }
-        return schema;
-    }
-
     /**
      * 关闭数据库连接
      */
-    public void closeConnection() {
-        try {
-            if (!connection.isClosed()) {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public void closeConnection() throws SQLException {
+        if (!connection.isClosed()) {
+            connection.close();
         }
     }
 

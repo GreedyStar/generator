@@ -41,10 +41,6 @@ public class ${ServiceClassName} ${Implements} {
         return ${DaoEntityName}.save(${EntityName});
     }
     ${Override}
-    public List<${ClassName}> insertBatch(List<${ClassName}> ${EntityName}s) {
-        return ${DaoEntityName}.saveAll(${EntityName}s);
-    }
-    ${Override}
     public ${ClassName} update(${ClassName} ${EntityName}) {
         return ${DaoEntityName}.save(${EntityName});
     }

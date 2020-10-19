@@ -2,6 +2,7 @@ package com.greedystar.generator.utils;
 
 import com.greedystar.generator.entity.Configuration;
 import com.greedystar.generator.entity.Constant;
+import com.greedystar.generator.entity.IdStrategy;
 import org.apache.commons.io.IOUtils;
 import org.yaml.snakeyaml.Yaml;
 

@@ -7,6 +7,7 @@ import lombok.Data;
 import com.baomidou.mybatisplus.annotation.*;
 <#elseif Configuration.jpaEnable>
 import javax.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 </#if>
 import java.io.Serializable;
 import java.math.BigDecimal;

@@ -40,8 +40,6 @@ public interface ${DaoClassName} {
 
     int insert(${ClassName} ${EntityName});
 
-    int insertBatch(List<${ClassName}> ${EntityName}s);
-
     int update(${ClassName} ${EntityName});
 
     int delete(${ClassName} ${EntityName});

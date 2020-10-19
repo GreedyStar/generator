@@ -51,18 +51,6 @@
         )
     </insert>
 
-    <insert id="insertBatch">
-        INSERT INTO `${TableName}`(
-            ${InsertProperties}
-        )
-        VALUES
-        <foreach collection ="list" item="${EntityName}" separator =",">
-        (
-            ${InsertBatchValues}
-        )
-        </foreach>
-    </insert>
-
     <update id="update">
         UPDATE `${TableName}` SET
         ${UpdateProperties}
