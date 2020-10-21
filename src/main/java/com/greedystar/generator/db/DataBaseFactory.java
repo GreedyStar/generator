@@ -66,7 +66,8 @@ public class DataBaseFactory {
         String url = connection.getMetaData().getURL();
         if (url.contains("mysql")) {
             if (url.contains("?")) {
-                return url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("?"));
+                url = url.replace("jdbc:mysql://", "");
+                return url.substring(url.indexOf("/") + 1, url.lastIndexOf("?"));
             } else {
                 return url.substring(url.lastIndexOf("/") + 1);
             }
@@ -76,18 +77,6 @@ public class DataBaseFactory {
             return connection.getSchema();
         }
         return null;
-    }
-
-    private static String getMySQLName(String url) {
-        return url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("?"));
-    }
-
-    private static String getOracleName(String url) {
-        return url.substring(url.lastIndexOf(":") + 1);
-    }
-
-    private static String getSQLServerName(String url) {
-        return url.substring(url.lastIndexOf("=") + 1);
     }
 
 }

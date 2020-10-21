@@ -33,7 +33,7 @@
         </where>
     </select>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert">
         INSERT INTO `${TableName}`(
             ${InsertProperties}
         )

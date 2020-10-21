@@ -166,7 +166,7 @@ public class EntityTask extends AbstractTask {
 
     /**
      * 为实体属性生成swagger注解
-     * 我们不建议在entity（vo）中使用swagger注解，在dto和vo中使用swagger注解更为优雅
+     * 我们不建议在entity（do）中使用swagger注解，在dto和vo中使用swagger注解更为优雅
      *
      * @param sb   StringBuilder对象
      * @param info 列属性
