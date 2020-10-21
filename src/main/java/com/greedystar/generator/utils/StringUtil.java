@@ -133,7 +133,8 @@ public class StringUtil {
                 .replace("swagger-enable", "swaggerEnable")
                 .replace("mybatis-plus-enable", "mybatisPlusEnable")
                 .replace("jpa-enable", "jpaEnable")
-                .replace("id-strategy", "idStrategy");
+                .replace("id-strategy", "idStrategy")
+                .replace("file-override", "fileOverride");
     }
 
 }

@@ -42,6 +42,10 @@ public class Configuration implements Serializable {
      */
     private boolean jpaEnable;
     /**
+     * 文件覆盖
+     */
+    private boolean fileOverride;
+    /**
      * id策略（auto：数据库自增，uuid：生成uuid）
      */
     private IdStrategy idStrategy;
@@ -120,6 +124,14 @@ public class Configuration implements Serializable {
 
     public void setJpaEnable(boolean jpaEnable) {
         this.jpaEnable = jpaEnable;
+    }
+
+    public boolean isFileOverride() {
+        return fileOverride;
+    }
+
+    public void setFileOverride(boolean fileOverride) {
+        this.fileOverride = fileOverride;
     }
 
     public IdStrategy getIdStrategy() {

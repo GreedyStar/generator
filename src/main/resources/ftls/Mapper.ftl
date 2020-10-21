@@ -25,16 +25,7 @@
         </where>
     </select>
 
-    <select id="findList" resultMap="${EntityName}ResultMap">
-        SELECT
-        <include refid="${EntityName}Columns" />
-        FROM `${TableName}` <include refid="${EntityName}Joins" />
-        <where>
-            <#-- AND ${TableName}.name LIKE concat('%',#{name},'%')-->
-        </where>
-    </select>
-
-    <select id="findAllList" resultMap="${EntityName}ResultMap">
+    <select id="findAll" resultMap="${EntityName}ResultMap">
         SELECT
         <include refid="${EntityName}Columns" />
         FROM `${TableName}` <include refid="${EntityName}Joins" />
@@ -49,6 +40,18 @@
         VALUES (
             ${InsertValues}
         )
+    </insert>
+
+    <insert id="insertBatch">
+        INSERT INTO ${TableName}(
+            ${InsertProperties}
+        )
+        VALUES
+        <foreach collection ="list" item="${EntityName}" separator =",">
+        (
+            ${InsertBatchValues}
+        )
+        </foreach>
     </insert>
 
     <update id="update">

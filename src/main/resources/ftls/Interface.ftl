@@ -23,9 +23,11 @@ public interface ${InterfaceClassName} {
     <#if Configuration.jpaEnable><#-- jpa模式 -->
     ${ClassName} get(Serializable id);
 
-    List<${ClassName}> findAllList();
+    List<${ClassName}> findAll();
 
     ${ClassName} insert(${ClassName} ${EntityName});
+
+    List<${ClassName}> insertBatch(List<${ClassName}> ${EntityName}s);
 
     ${ClassName} update(${ClassName} ${EntityName});
 
@@ -34,9 +36,11 @@ public interface ${InterfaceClassName} {
     <#else><#-- mybatis模式 -->
     ${ClassName} get(Serializable id);
 
-    List<${ClassName}> findAllList();
+    List<${ClassName}> findAll();
 
     int insert(${ClassName} ${EntityName});
+
+    int insertBatch(List<${ClassName}> ${EntityName}s);
 
     int update(${ClassName} ${EntityName});
 

@@ -33,12 +33,16 @@ public class ${ServiceClassName} ${Implements} {
         return ${DaoEntityName}.findById(id).orElse(null);
     }
     ${Override}
-    public List<${ClassName}> findAllList() {
+    public List<${ClassName}> findAll() {
         return ${DaoEntityName}.findAll();
     }
     ${Override}
     public ${ClassName} insert(${ClassName} ${EntityName}) {
         return ${DaoEntityName}.save(${EntityName});
+    }
+    ${Override}
+    public List<${ClassName}> insertBatch(List<${ClassName}> ${EntityName}s){
+        return ${DaoEntityName}.saveAll(${EntityName}s);
     }
     ${Override}
     public ${ClassName} update(${ClassName} ${EntityName}) {
@@ -54,8 +58,8 @@ public class ${ServiceClassName} ${Implements} {
         return ${DaoEntityName}.get(id);
     }
     ${Override}
-    public List<${ClassName}> findAllList() {
-        return ${DaoEntityName}.findAllList();
+    public List<${ClassName}> findAll() {
+        return ${DaoEntityName}.findAll();
     }
     ${Override}
     public int insert(${ClassName} ${EntityName}) {

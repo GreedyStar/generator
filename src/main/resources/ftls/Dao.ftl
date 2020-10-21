@@ -18,27 +18,27 @@ import java.util.List;
  * @author ${Configuration.author}
  * @date ${.now?date}
  */
-<#if Configuration.mybatisPlusEnable> <#-- mybatis-plus模式 -->
+<#if Configuration.mybatisPlusEnable><#-- mybatis-plus模式 -->
 @Mapper
 public interface ${DaoClassName} extends BaseMapper<${ClassName}> {
 
 }
-<#elseif Configuration.jpaEnable> <#-- jpa模式 -->
+<#elseif Configuration.jpaEnable><#-- jpa模式 -->
 @Repository
 public interface ${DaoClassName} extends JpaRepository<${ClassName}, Serializable> {
 
 }
-<#else> <#-- mybatis模式 -->
+<#else><#-- mybatis模式 -->
 @Mapper
 public interface ${DaoClassName} {
 
     ${ClassName} get(Serializable id);
 
-    List<${ClassName}> findList(${ClassName} ${EntityName});
-
-    List<${ClassName}> findAllList();
+    List<${ClassName}> findAll();
 
     int insert(${ClassName} ${EntityName});
+
+    int insertBatch(List<${ClassName}> ${EntityName}s);
 
     int update(${ClassName} ${EntityName});
 

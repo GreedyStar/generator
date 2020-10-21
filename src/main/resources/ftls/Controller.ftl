@@ -35,7 +35,7 @@ public class ${ControllerClassName} {
         <#if Configuration.mybatisPlusEnable><#-- mybatis-plus模式 -->
         List<${ClassName}> ${EntityName}s = ${ServiceEntityName}.list();
         <#else><#-- mybatis或jpa模式 -->
-        List<${ClassName}> ${EntityName}s = ${ServiceEntityName}.findAllList();
+        List<${ClassName}> ${EntityName}s = ${ServiceEntityName}.findAll();
         </#if>
         Map<String, Object> result = new HashMap<>();
         result.put("data", ${EntityName}s);

@@ -22,7 +22,7 @@ public class FileUtil {
         String path = filePath + fileName; // 待生成的代码文件路径
         // 已存在的文件不予覆盖
         File file = new File(path);
-        if (file.exists()) {
+        if (file.exists() && !ConfigUtil.getConfiguration().isFileOverride()) {
             path += ".generated";
             System.err.printf("%s already exit. Generating %s \n", fileName, path);
         } else {

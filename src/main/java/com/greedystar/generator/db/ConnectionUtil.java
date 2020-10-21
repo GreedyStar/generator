@@ -79,7 +79,7 @@ public class ConnectionUtil {
     private String getPrimaryKey(String tableName) throws SQLException {
         // 获取主键
         ResultSet keyResultSet = connection.getMetaData().getPrimaryKeys(DataBaseFactory.getCatalog(connection),
-                DataBaseFactory.getSchema(connection), tableName.toUpperCase());
+                DataBaseFactory.getSchema(connection), tableName);
         String primaryKey = null;
         if (keyResultSet.next()) {
             primaryKey = keyResultSet.getObject(4).toString();
@@ -102,7 +102,7 @@ public class ConnectionUtil {
             tableRemark = parseSqlServerTableRemarks(tableName);
         } else { // Oracle & MySQL
             ResultSet tableResultSet = connection.getMetaData().getTables(DataBaseFactory.getCatalog(connection),
-                    DataBaseFactory.getSchema(connection), tableName.toUpperCase(), new String[]{"TABLE"});
+                    DataBaseFactory.getSchema(connection), tableName, new String[]{"TABLE"});
             if (tableResultSet.next()) {
                 tableRemark = StringUtil.isEmpty(tableResultSet.getString("REMARKS")) ?
                         "Unknown Table" : tableResultSet.getString("REMARKS");
@@ -125,7 +125,7 @@ public class ConnectionUtil {
         // 获取列信息
         List<ColumnInfo> columnInfos = new ArrayList<>();
         ResultSet columnResultSet = connection.getMetaData().getColumns(DataBaseFactory.getCatalog(connection),
-                DataBaseFactory.getSchema(connection), tableName.toUpperCase(), "%");
+                DataBaseFactory.getSchema(connection), tableName, "%");
         while (columnResultSet.next()) {
             boolean isPrimaryKey;
             if (columnResultSet.getString("COLUMN_NAME").equals(primaryKey)) {

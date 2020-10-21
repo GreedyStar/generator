@@ -32,8 +32,5 @@ import java.util.List;
 public class ${ClassName} implements Serializable {
     ${Properties}
 
-    public ${ClassName}() {
-    }
-
     ${Methods}
 }
