@@ -26,7 +26,7 @@ public class ConfigUtil {
     /**
      * 获取配置信息
      *
-     * @return
+     * @return 配置对象
      */
     public static Configuration getConfiguration() {
         // ConfigUtil.getConfiguration()会在生成代码之前调用（获取业务表元数据），这里为null通常表示用户通过generator.yaml进行配置，
@@ -43,7 +43,7 @@ public class ConfigUtil {
     /**
      * 设置配置信息，提供给用户的外部配置接口，使用该接口则不会再到generator.yaml下读取配置
      *
-     * @param configuration
+     * @param configuration 配置对象
      */
     public static void setConfiguration(Configuration configuration) {
         ConfigUtil.configuration = configuration;

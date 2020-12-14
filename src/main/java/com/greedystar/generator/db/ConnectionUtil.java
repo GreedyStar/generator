@@ -26,7 +26,7 @@ public class ConnectionUtil {
     /**
      * 初始化数据库连接
      *
-     * @return
+     * @return 连接是否建立成功
      */
     public boolean initConnection() {
         try {
@@ -55,6 +55,7 @@ public class ConnectionUtil {
      *
      * @param tableName 表名
      * @return 包含表结构数据的列表
+     * @throws Exception
      */
     public List<ColumnInfo> getMetaData(String tableName) throws Exception {
         if (!initConnection()) {
@@ -74,7 +75,8 @@ public class ConnectionUtil {
      * 获取主键
      *
      * @param tableName
-     * @return
+     * @return 主键名称
+     * @throws SQLException
      */
     private String getPrimaryKey(String tableName) throws SQLException {
         // 获取主键
@@ -203,6 +205,7 @@ public class ConnectionUtil {
 
     /**
      * 关闭数据库连接
+     * @throws SQLException
      */
     public void closeConnection() throws SQLException {
         if (!connection.isClosed()) {

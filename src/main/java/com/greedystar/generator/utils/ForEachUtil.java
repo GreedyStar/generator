@@ -5,16 +5,16 @@ import java.util.function.Consumer;
 
 /**
  * @author GreedyStar
- * @date 2020/8/1
+ * @since 2020/8/1
  */
 public class ForEachUtil {
 
     /**
      * 带索引的foreach工具
      *
-     * @param consumer
-     * @param <T>
-     * @return
+     * @param consumer consumer
+     * @param <T>      泛型
+     * @return consumer
      */
     public static <T> Consumer<T> withIndex(BiConsumer<T, Integer> consumer) {
         Index index = new Index();

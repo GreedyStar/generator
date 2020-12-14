@@ -7,7 +7,7 @@ import com.greedystar.generator.utils.StringUtil;
 
 /**
  * @author GreedyStar
- * @date 2020/7/31
+ * @since 2020/7/31
  */
 public class Many2OneInvoker extends AbstractInvoker {
 

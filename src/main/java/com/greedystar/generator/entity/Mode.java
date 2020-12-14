@@ -4,7 +4,7 @@ package com.greedystar.generator.entity;
  * Entity任务模式
  *
  * @author GreedyStar
- * @date 2020/8/1
+ * @since 2020/8/1
  */
 public enum Mode {
     /**

@@ -18,8 +18,8 @@ public class DataBaseFactory {
     /**
      * 根据数据库连接url获取数据库驱动
      *
-     * @param url
-     * @return
+     * @param url 数据库url
+     * @return 驱动类名
      */
     public static String getDriver(String url) {
         if (url.contains("mysql")) {
@@ -41,8 +41,9 @@ public class DataBaseFactory {
     /**
      * 获取catalog
      *
-     * @param connection
-     * @return
+     * @param connection 数据库连接
+     * @return catalog
+     * @throws SQLException
      */
     public static String getCatalog(Connection connection) throws SQLException {
         String url = connection.getMetaData().getURL();
@@ -59,8 +60,9 @@ public class DataBaseFactory {
     /**
      * 获取schema
      *
-     * @param connection
-     * @return
+     * @param connection 数据库连接
+     * @return schema
+     * @throws SQLException
      */
     public static String getSchema(Connection connection) throws SQLException {
         String url = connection.getMetaData().getURL();

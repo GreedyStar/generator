@@ -11,8 +11,8 @@ public class StringUtil {
     /**
      * 判断字符串是否为空
      *
-     * @param string
-     * @return
+     * @param string 待检测字符串
+     * @return 是否为空
      */
     public static boolean isEmpty(String string) {
         if (string == null || string.trim().equals("")) {
@@ -25,8 +25,8 @@ public class StringUtil {
     /**
      * 首字母大写
      *
-     * @param string
-     * @return
+     * @param string 待处理字符串
+     * @return 处理后字符串
      */
     public static String firstToUpperCase(String string) {
         StringBuilder sb = new StringBuilder();
@@ -38,8 +38,8 @@ public class StringUtil {
     /**
      * 首字母小写
      *
-     * @param string
-     * @return
+     * @param string 待处理字符串
+     * @return 处理后字符串
      */
     public static String firstToLowerCase(String string) {
         StringBuilder sb = new StringBuilder();
@@ -75,8 +75,8 @@ public class StringUtil {
     /**
      * 以驼峰命名法生成类名，用于未指定类名时自动生成类名，如sys_user自动生成类名SysUser
      *
-     * @param tableName
-     * @return
+     * @param tableName 表名
+     * @return 驼峰命名类名
      */
     public static String tableName2ClassName(String tableName) {
         String[] nameStrs = tableName.split("_");
@@ -90,8 +90,8 @@ public class StringUtil {
     /**
      * 给定字符串除特定符号外的字符是否全部大写
      *
-     * @param string
-     * @return
+     * @param string 待检测字符串
+     * @return 是否全大写
      */
     public static boolean isAllUpperCase(String string) {
         for (Character c : string.replace("_", "").toCharArray()) {
@@ -105,8 +105,8 @@ public class StringUtil {
     /**
      * 包名转换为文件系统路径
      *
-     * @param packageName
-     * @return
+     * @param packageName 包名
+     * @return 文件系统路径
      */
     public static String package2Path(String packageName) {
         if (StringUtil.isEmpty(packageName)) {
@@ -123,8 +123,8 @@ public class StringUtil {
     /**
      * 短横线转驼峰
      *
-     * @param str
-     * @return
+     * @param str 待转换字符串
+     * @return 驼峰命名字符串
      */
     public static String line2Camel(String str) {
         return str.replace("package-name", "packageName")

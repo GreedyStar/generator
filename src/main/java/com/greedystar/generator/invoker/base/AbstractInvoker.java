@@ -68,7 +68,7 @@ public abstract class AbstractInvoker implements Invoker {
     /**
      * 获取表元数据，模板方法，由子类实现
      *
-     * @throws Exception
+     * @throws Exception 获取元数据失败则抛出异常
      */
     protected abstract void queryMetaData() throws Exception;
 

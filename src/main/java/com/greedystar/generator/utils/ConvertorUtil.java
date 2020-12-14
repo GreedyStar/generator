@@ -20,8 +20,8 @@ public class ConvertorUtil {
     /**
      * 将数据库数据类型转换为Java数据类型
      *
-     * @param type
-     * @return
+     * @param type jdbc类型
+     * @return java类型
      */
     public static String parseTypeFormSqlType(JDBCType type) {
         /*

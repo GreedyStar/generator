@@ -15,8 +15,9 @@ public class FileUtil {
      * @param type     使用模板类型
      * @param data     填充数据
      * @param filePath 输出文件
-     * @throws IOException
-     * @throws TemplateException
+     * @param fileName 文件名
+     * @throws IOException       文件读写异常
+     * @throws TemplateException 模板异常
      */
     public static void generateToJava(int type, Object data, String filePath, String fileName) throws IOException, TemplateException {
         String path = filePath + fileName; // 待生成的代码文件路径
@@ -75,7 +76,7 @@ public class FileUtil {
     /**
      * 获取项目主目录
      *
-     * @return
+     * @return 项目根路径
      */
     private static String getBasicProjectPath() {
         StringBuilder sb = new StringBuilder();
@@ -92,7 +93,7 @@ public class FileUtil {
     /**
      * 获取源码路径
      *
-     * @return
+     * @return 源码路径
      */
     public static String getSourcePath() {
         StringBuilder sb = new StringBuilder();
@@ -103,7 +104,7 @@ public class FileUtil {
     /**
      * 获取资源文件路径
      *
-     * @return
+     * @return 资源路径
      */
     public static String getResourcePath() {
         StringBuilder sb = new StringBuilder();

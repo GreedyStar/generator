@@ -67,7 +67,8 @@ public class EntityTask extends AbstractTask {
     /**
      * 生成实体类属性字段
      *
-     * @return
+     * @param invoker 执行器
+     * @return 属性代码段
      */
     public String entityProperties(AbstractInvoker invoker) {
         StringBuilder sb = new StringBuilder();
@@ -102,7 +103,8 @@ public class EntityTask extends AbstractTask {
     /**
      * 生成实体类存取方法
      *
-     * @return
+     * @param invoker 执行器
+     * @return 方法代码段
      */
     public String entityMethods(AbstractInvoker invoker) {
         if (ConfigUtil.getConfiguration().isLombokEnable()) {
@@ -183,8 +185,8 @@ public class EntityTask extends AbstractTask {
     /**
      * 为实体属性生成Orm框架（jpa/mybatis-plus）注解
      *
-     * @param sb
-     * @param info
+     * @param sb   StringBuilder对象
+     * @param info 列属性
      */
     public void generateORMAnnotation(StringBuilder sb, ColumnInfo info) {
         if (ConfigUtil.getConfiguration().isMybatisPlusEnable()) {

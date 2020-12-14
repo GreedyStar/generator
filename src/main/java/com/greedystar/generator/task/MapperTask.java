@@ -93,7 +93,7 @@ public class MapperTask extends AbstractTask {
     /**
      * 生成columnMap
      *
-     * @return
+     * @return ColumnMap代码段
      */
     public String columnMap() {
         StringBuilder sb = new StringBuilder();
@@ -122,7 +122,7 @@ public class MapperTask extends AbstractTask {
     /**
      * 生成resultMap
      *
-     * @return
+     * @return ResultMap代码段
      */
     public String resultMap() {
         StringBuilder sb = new StringBuilder();
@@ -143,7 +143,7 @@ public class MapperTask extends AbstractTask {
     /**
      * 生成association
      *
-     * @return
+     * @return association代码段
      */
     public String association() {
         StringBuilder sb = new StringBuilder();
@@ -166,7 +166,7 @@ public class MapperTask extends AbstractTask {
     /**
      * 生成collection
      *
-     * @return
+     * @return collection代码段
      */
     public String collection() {
         StringBuilder sb = new StringBuilder();
@@ -189,7 +189,7 @@ public class MapperTask extends AbstractTask {
     /**
      * 生成insertProperties
      *
-     * @return
+     * @return insertProperties代码段
      */
     public String insertProperties() {
         StringBuilder sb = new StringBuilder();
@@ -203,7 +203,7 @@ public class MapperTask extends AbstractTask {
     /**
      * 生成insertValues
      *
-     * @return
+     * @return insertValues代码段
      */
     public String insertValues() {
         StringBuilder sb = new StringBuilder();
@@ -226,7 +226,7 @@ public class MapperTask extends AbstractTask {
     /**
      * 生成insertBatchValues
      *
-     * @return
+     * @return insertBatchValues代码段
      */
     public String insertBatchValues() {
         StringBuilder sb = new StringBuilder();
@@ -250,7 +250,7 @@ public class MapperTask extends AbstractTask {
     /**
      * 生成updateProperties
      *
-     * @return
+     * @return updateProperties代码段
      */
     public String updateProperties() {
         StringBuilder sb = new StringBuilder();
@@ -271,6 +271,11 @@ public class MapperTask extends AbstractTask {
         return sb.toString().substring(0, sb.toString().length() - 2);
     }
 
+    /**
+     * 生成joins代码段
+     *
+     * @return joins代码段
+     */
     public String joins() {
         StringBuilder sb = new StringBuilder();
         if (!StringUtil.isEmpty(invoker.getRelationalTableName())) {

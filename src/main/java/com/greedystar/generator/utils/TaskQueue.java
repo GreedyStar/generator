@@ -95,7 +95,7 @@ public class TaskQueue {
     /**
      * 任务队列是否为空
      *
-     * @return
+     * @return 是否为空
      */
     public boolean isEmpty() {
         return taskQueue.isEmpty();
@@ -104,7 +104,7 @@ public class TaskQueue {
     /**
      * 取出一个任务
      *
-     * @return
+     * @return 任务
      */
     public AbstractTask poll() {
         return taskQueue.poll();

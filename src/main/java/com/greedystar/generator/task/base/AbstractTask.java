@@ -19,8 +19,8 @@ public abstract class AbstractTask implements Serializable {
     /**
      * 执行任务
      *
-     * @throws IOException
-     * @throws TemplateException
+     * @throws IOException 文件读写异常
+     * @throws TemplateException 模板异常
      */
     public abstract void run() throws IOException, TemplateException;
 

@@ -18,7 +18,7 @@ public class ColumnInfo implements Serializable {
      */
     private String columnName;
     /**
-     * 列名 -> 属性名
+     * 列名 -- 属性名
      */
     private String propertyName;
     /**
@@ -26,7 +26,7 @@ public class ColumnInfo implements Serializable {
      */
     private JDBCType columnType;
     /**
-     * 数据列类型 -> Java类型
+     * 数据列类型 -- Java类型
      */
     private String propertyType;
     /**
