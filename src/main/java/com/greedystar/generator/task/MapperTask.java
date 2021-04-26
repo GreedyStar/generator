@@ -29,8 +29,7 @@ public class MapperTask extends AbstractTask {
         mapperData.put("Configuration", ConfigUtil.getConfiguration());
         mapperData.put("ClassName", ConfigUtil.getConfiguration().getName().getEntity()
                 .replace(Constant.PLACEHOLDER, invoker.getClassName()));
-        mapperData.put("EntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getEntity()
-                .replace(Constant.PLACEHOLDER, invoker.getClassName())));
+        mapperData.put("EntityName", StringUtil.firstToLowerCase(invoker.getClassName()));
         mapperData.put("DaoClassName", ConfigUtil.getConfiguration().getName().getDao()
                 .replace(Constant.PLACEHOLDER, invoker.getClassName()));
         mapperData.put("TableName", invoker.getTableName());

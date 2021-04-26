@@ -59,7 +59,7 @@ public class EntityTask extends AbstractTask {
         entityData.put("Methods", entityMethods(invoker));
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName())
                 + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getEntity());
-        String fileName = ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, className) + ".java";
+        String fileName = className + ".java";
         // 生成Entity文件
         FileUtil.generateToJava(FreemarkerConfigUtil.TYPE_ENTITY, entityData, filePath, fileName);
     }
@@ -118,8 +118,8 @@ public class EntityTask extends AbstractTask {
             String setter = String.format("public void set%s (%s %s) { this.%s = %s; } \n\n", StringUtil.firstToUpperCase(info.getPropertyName()),
                     info.getPropertyType(), info.getPropertyName(), info.getPropertyName(), info.getPropertyName());
             sb.append(index == 0 ? "" : Constant.SPACE_4).append(setter);
-            String getter = null;
-            if (info.getPropertyType().equals("boolean") || info.getPropertyType().equals("Boolean")) {
+            String getter;
+            if (info.getPropertyType().equals("boolean")) {
                 getter = String.format("public %s is%s () { return this.%s; } \n\n", info.getPropertyType(),
                         StringUtil.firstToUpperCase(info.getPropertyName()), info.getPropertyName());
             } else {

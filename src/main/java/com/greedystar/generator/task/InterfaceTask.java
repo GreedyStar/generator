@@ -27,8 +27,7 @@ public class InterfaceTask extends AbstractTask {
         interfaceData.put("Configuration", ConfigUtil.getConfiguration());
         interfaceData.put("ClassName", ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER,
                 invoker.getClassName()));
-        interfaceData.put("EntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getEntity()
-                .replace(Constant.PLACEHOLDER, invoker.getClassName())));
+        interfaceData.put("EntityName", StringUtil.firstToLowerCase(invoker.getClassName()));
         interfaceData.put("InterfaceClassName", ConfigUtil.getConfiguration().getName().getInterf()
                 .replace(Constant.PLACEHOLDER, invoker.getClassName()));
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName())

@@ -26,8 +26,7 @@ public class ServiceTask extends AbstractTask {
         Map<String, Object> serviceData = new HashMap<>();
         serviceData.put("Configuration", ConfigUtil.getConfiguration());
         serviceData.put("ClassName", ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, invoker.getClassName()));
-        serviceData.put("EntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getEntity()
-                .replace(Constant.PLACEHOLDER, invoker.getClassName())));
+        serviceData.put("EntityName", StringUtil.firstToLowerCase(invoker.getClassName()));
         serviceData.put("DaoClassName", ConfigUtil.getConfiguration().getName().getDao().replace(Constant.PLACEHOLDER, invoker.getClassName()));
         serviceData.put("DaoEntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getDao()
                 .replace(Constant.PLACEHOLDER, invoker.getClassName())));

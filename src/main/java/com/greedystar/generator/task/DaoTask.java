@@ -26,8 +26,7 @@ public class DaoTask extends AbstractTask {
         Map<String, Object> daoData = new HashMap<>();
         daoData.put("Configuration", ConfigUtil.getConfiguration());
         daoData.put("ClassName", ConfigUtil.getConfiguration().getName().getEntity().replace(Constant.PLACEHOLDER, invoker.getClassName()));
-        daoData.put("EntityName", StringUtil.firstToLowerCase(ConfigUtil.getConfiguration().getName().getEntity()
-                .replace(Constant.PLACEHOLDER, invoker.getClassName())));
+        daoData.put("EntityName", StringUtil.firstToLowerCase(invoker.getClassName()));
         daoData.put("DaoClassName", ConfigUtil.getConfiguration().getName().getDao().replace(Constant.PLACEHOLDER, invoker.getClassName()));
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName())
                 + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getDao());

@@ -19,7 +19,7 @@ import java.util.Map;
  * @date ${.now?date}
  */
 <#if Configuration.swaggerEnable>
-@Api(value = "/${EntityName}", tags = "${ClassName}管理接口")
+@Api(value = "/${EntityName}", tags = "${EntityName}管理接口")
 </#if>
 @RestController
 @RequestMapping(value = "/${EntityName}")
