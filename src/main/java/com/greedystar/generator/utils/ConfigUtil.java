@@ -2,14 +2,11 @@ package com.greedystar.generator.utils;
 
 import com.greedystar.generator.entity.Configuration;
 import com.greedystar.generator.entity.Constant;
-import com.greedystar.generator.entity.IdStrategy;
-import org.apache.commons.io.IOUtils;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 代码生成器的配置工具
@@ -61,7 +58,7 @@ public class ConfigUtil {
                 System.exit(0);
             } else {
                 String configStr = StringUtil.line2Camel(IOUtils.toString((InputStream) url.getContent()));
-                InputStream inputStream = IOUtils.toInputStream(configStr, StandardCharsets.UTF_8.name());
+                InputStream inputStream = IOUtils.toInputStream(configStr);
                 Yaml yaml = new Yaml();
                 ConfigUtil.setConfiguration(yaml.loadAs(inputStream, Configuration.class));
             }
