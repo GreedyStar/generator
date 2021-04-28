@@ -28,7 +28,7 @@ public class ${ControllerClassName} {
     private ${ServiceClassName} ${ServiceEntityName};
 
     <#if Configuration.swaggerEnable>
-    @ApiOperation(value = "查询${ClassName}列表", httpMethod = "GET")
+    @ApiOperation(value = "查询${EntityName}列表", httpMethod = "GET")
     </#if>
     @GetMapping(value = "")
     public Object list() {
@@ -45,7 +45,7 @@ public class ${ControllerClassName} {
     }
 
     <#if Configuration.swaggerEnable>
-    @ApiOperation(value = "查看${ClassName}详情", httpMethod = "GET")
+    @ApiOperation(value = "查看${EntityName}详情", httpMethod = "GET")
     </#if>
     @GetMapping(value = "/{id}")
     public Object get(@PathVariable("id") ${pkType} id) {
@@ -62,7 +62,7 @@ public class ${ControllerClassName} {
     }
 
     <#if Configuration.swaggerEnable>
-    @ApiOperation(value = "创建${ClassName}", httpMethod = "POST")
+    @ApiOperation(value = "创建${EntityName}", httpMethod = "POST")
     </#if>
     @PostMapping(value = "")
     public Object post(@RequestBody ${ClassName} ${EntityName}) {
@@ -84,7 +84,7 @@ public class ${ControllerClassName} {
     }
 
     <#if Configuration.swaggerEnable>
-    @ApiOperation(value = "修改${ClassName}信息", httpMethod = "PUT")
+    @ApiOperation(value = "修改${EntityName}信息", httpMethod = "PUT")
     </#if>
     @PutMapping(value = "")
     public Object put(@RequestBody ${ClassName} ${EntityName}) {
@@ -107,7 +107,7 @@ public class ${ControllerClassName} {
 
 
     <#if Configuration.swaggerEnable>
-    @ApiOperation(value = "删除${ClassName}", httpMethod = "DELETE")
+    @ApiOperation(value = "删除${EntityName}", httpMethod = "DELETE")
     </#if>
     @DeleteMapping(value = "")
     public Object delete(@RequestBody ${ClassName} ${EntityName}) {
