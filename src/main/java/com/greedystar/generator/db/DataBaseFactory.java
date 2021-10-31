@@ -43,7 +43,7 @@ public class DataBaseFactory {
      *
      * @param connection 数据库连接
      * @return catalog
-     * @throws SQLException
+     * @throws SQLException SQLException
      */
     public static String getCatalog(Connection connection) throws SQLException {
         String url = connection.getMetaData().getURL();
@@ -62,7 +62,7 @@ public class DataBaseFactory {
      *
      * @param connection 数据库连接
      * @return schema
-     * @throws SQLException
+     * @throws SQLException SQLException
      */
     public static String getSchema(Connection connection) throws SQLException {
         String url = connection.getMetaData().getURL();

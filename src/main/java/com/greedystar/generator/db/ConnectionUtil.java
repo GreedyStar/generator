@@ -205,7 +205,7 @@ public class ConnectionUtil {
 
     /**
      * 关闭数据库连接
-     * @throws SQLException
+     * @throws SQLException SQLException
      */
     public void closeConnection() throws SQLException {
         if (!connection.isClosed()) {

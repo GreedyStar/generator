@@ -2,18 +2,20 @@ package com.greedystar.generator.utils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 
 /**
  * @author GreedyStar
- * @date 2021-4-27
+ * @since 2021-4-27
  */
 public class IOUtils {
 
     /**
      * 输入流转字符串
      *
-     * @param inputStream
-     * @return
+     * @param inputStream 输入流
+     * @return 转换后的字符串
+     * @throws IOException IOException
      */
     public static String toString(InputStream inputStream) throws IOException {
         StringBuilder sb = new StringBuilder();
@@ -28,10 +30,10 @@ public class IOUtils {
     /**
      * 字符串转输入流
      *
-     * @param string
-     * @return
+     * @param string 字符串
+     * @return 转换后的输入流
      */
-    public static InputStream toInputStream(String string) throws UnsupportedEncodingException {
+    public static InputStream toInputStream(String string) {
         return new ByteArrayInputStream(string.getBytes(StandardCharsets.UTF_8));
     }
 
