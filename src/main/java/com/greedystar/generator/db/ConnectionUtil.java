@@ -55,7 +55,7 @@ public class ConnectionUtil {
      *
      * @param tableName 表名
      * @return 包含表结构数据的列表
-     * @throws Exception
+     * @throws Exception Exception
      */
     public List<ColumnInfo> getMetaData(String tableName) throws Exception {
         if (!initConnection()) {
@@ -74,9 +74,9 @@ public class ConnectionUtil {
     /**
      * 获取主键
      *
-     * @param tableName
+     * @param tableName 表名
      * @return 主键名称
-     * @throws SQLException
+     * @throws SQLException SQLException
      */
     private String getPrimaryKey(String tableName) throws SQLException {
         // 获取主键
@@ -93,9 +93,9 @@ public class ConnectionUtil {
     /**
      * 获取表注释
      *
-     * @param tableName
-     * @return
-     * @throws SQLException
+     * @param tableName 表名
+     * @return 表注释
+     * @throws SQLException SQLException
      */
     private String getTableRemark(String tableName) throws SQLException {
         // 获取表注释
@@ -117,11 +117,11 @@ public class ConnectionUtil {
     /**
      * 获取列信息
      *
-     * @param tableName
-     * @param primaryKey
-     * @param tableRemark
-     * @return
-     * @throws Exception
+     * @param tableName 表名
+     * @param primaryKey 主键列名
+     * @param tableRemark 表注释
+     * @return 列信息
+     * @throws Exception Exception
      */
     private List<ColumnInfo> getColumnInfos(String tableName, String primaryKey, String tableRemark) throws Exception {
         // 获取列信息
@@ -155,9 +155,9 @@ public class ConnectionUtil {
     /**
      * 主动查询SqlServer指定表的注释
      *
-     * @param tableName
-     * @return
-     * @throws SQLException
+     * @param tableName 表名
+     * @return 表注释
+     * @throws SQLException SQLException
      */
     private String parseSqlServerTableRemarks(String tableName) throws SQLException {
         String tableRemarks = null;
@@ -178,9 +178,8 @@ public class ConnectionUtil {
     /**
      * 主动查询SqlServer指定表的数据列的注释
      *
-     * @param tableName
-     * @return
-     * @throws SQLException
+     * @param tableName 表名
+     * @throws SQLException SQLException
      */
     private void parseSqlServerColumnRemarks(String tableName, List<ColumnInfo> columnInfos) throws SQLException {
         HashMap<String, String> map = new HashMap<>();
