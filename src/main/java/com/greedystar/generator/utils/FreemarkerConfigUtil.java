@@ -25,6 +25,8 @@ public class FreemarkerConfigUtil {
     public final static int TYPE_CONTROLLER = 3;
     public final static int TYPE_MAPPER = 4;
     public final static int TYPE_INTERFACE = 5;
+    public final static int TYPE_DTO = 6;
+    public final static int TYPE_VO = 7;
 
     public static Configuration getInstance() {
         if (null == configuration) {

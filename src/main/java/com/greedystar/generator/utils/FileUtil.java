@@ -68,6 +68,10 @@ public class FileUtil {
                 return FreemarkerConfigUtil.getInstance().getTemplate("Mapper.ftl");
             case FreemarkerConfigUtil.TYPE_INTERFACE:
                 return FreemarkerConfigUtil.getInstance().getTemplate("Interface.ftl");
+            case FreemarkerConfigUtil.TYPE_DTO:
+                return FreemarkerConfigUtil.getInstance().getTemplate("Dto.ftl");
+            case FreemarkerConfigUtil.TYPE_VO:
+                return FreemarkerConfigUtil.getInstance().getTemplate("Vo.ftl");
             default:
                 return null;
         }

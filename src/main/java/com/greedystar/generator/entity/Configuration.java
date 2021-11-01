@@ -245,6 +245,14 @@ public class Configuration implements Serializable {
          * Mapper映射文件路径
          */
         private String mapper = "";
+        /**
+         * DTO文件路径
+         */
+        private String dto = "";
+        /**
+         * VO文件路径
+         */
+        private String vo = "";
 
         public Path() {
         }
@@ -306,6 +314,21 @@ public class Configuration implements Serializable {
             this.mapper = mapper;
         }
 
+        public String getDto() {
+            return dto;
+        }
+
+        public void setDto(String dto) {
+            this.dto = dto;
+        }
+
+        public String getVo() {
+            return vo;
+        }
+
+        public void setVo(String vo) {
+            this.vo = vo;
+        }
     }
 
     /**
