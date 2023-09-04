@@ -1,9 +1,12 @@
 package com.greedystar.generator.utils;
 
+import com.greedystar.generator.entity.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 import java.io.*;
+
+import static java.io.File.separator;
 
 /**
  * @author GreedyStar
@@ -68,6 +71,14 @@ public class FileUtil {
                 return FreemarkerConfigUtil.getInstance().getTemplate("Mapper.ftl");
             case FreemarkerConfigUtil.TYPE_INTERFACE:
                 return FreemarkerConfigUtil.getInstance().getTemplate("Interface.ftl");
+            case FreemarkerConfigUtil.TYPE_POM:
+                return FreemarkerConfigUtil.getInstance().getTemplate("Pom.ftl");
+            case FreemarkerConfigUtil.TYPE_APPLICATION_FILE:
+                return FreemarkerConfigUtil.getInstance().getTemplate("application-yml.ftl");
+            case FreemarkerConfigUtil.TYPE_BOOTSTRAP_CLASS:
+                return FreemarkerConfigUtil.getInstance().getTemplate("Application.ftl");
+            case FreemarkerConfigUtil.TYPE_SWAGGER_CONFIG:
+                return FreemarkerConfigUtil.getInstance().getTemplate("DockApi.ftl");
             default:
                 return null;
         }
@@ -78,7 +89,13 @@ public class FileUtil {
      *
      * @return 项目根路径
      */
-    private static String getBasicProjectPath() {
+    private static StringBuilder getBasicProjectPath() {
+        Configuration configuration = ConfigUtil.getConfiguration();
+        if (!StringUtil.isEmpty(configuration.getProjectPath())) {
+            return new StringBuilder().append(configuration.getProjectPath())
+                    .append(configuration.getProjectName())
+                    .append(separator);
+        }
         StringBuilder sb = new StringBuilder();
         String path = FileUtil.class.getClassLoader().getResource("").getPath().replace("/", File.separator);
         if (path.contains("target")) {
@@ -86,8 +103,7 @@ public class FileUtil {
         } else if (path.contains("build")) {
             sb.append(path, 0, path.indexOf("build"));
         }
-        sb.append("src").append(File.separator).append("main").append(File.separator);
-        return sb.toString();
+        return sb;
     }
 
     /**
@@ -96,9 +112,12 @@ public class FileUtil {
      * @return 源码路径
      */
     public static String getSourcePath() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getBasicProjectPath()).append("java").append(File.separator);
-        return sb.toString();
+        //若指定项目目录则使用指定的
+        StringBuilder path = getBasicProjectPath();
+        path.append("src").append(separator)
+                .append("main").append(separator)
+                .append("java").append(separator);
+        return path.toString();
     }
 
     /**
@@ -107,9 +126,11 @@ public class FileUtil {
      * @return 资源路径
      */
     public static String getResourcePath() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getBasicProjectPath()).append("resources").append(File.separator);
-        return sb.toString();
+        StringBuilder path = getBasicProjectPath();
+        path.append("src").append(separator)
+                .append("main").append(separator)
+                .append("resources").append(File.separator);
+        return path.toString();
     }
 
     public static void main(String[] args) {

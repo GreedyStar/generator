@@ -2,7 +2,6 @@ package com.greedystar.generator.utils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 
 /**
  * @author GreedyStar
@@ -22,7 +21,7 @@ public class IOUtils {
         String line;
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
         while ((line = br.readLine()) != null) {
-            sb.append(line);
+            sb.append(line).append(System.lineSeparator());
         }
         return sb.toString();
     }

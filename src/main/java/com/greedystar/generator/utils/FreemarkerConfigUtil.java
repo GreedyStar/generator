@@ -25,7 +25,10 @@ public class FreemarkerConfigUtil {
     public final static int TYPE_CONTROLLER = 3;
     public final static int TYPE_MAPPER = 4;
     public final static int TYPE_INTERFACE = 5;
-
+    public final static int TYPE_POM = 6;
+    public final static int TYPE_APPLICATION_FILE = 7;
+    public final static int TYPE_BOOTSTRAP_CLASS = 8;
+    public final static int TYPE_SWAGGER_CONFIG = 9;
     public static Configuration getInstance() {
         if (null == configuration) {
             synchronized (FreemarkerConfigUtil.class) {

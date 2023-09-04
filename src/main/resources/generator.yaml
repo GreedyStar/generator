@@ -1,0 +1,29 @@
+author: dumbcode
+projectName: test4
+projectPath: D:\\
+packageName: com.dcode.test
+projectVersion: 1.0
+parent:
+  groupId: org.springframework.boot
+  artifactId: spring-boot-starter-parent
+  version: 2.6.6
+convertor:
+lombokEnable: true
+mapperUnderSource: false
+swaggerEnable: true
+mybatisPlusEnable: true
+knif4jEnable: false
+jpaEnable: false
+fileOverride: false
+idStrategy: AUTO
+path:
+  controller: controller
+  service: service
+  interf: service
+  dao: dao
+  entity: entity
+  mapper: mapper
+db:
+  url: jdbc:mysql://localhost:3306/test?useSSL=true&serverTimezone=UTC
+  username: root
+  password: 12345678

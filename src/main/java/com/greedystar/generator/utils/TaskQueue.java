@@ -39,6 +39,9 @@ public class TaskQueue {
         if (!StringUtil.isEmpty(ConfigUtil.getConfiguration().getPath().getMapper())) {
             taskQueue.add(new MapperTask(invoker));
         }
+        if(!StringUtil.isEmpty(ConfigUtil.getConfiguration().getProjectPath())){
+            taskQueue.add(new ProjectStructureTask());
+        }
     }
 
     /**

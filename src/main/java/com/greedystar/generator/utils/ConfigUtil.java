@@ -106,6 +106,10 @@ public class ConfigUtil {
                 // 禁止生成mapper.xml
                 ConfigUtil.configuration.getPath().setMapper(null);
             }
+            //检查是否同时启用了swagger和knif4j
+            if (ConfigUtil.configuration.isSwaggerEnable() && ConfigUtil.configuration.isKnif4jEnable()) {
+                throw new Exception("Can not enable swagger mode and  Knif4j mode at the same time.");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);

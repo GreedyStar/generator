@@ -13,6 +13,27 @@ public class Configuration implements Serializable {
      * 代码作者
      */
     private String author;
+
+    /**
+     * 项目名称
+     */
+    private String projectName;
+
+    /**
+     * 项目实际生成路径
+     */
+    private String projectPath;
+
+    /**
+     * 项目版本
+     */
+    private String projectVersion;
+
+    /**
+     * 是否启用knif4j
+     */
+    private boolean knif4jEnable;
+
     /**
      * 顶级包名
      */
@@ -61,6 +82,8 @@ public class Configuration implements Serializable {
      * 代码文件后缀
      */
     private Name name;
+
+    private ProjectInfo parent;
 
     public String getAuthor() {
         return author;
@@ -164,6 +187,60 @@ public class Configuration implements Serializable {
 
     public void setName(Name name) {
         this.name = name;
+    }
+
+    public ProjectInfo getParent() {
+        return parent;
+    }
+
+    public void setParent(ProjectInfo parent) {
+        this.parent = parent;
+    }
+
+    public String getProjectVersion() {
+        return projectVersion;
+    }
+
+    public void setProjectVersion(String projectVersion) {
+        this.projectVersion = projectVersion;
+    }
+
+    public boolean isKnif4jEnable() {
+        return knif4jEnable;
+    }
+
+    public void setKnif4jEnable(boolean knif4jEnable) {
+        this.knif4jEnable = knif4jEnable;
+    }
+
+    public static class ProjectInfo{
+        private String groupId;
+        private String artifactId;
+        private String version;
+
+        public String getGroupId() {
+            return groupId;
+        }
+
+        public void setGroupId(String groupId) {
+            this.groupId = groupId;
+        }
+
+        public String getArtifactId() {
+            return artifactId;
+        }
+
+        public void setArtifactId(String artifactId) {
+            this.artifactId = artifactId;
+        }
+
+        public String getVersion() {
+            return version;
+        }
+
+        public void setVersion(String version) {
+            this.version = version;
+        }
     }
 
     /**
@@ -398,4 +475,19 @@ public class Configuration implements Serializable {
 
     }
 
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getProjectPath() {
+        return projectPath;
+    }
+
+    public void setProjectPath(String projectPath) {
+        this.projectPath = projectPath;
+    }
 }
